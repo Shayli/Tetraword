@@ -2,6 +2,8 @@ package Briques;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import Jeu.Grille;
 
@@ -19,13 +21,14 @@ import Jeu.Grille;
  */
 
 abstract public class Brique {
-	public Case[] cases = new Case[4];
+	public ArrayList<Case> cases;
 	public Grille grille;
-	protected int x, y;
+	public int x,y;
 	private Image img;
 	
 	public Brique(Grille g, Image i) {
 		grille = g;
+		cases = new ArrayList<Case>();
 		x = grille.cols/2;
 		y = 0;
 		img = i;
@@ -51,5 +54,19 @@ abstract public class Brique {
 				return true;
 		}
 		return false;
+	}
+
+	public void removeCases(int row) {
+		// TODO Auto-generated method stub
+		if(y > row)
+			return;
+		Iterator<Case> it = cases.iterator();
+		while(it.hasNext()) {
+			Case c = it.next();
+			if(c.getY()+y == row)
+				it.remove();
+			else if(c.getY()+y < row)
+				c.setY(c.getY()+1);
+		}
 	}
 }

@@ -1,19 +1,25 @@
 package Jeu;
 
 import java.awt.Graphics;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import Briques.Brique;
+import Patterns.Observable;
 
 public class Grille {
 	public static final int cols = 10;
-	public static final int rows = 18;
+	public static final int rows = 17;
 	public LinkedList<Brique> briques;
 	protected Brique currentBrique;
+	public Observable events;
+	private int rowChecker;
 	
 	public Grille() {
 		briques = new LinkedList<Brique>();
-		currentBrique = new Briques.Cross(this);
+		currentBrique = nextBrique();
+		events = new Observable();
+		rowChecker = 0;
 		//briques.add(new Briques.Cross(this));
 	}
 	
@@ -44,11 +50,33 @@ public class Grille {
 	}
 
 	public void update() {
-		for(Brique b : briques)
-			b.down();
+		
 		if(!currentBrique.down()) {
 			briques.add(currentBrique);
+			checkLine();
 			currentBrique = nextBrique();
+		}
+	}
+
+	private void checkLine() {
+		for(rowChecker = rows; rowChecker > 0; --rowChecker) {
+			boolean full = true;
+			for(int x = 0; x < cols; ++x) {
+				if(isEmpty(x,rowChecker)) {
+					full = false;
+					break;
+				}
+			}
+			if(full)
+				events.notify("line",rowChecker);
+		}
+		
+		Iterator<Brique> it = briques.iterator();
+		while(it.hasNext()) {
+			Brique b = it.next();
+			
+			if(b.cases.size() == 0)
+				it.remove();
 		}
 	}
 
@@ -90,5 +118,12 @@ public class Grille {
 	
 	public Brique getCurrentBrique(){
 		return currentBrique;
+	}
+	
+	public void removeRow(int row) {
+		++rowChecker;
+		for(Brique b : briques) {
+			b.removeCases(row);
+		}
 	}
 }

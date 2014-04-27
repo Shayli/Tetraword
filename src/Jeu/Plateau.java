@@ -9,6 +9,7 @@ import java.util.ArrayDeque;
 import javax.swing.JPanel;
 
 import Briques.Brique;
+import Patterns.Observer;
 
 public class Plateau extends JPanel implements KeyListener {
 	private static class KP{
@@ -33,6 +34,17 @@ public class Plateau extends JPanel implements KeyListener {
 		this.requestFocus();
 		grille = new Grille();
 		addKeyListener(this);
+		grille.events.observers.add(new Observer() {
+
+			@Override
+			public void notify(String s, Object o) {
+				if(s == "line") {
+					System.out.println((Integer)o);
+					grille.removeRow((Integer)o);
+				}
+			}
+			
+		});
 	}
 	
 	public void destroyLine(int x){
