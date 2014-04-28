@@ -16,7 +16,7 @@ public class Grille {
 	protected Brique currentBrique;
 	public Observable events;
 	private int rowChecker;
-	private Mutex mutex;
+	private Mutex mutex ;
 	
 	public Grille() {
 		briques = new LinkedList<Brique>();
