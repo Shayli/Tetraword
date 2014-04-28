@@ -81,7 +81,7 @@ public class Jeu extends JFrame implements WindowListener {
 	
 	public void run() {
 		while(true) {
-			System.out.println("update");
+			//System.out.println("update");
 			plateau.update();
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
@@ -92,7 +92,7 @@ public class Jeu extends JFrame implements WindowListener {
 			});
 
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(40);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

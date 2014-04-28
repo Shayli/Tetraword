@@ -4,7 +4,9 @@ import java.awt.Graphics;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import sun.awt.Mutex;
 import Briques.Brique;
+import Briques.Case;
 import Patterns.Observable;
 
 public class Grille {
@@ -14,6 +16,7 @@ public class Grille {
 	protected Brique currentBrique;
 	public Observable events;
 	private int rowChecker;
+	private Mutex mutex;
 	
 	public Grille() {
 		briques = new LinkedList<Brique>();
@@ -29,9 +32,11 @@ public class Grille {
 
 	public void draw(Graphics g) {
 		// TODO Auto-generated method stub
+		mutex.lock();
 		for(Brique b : briques) {
 			b.draw(g);
 		}
+		mutex.unlock();
 		currentBrique.draw(g);
 	}
 
@@ -39,10 +44,12 @@ public class Grille {
 		if(x < 0 || x > cols || y > rows)
 			return false;
 		
+		mutex.lock();
 		for(Brique b: briques) {
 			if(b.isHere(x,y))
 				return false;
 		}
+		mutex.unlock();
 		if(currentBrique.isHere(x, y))
 			return false;
 		
@@ -52,7 +59,14 @@ public class Grille {
 	public void update() {
 		
 		if(!currentBrique.down()) {
-			briques.add(currentBrique);
+			mutex.lock();
+			for(Case c: currentBrique.cases){
+				if(c.getY()+currentBrique.y < 1)
+				{
+					events.notify("lose", null);
+				}
+			}
+			mutex.unlock();
 			checkLine();
 			currentBrique = nextBrique();
 		}
@@ -61,7 +75,7 @@ public class Grille {
 	private void checkLine() {
 		for(rowChecker = rows; rowChecker > 0; --rowChecker) {
 			boolean full = true;
-			for(int x = 0; x < cols; ++x) {
+			for(int x = 0; x <= cols; ++x) {
 				if(isEmpty(x,rowChecker)) {
 					full = false;
 					break;
@@ -70,7 +84,7 @@ public class Grille {
 			if(full)
 				events.notify("line",rowChecker);
 		}
-		
+		mutex.lock();
 		Iterator<Brique> it = briques.iterator();
 		while(it.hasNext()) {
 			Brique b = it.next();
@@ -78,6 +92,7 @@ public class Grille {
 			if(b.cases.size() == 0)
 				it.remove();
 		}
+		mutex.unlock();
 	}
 
 	private Brique nextBrique() {
@@ -122,8 +137,10 @@ public class Grille {
 	
 	public void removeRow(int row) {
 		++rowChecker;
+		mutex.lock();
 		for(Brique b : briques) {
 			b.removeCases(row);
 		}
+		mutex.unlock();
 	}
 }

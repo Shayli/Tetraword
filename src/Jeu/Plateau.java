@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayDeque;
+import java.util.Timer;
 
 import javax.swing.JPanel;
 
@@ -26,13 +27,18 @@ public class Plateau extends JPanel implements KeyListener {
 	private int[] command3 = {KeyEvent.VK_I, KeyEvent.VK_K, KeyEvent.VK_J, KeyEvent.VK_L};
 	private int score;
 	private Brique nextBrique;
-	
-	
+	private long lStartTime;
+	private int difficulte;
+
 	
 	public Plateau(){
 		this.setFocusable(true);
 		this.requestFocus();
 		grille = new Grille();
+		
+		lStartTime = System.currentTimeMillis();
+		difficulte = 10;
+		
 		addKeyListener(this);
 		grille.events.observers.add(new Observer() {
 
@@ -41,7 +47,11 @@ public class Plateau extends JPanel implements KeyListener {
 				if(s == "line") {
 					System.out.println((Integer)o);
 					grille.removeRow((Integer)o);
+					score += 1;
+					if(difficulte > 1 && score % 5 == 0)
+						--difficulte;
 				}
+				
 			}
 			
 		});
@@ -96,6 +106,11 @@ public class Plateau extends JPanel implements KeyListener {
 	}
 	
 	public void update() {
-		grille.update();
+		long lEndTime = System.currentTimeMillis();
+		long difference = lEndTime - lStartTime;
+		if(difference > 100*difficulte) {
+			grille.update();
+			lStartTime = lEndTime;
+		}
 	}
 }
