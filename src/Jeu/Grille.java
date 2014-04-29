@@ -23,6 +23,7 @@ public class Grille {
 		currentBrique = nextBrique();
 		events = new Observable();
 		rowChecker = 0;
+		mutex = new Mutex();
 		//briques.add(new Briques.Cross(this));
 	}
 	
@@ -36,20 +37,19 @@ public class Grille {
 		for(Brique b : briques) {
 			b.draw(g);
 		}
-		mutex.unlock();
 		currentBrique.draw(g);
+		mutex.unlock();
 	}
 
 	public boolean isEmpty(int x, int y) {
 		if(x < 0 || x > cols || y > rows)
 			return false;
 		
-		mutex.lock();
 		for(Brique b: briques) {
 			if(b.isHere(x,y))
 				return false;
 		}
-		mutex.unlock();
+		
 		if(currentBrique.isHere(x, y))
 			return false;
 		
@@ -57,19 +57,19 @@ public class Grille {
 	}
 
 	public void update() {
-		
+		mutex.lock();
 		if(!currentBrique.down()) {
-			mutex.lock();
 			for(Case c: currentBrique.cases){
 				if(c.getY()+currentBrique.y < 1)
 				{
 					events.notify("lose", null);
 				}
 			}
-			mutex.unlock();
+			briques.add(currentBrique);
 			checkLine();
 			currentBrique = nextBrique();
 		}
+		mutex.unlock();
 	}
 
 	private void checkLine() {
@@ -84,7 +84,6 @@ public class Grille {
 			if(full)
 				events.notify("line",rowChecker);
 		}
-		mutex.lock();
 		Iterator<Brique> it = briques.iterator();
 		while(it.hasNext()) {
 			Brique b = it.next();
@@ -92,7 +91,6 @@ public class Grille {
 			if(b.cases.size() == 0)
 				it.remove();
 		}
-		mutex.unlock();
 	}
 
 	private Brique nextBrique() {
@@ -137,10 +135,8 @@ public class Grille {
 	
 	public void removeRow(int row) {
 		++rowChecker;
-		mutex.lock();
 		for(Brique b : briques) {
 			b.removeCases(row);
 		}
-		mutex.unlock();
 	}
 }
