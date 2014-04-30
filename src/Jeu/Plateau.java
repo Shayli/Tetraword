@@ -32,7 +32,7 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 	private long lStartTime;
 	private int difficulte;
 	private boolean fastForward;
-
+	private Anagramme anagrammeMode; 
 	
 	public Plateau(){
 		this.setFocusable(true);
@@ -134,6 +134,10 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		int posX = e.getX();
         int posY = e.getY();
+        /* conversion à faire*/
+        if(anagrammeMode != null) {
+        
+        }
         
         //System.out.println("X: " + posX + " Y: " + posY);
 	}
