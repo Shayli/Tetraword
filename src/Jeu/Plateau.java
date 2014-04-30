@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayDeque;
 import java.util.Timer;
 
@@ -12,7 +14,7 @@ import javax.swing.JPanel;
 import Briques.Brique;
 import Patterns.Observer;
 
-public class Plateau extends JPanel implements KeyListener {
+public class Plateau extends JPanel implements KeyListener, MouseListener {
 	private static class KP{
 		static int ROTATE = 0;
 		static int DOWN = 1;
@@ -42,6 +44,7 @@ public class Plateau extends JPanel implements KeyListener {
 		fastForward = false;
 		
 		addKeyListener(this);
+		addMouseListener(this);
 		grille.events.observers.add(new Observer() {
 
 			@Override
@@ -126,4 +129,24 @@ public class Plateau extends JPanel implements KeyListener {
 			}
 		}
 	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		int posX = e.getX();
+        int posY = e.getY();
+        
+        //System.out.println("X: " + posX + " Y: " + posY);
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {}
+
+	@Override
+	public void mouseExited(MouseEvent e) {}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {}
+
+	@Override
+	public void mousePressed(MouseEvent e) {}
 }
