@@ -33,6 +33,7 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 	private int difficulte;
 	private boolean fastForward;
 	private Anagramme anagrammeMode; 
+	private boolean anagramme_enable = true; 
 	
 	public Plateau(){
 		this.setFocusable(true);
@@ -50,7 +51,7 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 			@Override
 			public void notify(String s, Object o) {
 				if(s == "line") {
-					grille.removeRow((Integer)o);
+					//grille.removeRow((Integer)o);
 					score += 1;
 					if(difficulte > 1 && score % 5 == 0)
 						--difficulte;
@@ -78,6 +79,8 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 			grille.moveRightCurrent();
 		else if(k == command[KP.DOWN])
 			fastForward = true;
+		else if(k == KeyEvent.VK_ENTER) anagramme_enable = false; 
+			
 		
 		revalidate();
 		repaint();
@@ -134,10 +137,17 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		int posX = e.getX();
         int posY = e.getY();
+        point A = new point(posX/20, posY/20); 
         /* conversion à faire*/
-        if(anagrammeMode != null) {
-        
+        if(posX >= Constants.Padding && posX <= Constants.Padding+(grille.cols+1) * 20 +1 && posY >= 0 && posY <= this.getHeight()-19 ) {
+        	if(anagrammeMode != null && anagramme_enable) {
+        		anagrammeMode.Points.add(A);
+        	
+        	}
+        	//if(!anagramme_enable) System.out.println("FUCK YOU"); 
+        	
         }
+  
         
         //System.out.println("X: " + posX + " Y: " + posY);
 	}
