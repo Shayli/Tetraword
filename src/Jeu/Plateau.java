@@ -29,6 +29,7 @@ public class Plateau extends JPanel implements KeyListener {
 	private Brique nextBrique;
 	private long lStartTime;
 	private int difficulte;
+	private boolean fastForward;
 
 	
 	public Plateau(){
@@ -38,6 +39,7 @@ public class Plateau extends JPanel implements KeyListener {
 		
 		lStartTime = System.currentTimeMillis();
 		difficulte = 10;
+		fastForward = false;
 		
 		addKeyListener(this);
 		grille.events.observers.add(new Observer() {
@@ -45,7 +47,6 @@ public class Plateau extends JPanel implements KeyListener {
 			@Override
 			public void notify(String s, Object o) {
 				if(s == "line") {
-					System.out.println((Integer)o);
 					grille.removeRow((Integer)o);
 					score += 1;
 					if(difficulte > 1 && score % 5 == 0)
@@ -72,6 +73,8 @@ public class Plateau extends JPanel implements KeyListener {
 			grille.moveLeftCurrent();
 		else if(k == command[KP.RIGHT])
 			grille.moveRightCurrent();
+		else if(k == command[KP.DOWN])
+			fastForward = true;
 		
 		revalidate();
 		repaint();
@@ -79,7 +82,8 @@ public class Plateau extends JPanel implements KeyListener {
 	@Override
 	public void keyReleased(KeyEvent arg0) {
 		int k = arg0.getKeyCode();
-		
+		if(k == command[KP.DOWN])
+			fastForward = false;
 	}
 	@Override
 	public void keyTyped(KeyEvent arg0) {}
@@ -89,7 +93,7 @@ public class Plateau extends JPanel implements KeyListener {
 		super.paint(g);
 		g.setColor(new Color(187, 173, 160));
 		g.fillRoundRect(0+Constants.Padding, 0, (grille.cols+1) * 20 +1, this.getHeight()-19, 10, 10);
-		grille.draw(g);
+		
 
 		//Score
 		g.setColor(new Color(187, 173, 160));
@@ -102,15 +106,24 @@ public class Plateau extends JPanel implements KeyListener {
 		g.fillRoundRect(250+Constants.Padding, 100, 100, 80, 10, 10);
 		g.setColor(Color.white);
 		g.drawString("Next Brique", 270+Constants.Padding, 120);
-		
+	
+		grille.draw(g);
 	}
 	
 	public void update() {
 		long lEndTime = System.currentTimeMillis();
 		long difference = lEndTime - lStartTime;
-		if(difference > 100*difficulte) {
-			grille.update();
-			lStartTime = lEndTime;
+		if(fastForward) {
+			if(difference > 50) {
+				grille.update();
+				lStartTime = lEndTime;
+			}
+		}
+		else {
+			if(difference > 100*difficulte) {
+				grille.update();
+				lStartTime = lEndTime;
+			}
 		}
 	}
 }
