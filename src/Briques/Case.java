@@ -15,7 +15,7 @@ public class Case {
 	public Case(int x1, int y1, char a, int size){
 		this.setX(x1);
 		this.setY(y1);
-		this.a = (char) ('A'+((int)(Math.random()*100)%26));
+		this.a = Constants.randomLetter();
 		this.size = size;
 	}
 	
