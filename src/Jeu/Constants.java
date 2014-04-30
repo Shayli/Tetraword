@@ -1,9 +1,13 @@
 package Jeu;
 
 import java.awt.Image;
-import java.util.Dictionary;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Scanner;
+import java.util.regex.Pattern;
 
 import javax.swing.ImageIcon;
 
@@ -15,6 +19,7 @@ public class Constants {
 	public static Image L;
 	public static Image Cube;
 	public static Map<Character, Integer> letter; 
+	public static LinkedList<String> dictionary;
 	
 	public static void initialize(){
 		ImageIcon a = new ImageIcon("resources/cross.png", ""); 
@@ -27,38 +32,35 @@ public class Constants {
 		L = a.getImage();
 		a = new ImageIcon("resources/cube.png", ""); 
 		Cube = a.getImage();
-		
 		letter = new HashMap<Character, Integer>();
-		letter.put('E', 15);
-		letter.put('A', 9);
-		letter.put('I', 8);
-		letter.put('N', 6);
-		letter.put('O', 6);
-		letter.put('R', 6);
-		letter.put('S', 6);
-		letter.put('T', 6);
-		letter.put('U', 6);
-		letter.put('L', 5);
-		letter.put('D', 3);
-		letter.put('M', 3);
-		letter.put('G', 2);
-		letter.put('B', 2);
-		letter.put('C', 2);
-		letter.put('P', 2);
-		letter.put('F', 2);
-		letter.put('H', 2);
-		letter.put('V', 2);
-		letter.put('J', 1);
-		letter.put('Q', 1);
-		letter.put('K', 1);
-		letter.put('W', 1);
-		letter.put('X', 1);
-		letter.put('Y', 1);
-		letter.put('Z', 1);
-		int i = 0;
-		for(Integer c:letter.values())
-			i+= c;
-		System.out.println(i);
+		dictionary = new LinkedList<String>();
+		loadDictionary("french");		
+	}
+	
+	public static void loadDictionary(String filePath){	
+		dictionary.clear();
+		letter.clear();
+		Scanner scanner = null;
+		try {
+			scanner = new Scanner(new File("resources/"+filePath+".lang"));
+			for(int i =0; i < 26; ++i){
+				String line = scanner.next();
+				int j = scanner.nextInt(); 
+				letter.put(line.charAt(0), j);
+			}
+			scanner.close();
+			scanner = new Scanner(new File("resources/"+filePath+".dico"));
+			Pattern p = Pattern.compile("[^a-zA-Z]");
+			
+			while (scanner.hasNextLine()) {
+			    String line = scanner.nextLine();
+			    if(!p.matcher(line).find())
+			    	dictionary.add(line.toUpperCase());
+			}
+			scanner.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static char randomLetter(){
@@ -69,5 +71,9 @@ public class Constants {
 			rnd -= e.getValue();
 		}
 		return '1';
+	}
+	
+	public static boolean wordExists(String word){
+		return dictionary.contains(word);
 	}
 }
