@@ -55,6 +55,19 @@ public class Grille {
 		
 		return true;
 	}
+	
+	public Case getCase(int x, int y) {
+		if(x < 0 || x > cols || y > rows)
+			return null;
+		
+		for(Brique b: briques) {
+			Case c = b.get(x,y);
+			if(c != null)
+				return c;
+		}
+		
+		return currentBrique.get(x, y);
+	}
 
 	public void update() {
 		mutex.lock();

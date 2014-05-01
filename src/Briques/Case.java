@@ -12,7 +12,7 @@ public class Case {
 	private int y;
 	private int size;
 	
-	public Case(int x1, int y1, char a, int size){
+	public Case(int x1, int y1, int size){
 		this.setX(x1);
 		this.setY(y1);
 		this.a = Constants.randomLetter();
@@ -25,7 +25,7 @@ public class Case {
 		//g.setColor(Color.red);
 		//g.drawRect((x1+x)*size, (y1+y)*size, size, size);
 		//g.fillRect((x1+x)*size, (y1+y)*size, size, size);
-		g.setColor(Color.white);
+		g.setColor(Color.black);
 		g.drawString(s, (x1+x)*size+6+Constants.Padding, (y1+y)*size+15);
 	}
 
@@ -46,5 +46,9 @@ public class Case {
 	}
 	public void setY(int y1) {
 		this.y = y1;
+	}
+	
+	public char letter() {
+		return a;
 	}
 }

@@ -1,6 +1,7 @@
 package Jeu;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -15,35 +16,35 @@ import Briques.Brique;
 import Patterns.Observer;
 
 public class Plateau extends JPanel implements KeyListener, MouseListener {
-	private static class KP{
-		static int ROTATE = 0;
-		static int DOWN = 1;
-		static int LEFT = 2;
-		static int RIGHT = 3;
-	}
+	
 	public Grille grille;
 	private Difficulte dif;
 	private ArrayDeque hist; 
-	private int[] command = {KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT};
-	private int[] command2 = {KeyEvent.VK_Z, KeyEvent.VK_S, KeyEvent.VK_Q, KeyEvent.VK_D};
-	private int[] command3 = {KeyEvent.VK_I, KeyEvent.VK_K, KeyEvent.VK_J, KeyEvent.VK_L};
+	
 	private int score;
-	private Brique nextBrique;
 	private long lStartTime;
 	private int difficulte;
+<<<<<<< HEAD
 	private boolean fastForward;
 	private Anagramme anagrammeMode; 
 	private boolean anagramme_enable = true; 
+=======
+	private boolean clicked;
+>>>>>>> origin/master
 	
-	public Plateau(){
+	GameMode current;
+	public int playerId;
+	
+	public Plateau(int player){
 		this.setFocusable(true);
 		this.requestFocus();
 		grille = new Grille();
 		
 		lStartTime = System.currentTimeMillis();
 		difficulte = 10;
-		fastForward = false;
-		
+		playerId = player;
+		current = new Tetris(this);
+		clicked = false;
 		addKeyListener(this);
 		addMouseListener(this);
 		grille.events.observers.add(new Observer() {
@@ -71,6 +72,7 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int k = e.getKeyCode();
+<<<<<<< HEAD
 		if(k == command[KP.ROTATE])
 			grille.rotateCurrent();
 		else if(k == command[KP.LEFT])
@@ -82,14 +84,16 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 		else if(k == KeyEvent.VK_ENTER) anagramme_enable = false; 
 			
 		
+=======
+		current.keyPress(k);
+>>>>>>> origin/master
 		revalidate();
 		repaint();
 	}
 	@Override
 	public void keyReleased(KeyEvent arg0) {
 		int k = arg0.getKeyCode();
-		if(k == command[KP.DOWN])
-			fastForward = false;
+		current.keyRelease(k);
 	}
 	@Override
 	public void keyTyped(KeyEvent arg0) {}
@@ -97,8 +101,9 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 	@Override
 	public void paint(Graphics g){
 		super.paint(g);
+		//g.setFont(new Font("Clear Sans", Font.PLAIN, 13)); 
 		g.setColor(new Color(187, 173, 160));
-		g.fillRoundRect(0+Constants.Padding, 0, (grille.cols+1) * 20 +1, this.getHeight()-19, 10, 10);
+		g.fillRoundRect(0+Constants.Padding, 0, (grille.cols+1) * 20 +1, (grille.rows+1)*20+1, 10, 10);
 		
 
 		//Score
@@ -113,29 +118,19 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 		g.setColor(Color.white);
 		g.drawString("Next Brique", 270+Constants.Padding, 120);
 	
-		grille.draw(g);
+		current.draw(g);
 	}
 	
 	public void update() {
 		long lEndTime = System.currentTimeMillis();
 		long difference = lEndTime - lStartTime;
-		if(fastForward) {
-			if(difference > 50) {
-				grille.update();
-				lStartTime = lEndTime;
-			}
-		}
-		else {
-			if(difference > 100*difficulte) {
-				grille.update();
-				lStartTime = lEndTime;
-			}
-		}
+		current.update(difference);
+		lStartTime = lEndTime;
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		int posX = e.getX();
+	/*	int posX = e.getX();
         int posY = e.getY();
         point A = new point(posX/20, posY/20); 
         /* conversion à faire*/
@@ -149,7 +144,7 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
         }
   
         
-        //System.out.println("X: " + posX + " Y: " + posY);
+        current.click(posX, posY);*/
 	}
 
 	@Override
@@ -159,8 +154,21 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 	public void mouseExited(MouseEvent e) {}
 
 	@Override
-	public void mouseReleased(MouseEvent e) {}
+	public void mouseReleased(MouseEvent e) {
+		clicked = false;
+	}
 
 	@Override
-	public void mousePressed(MouseEvent e) {}
+	public void mousePressed(MouseEvent e) {
+		int posX = e.getX();
+        int posY = e.getY();
+        if(!clicked) {
+        	current.click(posX, posY);
+        	clicked = true;
+        }
+    }
+	
+	public void changeMode(GameMode mode) {
+		current = mode;
+	}
 }

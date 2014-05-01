@@ -34,7 +34,7 @@ public class Jeu extends JFrame implements WindowListener {
 		    tetraword.setFont(new Font("Clear Sans", Font.PLAIN, 30)); 
 		    tetraword.setText("Tetraword");
 		    tetraword.setForeground(new Color(119, 110, 101));
-		    plateau = new Plateau();
+		    plateau = new Plateau(0);
 		    north.add(tetraword);
 		    welcome.setText("Bienvenue sur Tetraword. Utilisez le menu pour lancer une partie");
 		    north.add(welcome);
