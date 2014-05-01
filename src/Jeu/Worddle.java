@@ -4,8 +4,9 @@ import java.awt.Graphics;
 
 public class Worddle extends GameMode {
 	protected String word;
-	public Worddle(Grille g) {
-		super(g);
+	
+	public Worddle(Plateau p, int player) {
+		super(p);
 		word = "";
 	}
 	

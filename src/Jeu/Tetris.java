@@ -9,12 +9,14 @@ public class Tetris extends GameMode {
 	private int[] commands;
 	private boolean fastForward;
 	private long elapsed;
+	private int playerId;
 	
-	public Tetris(Grille g, int player) {
-		super(g);
+	public Tetris(Plateau p, int player) {
+		super(p);
 		commands = Constants.Commands[player];
 		fastForward = false;
 		elapsed = 0;
+		playerId = player;
 	}
 
 	@Override
@@ -22,6 +24,7 @@ public class Tetris extends GameMode {
 
 	@Override
 	public void keyPress(int keyCode) {
+		
 		if(keyCode == commands[Key.ROTATE])
 			grille.rotateCurrent();
 		else if(keyCode == commands[Key.LEFT])
@@ -30,6 +33,8 @@ public class Tetris extends GameMode {
 			grille.moveRightCurrent();
 		else if(keyCode == commands[Key.DOWN])
 			fastForward = true;
+		else if(keyCode == commands[Key.MODE])
+			plateau.changeMode(new Worddle(plateau, playerId));
 		
 	}
 

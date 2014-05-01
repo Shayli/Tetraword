@@ -4,9 +4,11 @@ import java.awt.Graphics;
 
 public abstract class GameMode {
 	protected Grille grille;
+	protected Plateau plateau;
 	
-	GameMode(Grille g) {
-		grille = g;
+	GameMode(Plateau p) {
+		plateau = p;
+		grille = p.grille;
 	};
 	
 	public abstract void click(int x, int y);

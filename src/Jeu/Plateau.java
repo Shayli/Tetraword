@@ -35,7 +35,7 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 		lStartTime = System.currentTimeMillis();
 		difficulte = 10;
 		playerId = player;
-		current = new Tetris(grille, playerId);
+		current = new Tetris(this, playerId);
 		
 		addKeyListener(this);
 		addMouseListener(this);
