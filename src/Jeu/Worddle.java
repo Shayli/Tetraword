@@ -3,7 +3,7 @@ package Jeu;
 import java.awt.Graphics;
 
 public class Worddle extends GameMode {
-	String word;
+	protected String word;
 	public Worddle(Grille g) {
 		super(g);
 		word = "";
@@ -34,7 +34,7 @@ public class Worddle extends GameMode {
 	@Override
 	public void draw(Graphics g) {
 		grille.draw(g);
-		
+		g.drawString(word, 0, 0);
 		// TODO draw letters selected
 	}
 	

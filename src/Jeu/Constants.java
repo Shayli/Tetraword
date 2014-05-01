@@ -28,6 +28,7 @@ public class Constants {
 		static int DOWN = 1;
 		static int LEFT = 2;
 		static int RIGHT = 3;
+		static int MODE = 4;
 	}
 	
 	public static void initialize(){
@@ -45,17 +46,18 @@ public class Constants {
 		dictionary = new LinkedList<String>();
 		loadDictionary("french");
 		
-		Commands = new int[3][4];
-		loadCommands(0,KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT);
-		loadCommands(1,KeyEvent.VK_Z, KeyEvent.VK_S, KeyEvent.VK_Q, KeyEvent.VK_D);
-		loadCommands(2,KeyEvent.VK_I, KeyEvent.VK_K, KeyEvent.VK_J, KeyEvent.VK_L);
+		Commands = new int[3][5];
+		loadCommands(0,KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER);
+		loadCommands(1,KeyEvent.VK_Z, KeyEvent.VK_S, KeyEvent.VK_Q, KeyEvent.VK_D, KeyEvent.VK_A);
+		loadCommands(2,KeyEvent.VK_I, KeyEvent.VK_K, KeyEvent.VK_J, KeyEvent.VK_L, KeyEvent.VK_U);
 	}
 	
-	private static void loadCommands(int i, int vkUp, int vkDown, int vkLeft, int vkRight) {
+	private static void loadCommands(int i, int vkUp, int vkDown, int vkLeft, int vkRight, int vkEnter) {
 		Commands[i][Key.ROTATE] = vkUp;
 		Commands[i][Key.DOWN] = vkDown;
 		Commands[i][Key.LEFT] = vkLeft;
 		Commands[i][Key.RIGHT] = vkRight;
+		Commands[i][Key.MODE] = vkEnter;
 	}
 
 	public static void loadDictionary(String filePath){	

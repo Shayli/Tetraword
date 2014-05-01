@@ -80,7 +80,7 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 	public void paint(Graphics g){
 		super.paint(g);
 		g.setColor(new Color(187, 173, 160));
-		g.fillRoundRect(0+Constants.Padding, 0, (grille.cols+1) * 20 +1, this.getHeight()-19, 10, 10);
+		g.fillRoundRect(0+Constants.Padding, 0, (grille.cols+1) * 20 +1, (grille.rows+1)*20+1, 10, 10);
 		
 
 		//Score
@@ -110,7 +110,7 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 		int posX = e.getX();
         int posY = e.getY();
         
-        //System.out.println("X: " + posX + " Y: " + posY);
+        System.out.println("X: " + posX + " Y: " + posY);
 	}
 
 	@Override
@@ -124,4 +124,8 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 
 	@Override
 	public void mousePressed(MouseEvent e) {}
+	
+	public void changeMode(GameMode mode) {
+		current = mode;
+	}
 }
