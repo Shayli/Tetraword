@@ -2,6 +2,7 @@ package Jeu;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Random;
 
 public class Worddle extends GameMode {
 	protected String word;
@@ -17,6 +18,9 @@ public class Worddle extends GameMode {
 	
 	public void click(int x, int y) {
 		//grille;
+		x = (x-20)/20;
+		y = y/20;
+		System.out.println(x+" "+y);
 	}
 
 	@Override
