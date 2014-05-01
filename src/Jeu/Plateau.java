@@ -24,9 +24,10 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 	private int score;
 	private long lStartTime;
 	private int difficulte;
+	private boolean clicked;
 	
 	GameMode current;
-	private int playerId;
+	public int playerId;
 	
 	public Plateau(int player){
 		this.setFocusable(true);
@@ -36,8 +37,8 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 		lStartTime = System.currentTimeMillis();
 		difficulte = 10;
 		playerId = player;
-		current = new Tetris(this, playerId);
-		
+		current = new Tetris(this);
+		clicked = false;
 		addKeyListener(this);
 		addMouseListener(this);
 		grille.events.observers.add(new Observer() {
@@ -109,10 +110,10 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		int posX = e.getX();
+	/*	int posX = e.getX();
         int posY = e.getY();
         
-        System.out.println("X: " + posX + " Y: " + posY);
+        current.click(posX, posY);*/
 	}
 
 	@Override
@@ -122,10 +123,19 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 	public void mouseExited(MouseEvent e) {}
 
 	@Override
-	public void mouseReleased(MouseEvent e) {}
+	public void mouseReleased(MouseEvent e) {
+		clicked = false;
+	}
 
 	@Override
-	public void mousePressed(MouseEvent e) {}
+	public void mousePressed(MouseEvent e) {
+		int posX = e.getX();
+        int posY = e.getY();
+        if(!clicked) {
+        	current.click(posX, posY);
+        	clicked = true;
+        }
+    }
 	
 	public void changeMode(GameMode mode) {
 		current = mode;

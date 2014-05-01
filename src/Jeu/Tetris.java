@@ -6,17 +6,13 @@ import Jeu.Constants.Key;
 
 public class Tetris extends GameMode {
 
-	private int[] commands;
 	private boolean fastForward;
 	private long elapsed;
-	private int playerId;
 	
-	public Tetris(Plateau p, int player) {
+	public Tetris(Plateau p) {
 		super(p);
-		commands = Constants.Commands[player];
 		fastForward = false;
 		elapsed = 0;
-		playerId = player;
 	}
 
 	@Override
@@ -34,7 +30,7 @@ public class Tetris extends GameMode {
 		else if(keyCode == commands[Key.DOWN])
 			fastForward = true;
 		else if(keyCode == commands[Key.MODE])
-			plateau.changeMode(new Worddle(plateau, playerId));
+			plateau.changeMode(new Worddle(plateau));
 		
 	}
 

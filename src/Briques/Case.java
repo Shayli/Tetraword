@@ -47,4 +47,8 @@ public class Case {
 	public void setY(int y1) {
 		this.y = y1;
 	}
+	
+	public char letter() {
+		return a;
+	}
 }
