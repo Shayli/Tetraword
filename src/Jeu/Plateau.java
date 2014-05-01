@@ -1,6 +1,7 @@
 package Jeu;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -79,6 +80,7 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 	@Override
 	public void paint(Graphics g){
 		super.paint(g);
+		//g.setFont(new Font("Clear Sans", Font.PLAIN, 13)); 
 		g.setColor(new Color(187, 173, 160));
 		g.fillRoundRect(0+Constants.Padding, 0, (grille.cols+1) * 20 +1, (grille.rows+1)*20+1, 10, 10);
 		

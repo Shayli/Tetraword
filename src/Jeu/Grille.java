@@ -42,7 +42,7 @@ public class Grille {
 	}
 
 	public boolean isEmpty(int x, int y) {
-		if(x < 0 || x > cols || y > rows)
+		/*if(x < 0 || x > cols || y > rows)
 			return false;
 		
 		for(Brique b: briques) {
@@ -50,10 +50,24 @@ public class Grille {
 				return false;
 		}
 		
-		if(currentBrique.isHere(x, y))
+		if(currentBrique.get(x, y) != null)
 			return false;
 		
-		return true;
+		return true;*/
+		return getCase(x,y) != null;
+	}
+	
+	public Case getCase(int x, int y) {
+		if(x < 0 || x > cols || y > rows)
+			return null;
+		
+		for(Brique b: briques) {
+			Case c = b.get(x,y);
+			if(c != null)
+				return c;
+		}
+		
+		return currentBrique.get(x, y);
 	}
 
 	public void update() {

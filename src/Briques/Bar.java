@@ -9,10 +9,10 @@ public class Bar extends Brique {
 	public Bar(Grille g) {
 		super(g, Constants.Bar);
 		state = 0;
-		cases.add(new Case(0,-1,'A', 20));
-		cases.add(new Case(0,0,'B', 20));
-		cases.add(new Case(0,1,'C', 20));
-		cases.add(new Case(0, 2,'D', 20));
+		cases.add(new Case(0,-1, 20));
+		cases.add(new Case(0,0, 20));
+		cases.add(new Case(0,1, 20));
+		cases.add(new Case(0,2, 20));
 	}
 	
 	public void rotate() {

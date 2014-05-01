@@ -49,11 +49,7 @@ abstract public class Brique {
 	abstract public boolean down();
 
 	public boolean isHere(int x2, int y2) {
-		for(Case c: cases) {
-			if(c.getX()+x == x2 && c.getY()+y == y2)
-				return true;
-		}
-		return false;
+		return get(x2, y2) != null;
 	}
 
 	public void removeCases(int row) {
@@ -68,5 +64,13 @@ abstract public class Brique {
 			else if(c.getY()+y < row)
 				c.setY(c.getY()+1);
 		}
+	}
+
+	public Case get(int x2, int y2) {
+		for(Case c: cases) {
+			if(c.getX()+x == x2 && c.getY()+y == y2)
+				return c;
+		}
+		return null;
 	}
 }
