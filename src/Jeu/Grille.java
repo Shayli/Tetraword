@@ -152,4 +152,6 @@ public class Grille {
 			b.removeCases(row);
 		}
 	}
+	
+
 }

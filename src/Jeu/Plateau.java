@@ -24,13 +24,7 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 	private int score;
 	private long lStartTime;
 	private int difficulte;
-<<<<<<< HEAD
-	private boolean fastForward;
-	private Anagramme anagrammeMode; 
-	private boolean anagramme_enable = true; 
-=======
 	private boolean clicked;
->>>>>>> origin/master
 	
 	GameMode current;
 	public int playerId;
@@ -52,7 +46,7 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 			@Override
 			public void notify(String s, Object o) {
 				if(s == "line") {
-					//grille.removeRow((Integer)o);
+					grille.removeRow((Integer)o);
 					score += 1;
 					if(difficulte > 1 && score % 5 == 0)
 						--difficulte;
@@ -72,21 +66,7 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int k = e.getKeyCode();
-<<<<<<< HEAD
-		if(k == command[KP.ROTATE])
-			grille.rotateCurrent();
-		else if(k == command[KP.LEFT])
-			grille.moveLeftCurrent();
-		else if(k == command[KP.RIGHT])
-			grille.moveRightCurrent();
-		else if(k == command[KP.DOWN])
-			fastForward = true;
-		else if(k == KeyEvent.VK_ENTER) anagramme_enable = false; 
-			
-		
-=======
 		current.keyPress(k);
->>>>>>> origin/master
 		revalidate();
 		repaint();
 	}
@@ -132,17 +112,6 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 	public void mouseClicked(MouseEvent e) {
 	/*	int posX = e.getX();
         int posY = e.getY();
-        point A = new point(posX/20, posY/20); 
-        /* conversion à faire*/
-        if(posX >= Constants.Padding && posX <= Constants.Padding+(grille.cols+1) * 20 +1 && posY >= 0 && posY <= this.getHeight()-19 ) {
-        	if(anagrammeMode != null && anagramme_enable) {
-        		anagrammeMode.Points.add(A);
-        	
-        	}
-        	//if(!anagramme_enable) System.out.println("FUCK YOU"); 
-        	
-        }
-  
         
         current.click(posX, posY);*/
 	}
