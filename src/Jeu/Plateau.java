@@ -15,33 +15,27 @@ import Briques.Brique;
 import Patterns.Observer;
 
 public class Plateau extends JPanel implements KeyListener, MouseListener {
-	private static class KP{
-		static int ROTATE = 0;
-		static int DOWN = 1;
-		static int LEFT = 2;
-		static int RIGHT = 3;
-	}
+	
 	public Grille grille;
 	private Difficulte dif;
 	private ArrayDeque hist; 
-	private int[] command = {KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT};
-	private int[] command2 = {KeyEvent.VK_Z, KeyEvent.VK_S, KeyEvent.VK_Q, KeyEvent.VK_D};
-	private int[] command3 = {KeyEvent.VK_I, KeyEvent.VK_K, KeyEvent.VK_J, KeyEvent.VK_L};
+	
 	private int score;
-	private Brique nextBrique;
 	private long lStartTime;
 	private int difficulte;
-	private boolean fastForward;
-
 	
-	public Plateau(){
+	GameMode current;
+	private int playerId;
+	
+	public Plateau(int player){
 		this.setFocusable(true);
 		this.requestFocus();
 		grille = new Grille();
 		
 		lStartTime = System.currentTimeMillis();
 		difficulte = 10;
-		fastForward = false;
+		playerId = player;
+		current = new Tetris(grille, playerId);
 		
 		addKeyListener(this);
 		addMouseListener(this);
@@ -70,23 +64,14 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int k = e.getKeyCode();
-		if(k == command[KP.ROTATE])
-			grille.rotateCurrent();
-		else if(k == command[KP.LEFT])
-			grille.moveLeftCurrent();
-		else if(k == command[KP.RIGHT])
-			grille.moveRightCurrent();
-		else if(k == command[KP.DOWN])
-			fastForward = true;
-		
+		current.keyPress(k);
 		revalidate();
 		repaint();
 	}
 	@Override
 	public void keyReleased(KeyEvent arg0) {
 		int k = arg0.getKeyCode();
-		if(k == command[KP.DOWN])
-			fastForward = false;
+		current.keyRelease(k);
 	}
 	@Override
 	public void keyTyped(KeyEvent arg0) {}
@@ -110,24 +95,14 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 		g.setColor(Color.white);
 		g.drawString("Next Brique", 270+Constants.Padding, 120);
 	
-		grille.draw(g);
+		current.draw(g);
 	}
 	
 	public void update() {
 		long lEndTime = System.currentTimeMillis();
 		long difference = lEndTime - lStartTime;
-		if(fastForward) {
-			if(difference > 50) {
-				grille.update();
-				lStartTime = lEndTime;
-			}
-		}
-		else {
-			if(difference > 100*difficulte) {
-				grille.update();
-				lStartTime = lEndTime;
-			}
-		}
+		current.update(difference);
+		lStartTime = lEndTime;
 	}
 
 	@Override
