@@ -4,7 +4,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
+import Briques.Brique;
 import Briques.Case;
 import Jeu.Constants.Key;
 
@@ -12,8 +14,7 @@ public class Anagramme extends GameMode {
 
 	private String currentWord;
 	private String bestWord; 
-	private long timeLeft;
-	private int currentrow; 
+	private String base; 
 	private int nbLetters ;
 	private boolean found; 
 	private int currentRow; 
@@ -24,38 +25,16 @@ public class Anagramme extends GameMode {
 		nbLetters = 0; 
 		found = false; 
 		currentRow = nbrow;
+		base = getStringLine(p,nbrow); 
 		
 	}
 	
-	public String CheckAnagramme(int currentRow) {
-		String tmp = null; 
-		
+	public static String getStringLine(Plateau p, int nbrow) {
+		String tmp = "tester";
+
 		return tmp; 
-		
 	}
 	
-	/*
-	public static ArrayList<String> permutations(String s) {
-	    ArrayList<String> out = new ArrayList<String>();
-	    if (s.length() == 1) {
-	        out.add(s);
-	        return out;
-	    }
-	    char first = s.charAt(0);
-	    String rest = s.substring(1);
-	    for (String permutation : permutations(rest)) {
-	        out.addAll(insertAtAllPositions(first, permutation));
-	    }
-	    return out;
-	}
-	public static ArrayList<String> insertAtAllPositions(char ch, String s) {
-	    ArrayList<String> out = new ArrayList<String>();
-	    for (int i = 0; i <= s.length(); ++i) {
-	        String inserted = s.substring(0, i) + ch + s.substring(i);
-	        out.add(inserted);
-	    }
-	    return out;
-	}*/
 	
 	public static boolean isAnagram(String s1, String s2){
 
@@ -71,6 +50,24 @@ public class Anagramme extends GameMode {
         String sc1 = new String(c1);
         String sc2 = new String(c2);
         return sc1.equals(sc2);
+	}
+	
+	public static String findBestWord(String line) {
+		String Word = ""; 
+		Combinations comb = new Combinations(line); //on créé toutes les combinaisons de String possibles
+		comb.combine();
+		Collections.sort(comb.stock, new LengthComparator());
+        Collections.reverse(comb.stock);
+			 
+	    for (String s : Constants.dictionary){
+	    	for(int i=0; i<comb.stock.size(); i++) {
+	    		System.out.println(comb.stock.get(i)+ " " + s);	
+		    	System.out.println(isAnagram(comb.stock.get(i), s));
+		    	if(isAnagram(comb.stock.get(i), s)) return s; 	    		
+	    	}	    		        
+	    }
+			
+		return Word; 
 	}
 	
 	public void click(int x, int y) {
