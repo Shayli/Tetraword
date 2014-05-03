@@ -41,15 +41,28 @@ public class Anagramme extends GameMode {
 		return tmp; 
 	}
 	
+	public void reset() { //recommencer tant qu'on a pas trouvé
+		this.currentWord = ""; 
+		this.nbLetters = 0; 
+	}
+	
 	public boolean win(String CurrentWord) {
 		boolean tmp = false; 
-		String wordFound = findBestWord(CurrentWord); 
+		if(nbLetters > bestWord.length()) tmp=false ; //si on a selectionné plus de lettre que le meilleur anagramme
+		else {
+				
+			String wordFound = findBestWord(CurrentWord); 			
+			if(wordFound.length() >= this.bestWord.length()*this.difficulty/100) tmp = true; 
+			else tmp = false; 
 		
-		if(wordFound.length() >= this.bestWord.length()*this.difficulty/100) tmp = true; 
-		else tmp = false; 
+		}
 		
 		return tmp; 
 	}
+	
+	public void setDifficulty(int nb) { 
+		this.difficulty = nb;
+		}
 	
 	public boolean isAnagram(String s1, String s2){
 
@@ -89,12 +102,14 @@ public class Anagramme extends GameMode {
 		//grille;
 		x = (x-20)/20;
 		y = y/20;
+		if(nbLetters == 11) this.found = win(this.currentWord);
 		if(y == this.currentRow) {
 			Case c = grille.getCase(x, y);
 			if(c != null) {
 				this.currentWord += c.letter();
 				this.nbLetters++; 
 			}
+			
 			
 		}
 		
@@ -103,11 +118,10 @@ public class Anagramme extends GameMode {
 
 	@Override
 	public void keyPress(int keyCode) {
-		if(nbLetters == 10)
-			return;
-		
+				
 		if(keyCode == commands[Key.MODE]) {
-			
+			this.found = win(this.currentWord);
+			if(!this.found) reset(); 
 		}
 	}
 
@@ -120,8 +134,11 @@ public class Anagramme extends GameMode {
 
 	@Override
 	public void update(long msecElapsed) {
-		this.found = win(this.currentWord);
-		if(this.nbLetters == 10 || this.found) {
+		if(nbLetters == 11) {
+			this.found = win(this.currentWord);
+			if(!this.found) reset(); 
+		}
+		if(this.found) {
 			plateau.changeMode(new Tetris(plateau));
 		}
 	}
