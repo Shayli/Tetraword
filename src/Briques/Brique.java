@@ -69,7 +69,8 @@ abstract public class Brique {
 				c.setY(c.getY()+1);
 		}
 	}
-
+	
+	
 	public Case get(int x2, int y2) {
 		for(Case c: cases) {
 			if(c.getX()+x == x2 && c.getY()+y == y2)

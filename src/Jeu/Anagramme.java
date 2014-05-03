@@ -18,25 +18,40 @@ public class Anagramme extends GameMode {
 	private int nbLetters ;
 	private boolean found; 
 	private int currentRow; 
+	private int difficulty; //pourcentage de lettres en commun avec ke bestword pour gagner
 	
 	public Anagramme(Plateau p, int nbrow) {
 		super(p);
-		currentWord = "";
-		nbLetters = 0; 
-		found = false; 
-		currentRow = nbrow;
-		base = getStringLine(p,nbrow); 
+		this.currentWord = "";
+		this.nbLetters = 0; 
+		this.difficulty= 50; 
+		this.found = false; 
+		this.currentRow = nbrow;
+		this.base = getStringLine(p,nbrow); 
+		this.bestWord = findBestWord(base); 
 		
 	}
 	
 	public static String getStringLine(Plateau p, int nbrow) {
-		String tmp = "tester";
+		String tmp = "";
+		for(int i=0; i<10; i++) {
+			tmp += p.grille.getCase(i,nbrow).letter(); 
+		}
 
 		return tmp; 
 	}
 	
+	public boolean win(String CurrentWord) {
+		boolean tmp = false; 
+		String wordFound = findBestWord(CurrentWord); 
+		
+		if(wordFound.length() >= this.bestWord.length()*this.difficulty/100) tmp = true; 
+		else tmp = false; 
+		
+		return tmp; 
+	}
 	
-	public static boolean isAnagram(String s1, String s2){
+	public boolean isAnagram(String s1, String s2){
 
         // Early termination check, if strings are of unequal lengths,
         // then they cannot be anagrams
@@ -52,7 +67,7 @@ public class Anagramme extends GameMode {
         return sc1.equals(sc2);
 	}
 	
-	public static String findBestWord(String line) {
+	public String findBestWord(String line) {
 		String Word = ""; 
 		Combinations comb = new Combinations(line); //on créé toutes les combinaisons de String possibles
 		comb.combine();
@@ -61,8 +76,8 @@ public class Anagramme extends GameMode {
 			 
 	    for (String s : Constants.dictionary){
 	    	for(int i=0; i<comb.stock.size(); i++) {
-	    		System.out.println(comb.stock.get(i)+ " " + s);	
-		    	System.out.println(isAnagram(comb.stock.get(i), s));
+	    		//System.out.println(comb.stock.get(i)+ " " + s);	
+		    	//System.out.println(isAnagram(comb.stock.get(i), s));
 		    	if(isAnagram(comb.stock.get(i), s)) return s; 	    		
 	    	}	    		        
 	    }
@@ -74,11 +89,11 @@ public class Anagramme extends GameMode {
 		//grille;
 		x = (x-20)/20;
 		y = y/20;
-		if(y == currentRow) {
+		if(y == this.currentRow) {
 			Case c = grille.getCase(x, y);
 			if(c != null) {
-				currentWord += c.letter();
-				nbLetters++; 
+				this.currentWord += c.letter();
+				this.nbLetters++; 
 			}
 			
 		}
@@ -92,12 +107,7 @@ public class Anagramme extends GameMode {
 			return;
 		
 		if(keyCode == commands[Key.MODE]) {
-			if(Constants.wordExists(currentWord)) {				
-				currentWord = "";
-				found = true; 
-				
-			} else
-				currentWord = "";
+			
 		}
 	}
 
@@ -110,7 +120,8 @@ public class Anagramme extends GameMode {
 
 	@Override
 	public void update(long msecElapsed) {
-		if(nbLetters == 10 || found) {
+		this.found = win(this.currentWord);
+		if(this.nbLetters == 10 || this.found) {
 			plateau.changeMode(new Tetris(plateau));
 		}
 	}
