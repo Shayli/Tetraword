@@ -75,13 +75,17 @@ public class Anagramme extends GameMode {
         if ( s1.length() != s2.length() ) {
             return false;
         }
-        char[] c1 = s1.toCharArray();
-        char[] c2 = s2.toCharArray();
-        Arrays.sort(c1);
-        Arrays.sort(c2);
-        String sc1 = new String(c1);
-        String sc2 = new String(c2);
-        return sc1.equals(sc2);
+        else {
+	        char[] c1 = s1.toCharArray();
+	        char[] c2 = s2.toCharArray();
+	        Arrays.sort(c1);
+	        Arrays.sort(c2);
+	        String sc1 = new String(c1);
+	        String sc2 = new String(c2);
+	        
+	        //System.out.println(sc1.equals(sc2));
+	        return sc1.equals(sc2);
+        }
 	}
 	
 	public String findBestWord(String line) {
@@ -90,7 +94,7 @@ public class Anagramme extends GameMode {
 		comb.combine();
 		Collections.sort(comb.stock, new LengthComparator());
         Collections.reverse(comb.stock);
-			 
+	 
 	    for (String s : Constants.dictionary){
 	    	for(int i=0; i<comb.stock.size(); i++) {
 	    		//System.out.println(comb.stock.get(i)+ " " + s);	
