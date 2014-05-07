@@ -4,13 +4,17 @@ import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
 import javax.swing.ImageIcon;
+import javax.swing.text.html.HTMLDocument.Iterator;
 
 public class Constants {
 	public static int[][] Commands = null;
@@ -101,4 +105,55 @@ public class Constants {
 	public static boolean wordExists(String word){
 		return dictionary.contains(word);
 	}
+	
+	public static void printDico() {
+		for(String s : dictionary) {
+			System.out.println(s);
+		}
+	}
+	
+	public static String findBestWord(String line) {
+		String Word = ""; 
+		boolean b = false ; 
+		Combinations comb = new Combinations(line); //on cr�� toutes les combinaisons de String possibles
+		comb.combine();
+		Collections.sort(comb.stock, new LengthComparator());
+        Collections.reverse(comb.stock);
+                
+        ListIterator it = dictionary.listIterator();
+        
+        	//System.out.println(s);
+        	for(int i=0; i<comb.stock.size(); i++) {
+        		//System.out.println(comb.stock.get(i));
+        		it = dictionary.listIterator(0); 
+        		while(it.hasNext()) {
+                	String s = (String)it.next();		    		
+		    		b = isAnagram(comb.stock.get(i), s);		    		
+			    	if(b) {			    		
+			    		return  s; 	    		
+			    	}
+        		}
+        	}  
+			
+		return Word; 
+	}
+	
+	public static boolean isAnagram(String s1, String s2){
+
+        // Early termination check, if strings are of unequal lengths,
+        // then they cannot be anagrams
+		
+
+        char[] c1 = s1.toCharArray();
+        char[] c2 = s2.toCharArray();
+        Arrays.sort(c1);
+        Arrays.sort(c2);
+        String sc1 = new String(c1);
+        String sc2 = new String(c2);
+        //System.out.println(sc1 + "    "  + sc2);
+        return sc1.equals(sc2);
+       
+	}
+	
+	
 }

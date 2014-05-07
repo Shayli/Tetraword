@@ -29,14 +29,16 @@ public class Anagramme extends GameMode {
 		this.found = false; 
 		this.currentRow = nbrow;
 		this.base = getStringLine(p,nbrow); 
-		this.bestWord = findBestWord(base); 
+		this.bestWord = Constants.findBestWord(base); 
 		timeLeft = 0;
-		System.out.println(bestWord);
+		System.out.println("Base :  " + base);
+		System.out.println("Best Word : " + bestWord);
+
 	}
 	
 	public static String getStringLine(Plateau p, int nbrow) {
 		String tmp = "";
-		for(int i=0; i<10; i++) {
+		for(int i=0; i<11; i++) {
 			tmp += p.grille.getCase(i,nbrow).letter(); 
 		}
 
@@ -49,62 +51,26 @@ public class Anagramme extends GameMode {
 	}
 	
 	public boolean win() {
-		return Constants.wordExists(currentWord);
-		/*
+		//return Constants.wordExists(currentWord);
+	
 		boolean tmp = false; 
-		if(nbLetters > bestWord.length() && Constants.wordExists(CurrentWord)) return true; //si on a selectionn� plus de lettre que le meilleur anagramme
+		if(nbLetters > bestWord.length() && Constants.wordExists(currentWord)) return true; //si on a selectionn� plus de lettre que le meilleur anagramme
 		else {
 				
-			String wordFound = findBestWord(CurrentWord); 			
+			String wordFound = Constants.findBestWord(currentWord); 			
 			if(wordFound.length() >= this.bestWord.length()*this.difficulty/100) tmp = true; 
 			else tmp = false; 
 		
 		}
 		
-		return tmp; */
+		return tmp; 
 	}
 	
 	public void setDifficulty(int nb) { 
 		this.difficulty = nb;
 		}
 	
-	public boolean isAnagram(String s1, String s2){
-
-        // Early termination check, if strings are of unequal lengths,
-        // then they cannot be anagrams
-        if ( s1.length() != s2.length() ) {
-            return false;
-        }
-        else {
-	        char[] c1 = s1.toCharArray();
-	        char[] c2 = s2.toCharArray();
-	        Arrays.sort(c1);
-	        Arrays.sort(c2);
-	        String sc1 = new String(c1);
-	        String sc2 = new String(c2);
-	        
-	        //System.out.println(sc1.equals(sc2));
-	        return sc1.equals(sc2);
-        }
-	}
 	
-	public String findBestWord(String line) {
-		String Word = ""; 
-		Combinations comb = new Combinations(line); //on cr�� toutes les combinaisons de String possibles
-		comb.combine();
-		Collections.sort(comb.stock, new LengthComparator());
-        Collections.reverse(comb.stock);
-	 
-	    for (String s : Constants.dictionary){
-	    	for(int i=0; i<comb.stock.size(); i++) {
-	    		//System.out.println(comb.stock.get(i)+ " " + s);	
-		    	//System.out.println(isAnagram(comb.stock.get(i), s));
-		    	if(isAnagram(comb.stock.get(i), s)) return s; 	    		
-	    	}	    		        
-	    }
-			
-		return Word; 
-	}
 	
 	public void click(int x, int y) {
 		//grille;
