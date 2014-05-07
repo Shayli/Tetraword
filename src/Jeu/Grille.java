@@ -37,7 +37,9 @@ public class Grille {
 		for(Brique b : briques) {
 			b.draw(g);
 		}
-		currentBrique.draw(g);
+		if(currentBrique != null)
+			currentBrique.draw(g);
+		
 		mutex.unlock();
 	}
 
@@ -50,7 +52,7 @@ public class Grille {
 				return false;
 		}
 		
-		if(currentBrique.isHere(x, y))
+		if(currentBrique != null && currentBrique.isHere(x, y))
 			return false;
 		
 		return true;
@@ -72,13 +74,17 @@ public class Grille {
 	public void update() {
 		mutex.lock();
 		if(!currentBrique.down()) {
+			briques.add(currentBrique);
+			
 			for(Case c: currentBrique.cases){
 				if(c.getY()+currentBrique.y < 1)
 				{
 					events.notify("lose", null);
 				}
 			}
-			briques.add(currentBrique);
+			currentBrique = null;
+			events.notify("block", null);
+			
 			checkLine();
 			currentBrique = nextBrique();
 		}

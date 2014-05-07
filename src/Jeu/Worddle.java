@@ -1,7 +1,10 @@
 package Jeu;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Stroke;
 import java.util.ArrayList;
 
 import Briques.Case;
@@ -9,23 +12,40 @@ import Jeu.Constants.Key;
 
 public class Worddle extends GameMode {
 	protected ArrayList<String> words;
+	protected ArrayList<ArrayList<Point>> points;
 	private String currentWord;
 	private long timeLeft;
 	
 	public Worddle(Plateau p) {
 		super(p);
 		words = new ArrayList<String>();
+		points = new ArrayList<ArrayList<Point>>();
+		points.add(new ArrayList<Point>());
 		currentWord = "";
 		timeLeft = 1000*60;
+		boolean found = false;
+		do {
+			int x = (int)(Math.random()*100) % Grille.cols;
+			int y = (int)(Math.random()*100) % Grille.rows;
+			if(!grille.isEmpty(x, y)) {
+				points.get(0).add(new Point(x,y));
+				found = true;
+				Case c = grille.getCase(x, y);
+				currentWord += c.letter();
+			}
+		} while(!found);
 	}
 	
 	public void click(int x, int y) {
 		//grille;
 		x = (x-20)/20;
 		y = y/20;
+		
 		Case c = grille.getCase(x, y);
-		if(c != null)
+		if(c != null) {
 			currentWord += c.letter();
+			points.get(points.size()-1).add(new Point(x,y));
+		}
 	}
 
 	@Override
@@ -38,10 +58,18 @@ public class Worddle extends GameMode {
 			if(Constants.wordExists(currentWord)) {
 				System.out.println(currentWord+" exists");
 				words.add(currentWord);
-				currentWord = "";
 				
-			} else
+				ArrayList<Point> tmp = points.get(points.size()-1);
+				points.add(new ArrayList<Point>());
+				int r = (int)(Math.random()*100) % (tmp.size()-1) +1;
+				Point p = new Point(tmp.get(r).x, tmp.get(r).y);
+				points.get(points.size()-1).add(p);
+				currentWord = ""+currentWord.charAt(r);
+			} else {
+				System.out.println(currentWord+" does not exists");
 				currentWord = "";
+				points.get(points.size()-1).clear();
+			}
 		}
 	}
 
@@ -80,6 +108,30 @@ public class Worddle extends GameMode {
 		
 		g.drawString(currentWord, 255+Constants.Padding, 205);
 		g.drawString(""+sec, 270+Constants.Padding, 240);
+		g.setColor(Color.red);
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setStroke(new BasicStroke(1));
+		for(int j = 0; j<points.size(); ++j) {
+			ArrayList<Point> a = points.get(j);
+			if(j == points.size()-1)
+				g2.setStroke(new BasicStroke(5));
+			
+			if(a.size() < 1)
+				continue;
+			
+			if(a.size() == 1) {
+				Point p = a.get(0);
+				g2.drawLine(p.x*20+8+ Constants.Padding, p.y*20+8, p.x*20+12 + Constants.Padding, p.y*20+12);
+			}
+			else {
+				for(int i = 0; i<a.size()-1; ++i) {
+					Point p = a.get(i);
+					Point p2 = a.get(i+1);
+					g2.drawLine(p.x*20+10+ Constants.Padding, p.y*20+10, p2.x*20+10 + Constants.Padding, p2.y*20+10);
+				}
+			}
+		}
+		g2.setStroke(new BasicStroke(1));
 	}
 	
 	

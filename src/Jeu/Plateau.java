@@ -41,7 +41,7 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 		clicked = false;
 		addKeyListener(this);
 		addMouseListener(this);
-		grille.events.observers.add(new Observer() {
+		grille.events.add(new Observer() {
 
 			@Override
 			public void notify(String s, Object o) {

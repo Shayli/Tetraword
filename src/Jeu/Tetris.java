@@ -3,16 +3,32 @@ package Jeu;
 import java.awt.Graphics;
 
 import Jeu.Constants.Key;
+import Patterns.Observer;
 
 public class Tetris extends GameMode {
 
-	private boolean fastForward;
+	private boolean fastForward, swapAtEnd;
 	private long elapsed;
 	
 	public Tetris(Plateau p) {
 		super(p);
 		fastForward = false;
+		swapAtEnd = false;
 		elapsed = 0;
+		grille.events.add(new Observer() {
+
+			@Override
+			public void notify(String s, Object o) {
+				// TODO Auto-generated method stub
+				if(s == "block" && swapAtEnd) {
+					System.out.println("block");
+					swapAtEnd = false;
+					grille.events.remove(this);
+					plateau.changeMode(new Worddle(plateau));
+				}
+			}
+			
+		});
 	}
 
 	@Override
@@ -29,9 +45,10 @@ public class Tetris extends GameMode {
 			grille.moveRightCurrent();
 		else if(keyCode == commands[Key.DOWN])
 			fastForward = true;
-		else if(keyCode == commands[Key.MODE])
-			plateau.changeMode(new Worddle(plateau));
-		
+		else if(keyCode == commands[Key.MODE]) {
+			swapAtEnd = true;
+			
+		}
 	}
 
 	@Override
