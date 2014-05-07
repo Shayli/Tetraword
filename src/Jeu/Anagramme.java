@@ -30,7 +30,7 @@ public class Anagramme extends GameMode {
 		this.currentRow = nbrow;
 		this.base = getStringLine(p,nbrow); 
 		this.bestWord = findBestWord(base); 
-		timeLeft = 1000*10;
+		timeLeft = 0;
 		System.out.println(bestWord);
 	}
 	
@@ -43,7 +43,7 @@ public class Anagramme extends GameMode {
 		return tmp; 
 	}
 	
-	public void reset() { //recommencer tant qu'on a pas trouvé
+	public void reset() { //recommencer tant qu'on a pas trouvï¿½
 		this.currentWord = ""; 
 		this.nbLetters = 0; 
 	}
@@ -52,7 +52,7 @@ public class Anagramme extends GameMode {
 		return Constants.wordExists(currentWord);
 		/*
 		boolean tmp = false; 
-		if(nbLetters > bestWord.length() && Constants.wordExists(CurrentWord)) return true; //si on a selectionné plus de lettre que le meilleur anagramme
+		if(nbLetters > bestWord.length() && Constants.wordExists(CurrentWord)) return true; //si on a selectionnï¿½ plus de lettre que le meilleur anagramme
 		else {
 				
 			String wordFound = findBestWord(CurrentWord); 			
@@ -86,7 +86,7 @@ public class Anagramme extends GameMode {
 	
 	public String findBestWord(String line) {
 		String Word = ""; 
-		Combinations comb = new Combinations(line); //on créé toutes les combinaisons de String possibles
+		Combinations comb = new Combinations(line); //on crï¿½ï¿½ toutes les combinaisons de String possibles
 		comb.combine();
 		Collections.sort(comb.stock, new LengthComparator());
         Collections.reverse(comb.stock);
@@ -127,6 +127,8 @@ public class Anagramme extends GameMode {
 		if(keyCode == commands[Key.MODE]) {
 			this.found = win();
 			if(!this.found) reset(); 
+			
+			System.out.println(this.found);
 		}
 	}
 
@@ -139,7 +141,7 @@ public class Anagramme extends GameMode {
 
 	@Override
 	public void update(long msecElapsed) {
-		timeLeft -= msecElapsed;
+		timeLeft += msecElapsed;
 		if(timeLeft <= 0) {
 			if(win()) {
 				grille.removeRow(currentRow);
