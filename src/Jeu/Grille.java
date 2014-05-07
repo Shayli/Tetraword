@@ -14,13 +14,15 @@ public class Grille {
 	public static final int rows = 17;
 	public LinkedList<Brique> briques;
 	protected Brique currentBrique;
+	protected Brique nextBrique;
 	public Observable events;
 	private int rowChecker;
 	private Mutex mutex ;
 	
 	public Grille() {
 		briques = new LinkedList<Brique>();
-		currentBrique = nextBrique();
+		nextBrique = null;
+		currentBrique = next();
 		events = new Observable();
 		rowChecker = 0;
 		mutex = new Mutex();
@@ -39,6 +41,7 @@ public class Grille {
 		}
 		if(currentBrique != null)
 			currentBrique.draw(g);
+		nextBrique.draw(g);
 		
 		mutex.unlock();
 	}
@@ -86,7 +89,7 @@ public class Grille {
 			events.notify("block", null);
 			
 			checkLine();
-			currentBrique = nextBrique();
+			currentBrique = next();
 		}
 		mutex.unlock();
 	}
@@ -110,6 +113,19 @@ public class Grille {
 			if(b.cases.size() == 0)
 				it.remove();
 		}
+	}
+	
+	private Brique next() {
+		if(nextBrique == null) {
+			nextBrique = nextBrique();
+		}
+		Brique tmp = nextBrique;
+		nextBrique = nextBrique();
+		nextBrique.x = cols+cols/2;
+		nextBrique.y = rows/3+2;
+		tmp.x = cols/2;
+		tmp.y = 0;
+		return tmp;
 	}
 
 	private Brique nextBrique() {
