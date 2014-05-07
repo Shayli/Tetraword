@@ -67,21 +67,21 @@ public class Constants {
 		try {
 			scanner = new Scanner(new File("resources/"+filePath+".lang"));
 			for(int i =0; i < 26; ++i){
-				String line = scanner.next();
+				String line = scanner.next();				
 				int j = scanner.nextInt(); 
 				letter.put(line.charAt(0), j);
 			}
 			scanner.close();
-			scanner = new Scanner(new File("resources/"+filePath+".dico"));
+			scanner = new Scanner(new File("resources/"+filePath+".dico"), "ISO-8859-1");
 			Pattern p = Pattern.compile("[^a-zA-Z]");
-			
 			while (scanner.hasNextLine()) {
 			    String line = scanner.nextLine();
-			    line = line.toUpperCase();
+			    line = line.toLowerCase();
 			    line = line.replace('à','a').replace('é', 'e').replace('ê', 'e').replace('è', 'e').replace('ä', 'a').replace('ï', 'i').replace('ë', 'e');
 			    if(!p.matcher(line).find())
 			    	dictionary.add(line.toUpperCase());
 			}
+			//System.out.println(dictionary); 
 			scanner.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
