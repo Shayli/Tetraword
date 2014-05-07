@@ -46,7 +46,7 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 			@Override
 			public void notify(String s, Object o) {
 				if(s == "line") {
-					grille.removeRow((Integer)o);
+					changeMode(new Anagramme(Plateau.this, (Integer)o));
 					score += 1;
 					if(difficulte > 1 && score % 5 == 0)
 						--difficulte;

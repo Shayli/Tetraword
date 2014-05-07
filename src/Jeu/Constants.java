@@ -77,6 +77,8 @@ public class Constants {
 			
 			while (scanner.hasNextLine()) {
 			    String line = scanner.nextLine();
+			    line = line.toUpperCase();
+			    line = line.replace('à','a').replace('é', 'e').replace('ê', 'e').replace('è', 'e').replace('ä', 'a').replace('ï', 'i').replace('ë', 'e');
 			    if(!p.matcher(line).find())
 			    	dictionary.add(line.toUpperCase());
 			}

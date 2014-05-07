@@ -19,6 +19,7 @@ public class Anagramme extends GameMode {
 	private boolean found; 
 	private int currentRow; 
 	private int difficulty; //pourcentage de lettres en commun avec ke bestword pour gagner
+	private long timeLeft;
 	
 	public Anagramme(Plateau p, int nbrow) {
 		super(p);
@@ -29,7 +30,8 @@ public class Anagramme extends GameMode {
 		this.currentRow = nbrow;
 		this.base = getStringLine(p,nbrow); 
 		this.bestWord = findBestWord(base); 
-		
+		timeLeft = 1000*10;
+		System.out.println(bestWord);
 	}
 	
 	public static String getStringLine(Plateau p, int nbrow) {
@@ -46,9 +48,11 @@ public class Anagramme extends GameMode {
 		this.nbLetters = 0; 
 	}
 	
-	public boolean win(String CurrentWord) {
+	public boolean win() {
+		return Constants.wordExists(currentWord);
+		/*
 		boolean tmp = false; 
-		if(nbLetters > bestWord.length()) tmp=false ; //si on a selectionné plus de lettre que le meilleur anagramme
+		if(nbLetters > bestWord.length() && Constants.wordExists(CurrentWord)) return true; //si on a selectionné plus de lettre que le meilleur anagramme
 		else {
 				
 			String wordFound = findBestWord(CurrentWord); 			
@@ -57,7 +61,7 @@ public class Anagramme extends GameMode {
 		
 		}
 		
-		return tmp; 
+		return tmp; */
 	}
 	
 	public void setDifficulty(int nb) { 
@@ -102,12 +106,13 @@ public class Anagramme extends GameMode {
 		//grille;
 		x = (x-20)/20;
 		y = y/20;
-		if(nbLetters == 11) this.found = win(this.currentWord);
+		if(nbLetters == 11) this.found = win();
 		if(y == this.currentRow) {
 			Case c = grille.getCase(x, y);
 			if(c != null) {
 				this.currentWord += c.letter();
 				this.nbLetters++; 
+				System.out.println(currentWord);
 			}
 			
 			
@@ -120,7 +125,7 @@ public class Anagramme extends GameMode {
 	public void keyPress(int keyCode) {
 				
 		if(keyCode == commands[Key.MODE]) {
-			this.found = win(this.currentWord);
+			this.found = win();
 			if(!this.found) reset(); 
 		}
 	}
@@ -134,11 +139,20 @@ public class Anagramme extends GameMode {
 
 	@Override
 	public void update(long msecElapsed) {
-		if(nbLetters == 11) {
-			this.found = win(this.currentWord);
+		timeLeft -= msecElapsed;
+		if(timeLeft <= 0) {
+			if(win()) {
+				grille.removeRow(currentRow);
+			}
+			plateau.changeMode(new Tetris(plateau));
+			return;
+		}
+		if(nbLetters == grille.cols) {
+			this.found = win();
 			if(!this.found) reset(); 
 		}
 		if(this.found) {
+			grille.removeRow(currentRow);
 			plateau.changeMode(new Tetris(plateau));
 		}
 	}
@@ -146,6 +160,14 @@ public class Anagramme extends GameMode {
 	@Override
 	public void draw(Graphics g) {
 		grille.draw(g);
+		
+		// TODO draw letters selected
+		g.setColor(new Color(187, 173, 160));
+		g.fillRoundRect(250+Constants.Padding, 200, 100, 80, 10, 10);
+		g.setColor(Color.black);
+		g.drawString("Time left:", 270 + Constants.Padding, 220);
+		int sec = (int)timeLeft/1000;
+		g.drawString(""+sec, 270+Constants.Padding, 240);
 		
 		// TODO draw letters selected
 		g.setColor(new Color(187, 173, 160));

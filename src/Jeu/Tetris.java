@@ -24,6 +24,7 @@ public class Tetris extends GameMode {
 					System.out.println("block");
 					swapAtEnd = false;
 					grille.events.remove(this);
+					grille.events.remove(this);
 					plateau.changeMode(new Worddle(plateau));
 				}
 			}
