@@ -29,14 +29,22 @@ public class Anagramme extends GameMode {
 		this.found = false; 
 		this.currentRow = nbrow;
 		this.base = getStringLine(p,nbrow); 
+<<<<<<< HEAD
 		this.bestWord = findBestWord(base); 
 		timeLeft = 0;
 		System.out.println(bestWord);
+=======
+		this.bestWord = Constants.findBestWord(base); 
+		timeLeft = 0;
+		System.out.println("Base :  " + base);
+		System.out.println("Best Word : " + bestWord);
+
+>>>>>>> origin/monia
 	}
 	
 	public static String getStringLine(Plateau p, int nbrow) {
 		String tmp = "";
-		for(int i=0; i<10; i++) {
+		for(int i=0; i<11; i++) {
 			tmp += p.grille.getCase(i,nbrow).letter(); 
 		}
 
@@ -49,25 +57,30 @@ public class Anagramme extends GameMode {
 	}
 	
 	public boolean win() {
-		return Constants.wordExists(currentWord);
-		/*
+		//return Constants.wordExists(currentWord);
+	
 		boolean tmp = false; 
+<<<<<<< HEAD
 		if(nbLetters > bestWord.length() && Constants.wordExists(CurrentWord)) return true; //si on a selectionn� plus de lettre que le meilleur anagramme
+=======
+		if(nbLetters > bestWord.length() && Constants.wordExists(currentWord)) return true; //si on a selectionn� plus de lettre que le meilleur anagramme
+>>>>>>> origin/monia
 		else {
 				
-			String wordFound = findBestWord(CurrentWord); 			
+			String wordFound = Constants.findBestWord(currentWord); 			
 			if(wordFound.length() >= this.bestWord.length()*this.difficulty/100) tmp = true; 
 			else tmp = false; 
 		
 		}
 		
-		return tmp; */
+		return tmp; 
 	}
 	
 	public void setDifficulty(int nb) { 
 		this.difficulty = nb;
 		}
 	
+<<<<<<< HEAD
 	public boolean isAnagram(String s1, String s2){
 
         // Early termination check, if strings are of unequal lengths,
@@ -105,6 +118,9 @@ public class Anagramme extends GameMode {
 			
 		return Word; 
 	}
+=======
+	
+>>>>>>> origin/monia
 	
 	public void click(int x, int y) {
 		//grille;

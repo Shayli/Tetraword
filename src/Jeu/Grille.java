@@ -151,14 +151,17 @@ public class Grille {
 	}
 
 	public void rotateCurrent() {
+		if(currentBrique != null)
 		currentBrique.rotate();
 	}
 
 	public void moveLeftCurrent() {
+		if(currentBrique != null)
 		currentBrique.moveLeft();
 	}
 
 	public void moveRightCurrent() {
+		if(currentBrique != null)
 		currentBrique.moveRight();
 		// TODO Auto-generated method stub
 		
