@@ -82,7 +82,7 @@ public class Constants {
 			    String line = scanner.nextLine();
 			    line = line.toLowerCase();
 			    line = line.replace('à','a').replace('é', 'e').replace('ê', 'e').replace('è', 'e').replace('ä', 'a').replace('ï', 'i').replace('ë', 'e');
-			    if(!p.matcher(line).find())
+			    if(!p.matcher(line).find() && line.length() <= 11)
 			    	dictionary.add(line.toUpperCase());
 			}
 			//System.out.println(dictionary); 
@@ -90,6 +90,9 @@ public class Constants {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+		//System.out.println(dictionary.size());
+		Collections.sort(dictionary, new LengthComparator());
+        Collections.reverse(dictionary);
 	}
 	
 	public static char randomLetter(){
@@ -126,9 +129,12 @@ public class Constants {
         	for(int i=0; i<comb.stock.size(); i++) {
         		//System.out.println(comb.stock.get(i));
         		it = dictionary.listIterator(0); 
-        		while(it.hasNext()) {
-                	String s = (String)it.next();		    		
-		    		b = isAnagram(comb.stock.get(i), s);		    		
+        		while(it.hasNext() ) {
+                	
+        			String s = (String)it.next();		    		
+		    		if(s.length() < comb.stock.get(i).length()) break; 
+		    		
+        			b = isAnagram(comb.stock.get(i), s);		    		
 			    	if(b) {			    		
 			    		return  s; 	    		
 			    	}
