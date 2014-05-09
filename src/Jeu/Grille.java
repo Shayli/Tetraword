@@ -36,7 +36,7 @@ public class Grille {
 
 	public void draw(Graphics g) {
 		// TODO Auto-generated method stub
-		g.setFont(new Font("Helvetica", Font.BOLD,18));
+		g.setFont(new Font("Helvetica", Font.PLAIN,18));
 		mutex.lock();
 		for(Brique b : briques) {
 			b.draw(g);

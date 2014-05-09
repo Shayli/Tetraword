@@ -73,7 +73,7 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 		wordle.setContentAreaFilled(false);
 		wordle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				//Plateau.this.changeMode(new Worddle(Plateau.this));
 			}
 		});
 		
@@ -126,10 +126,11 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 	
 	@Override
 	public void paint(Graphics g){
+		g.drawImage(fond, 0, 0, null);
 		super.paint(g);
 		g.setFont(Constants.pacifico); 
 		g.setColor(new Color(81,20,21));
-		g.drawImage(fond, 0, 0, null);
+		
 		g.drawString("Tetraword", 185, 25);
 		
 		g.drawImage(grilleImg, 10, 55, null);

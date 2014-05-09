@@ -44,19 +44,19 @@ public class Constants {
 	}
 	
 	public static void initialize(){
-		ImageIcon a = new ImageIcon("resources/1.png", ""); 
+		ImageIcon a = new ImageIcon("resources/8.png", ""); 
 		Cross = a.getImage();
 		a = new ImageIcon("resources/2.png", ""); 
 		S = a.getImage();
 		a = new ImageIcon("resources/6.png", ""); 
 		S2 = a.getImage();
-		a = new ImageIcon("resources/3.png", ""); 
+		a = new ImageIcon("resources/10.png", ""); 
 		Bar = a.getImage();
 		a = new ImageIcon("resources/4.png", ""); 
 		L = a.getImage();
 		a = new ImageIcon("resources/7.png", ""); 
 		L2 = a.getImage();
-		a = new ImageIcon("resources/5.png", ""); 
+		a = new ImageIcon("resources/9.png", ""); 
 		Cube = a.getImage();
 		letter = new HashMap<Character, Integer>();
 		dictionary = new LinkedList<String>();

@@ -2,9 +2,12 @@ package Jeu;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+
+import javax.swing.ImageIcon;
 
 import Briques.Brique;
 import Briques.Case;
@@ -20,6 +23,7 @@ public class Anagramme extends GameMode {
 	private int currentRow; 
 	private int difficulty; //pourcentage de lettres en commun avec ke bestword pour gagner
 	private long timeLeft;
+	private Image anagramme;
 	
 	public Anagramme(Plateau p, int nbrow) {
 		super(p);
@@ -33,6 +37,9 @@ public class Anagramme extends GameMode {
 		timeLeft = 0;
 		System.out.println("Base :  " + base);
 		System.out.println("Best Word : " + bestWord);
+		
+		ImageIcon a = new ImageIcon("resources/anagramme.png", ""); 
+		anagramme = a.getImage();
 	}
 	
 	public static String getStringLine(Plateau p, int nbrow) {
@@ -128,20 +135,14 @@ public class Anagramme extends GameMode {
 	@Override
 	public void draw(Graphics g) {
 		grille.draw(g);
-		
-		// TODO draw letters selected
-		g.setColor(new Color(187, 173, 160));
-		g.fillRoundRect(250+Constants.Padding, 200, 100, 80, 10, 10);
-		g.setColor(Color.black);
-		g.drawString("Time left:", 270 + Constants.Padding, 220);
+		g.drawImage(anagramme, 340, 525, null);
+		g.setFont(Constants.pacifico); 
+		g.setColor(Color.white);		
 		int sec = (int)timeLeft/1000;
-		g.drawString(""+sec, 270+Constants.Padding, 240);
+		g.drawString("Time spend: "+sec, 355, 90);
+		g.drawString(currentWord.toLowerCase(), 380, 577);
 		
-		// TODO draw letters selected
-		g.setColor(new Color(187, 173, 160));
-		g.fillRoundRect(250+Constants.Padding, 200, 100, 80, 10, 10);
-		g.setColor(Color.black);
-
+		
 	}
 	
 	
