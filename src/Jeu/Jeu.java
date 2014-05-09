@@ -57,6 +57,7 @@ public class Jeu extends JFrame implements WindowListener {
 	    content.add(plateau, BorderLayout.CENTER);
 	    this.setContentPane(content);
 	    this.repaint();
+	    plateau.requestFocus();
 	    started = true;
 	}
 	
