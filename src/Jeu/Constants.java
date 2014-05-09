@@ -133,11 +133,14 @@ public class Constants {
                 	
         			String s = (String)it.next();		    		
 		    		if(s.length() < comb.stock.get(i).length()) break; 
-		    		
-        			b = isAnagram(comb.stock.get(i), s);		    		
-			    	if(b) {			    		
-			    		return  s; 	    		
-			    	}
+		    		if(s.length() == comb.stock.get(i).length()) {
+		    			b = isAnagram(comb.stock.get(i), s);		    		
+				    	if(b) {			    		
+				    		return  s; 	    		
+				    	}
+		    			
+		    		} 
+        			
         		}
         	}  
 			
