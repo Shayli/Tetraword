@@ -13,6 +13,7 @@ import Jeu.Constants.Key;
 public class Worddle extends GameMode {
 	protected ArrayList<String> words;
 	protected ArrayList<ArrayList<Point>> points;
+	protected Point lastPoint;
 	private String currentWord;
 	private long timeLeft;
 	
@@ -28,7 +29,8 @@ public class Worddle extends GameMode {
 			int x = (int)(Math.random()*100) % Grille.cols;
 			int y = (int)(Math.random()*100) % Grille.rows;
 			if(!grille.isEmpty(x, y)) {
-				points.get(0).add(new Point(x,y));
+				lastPoint = new Point(x,y);
+				points.get(0).add(lastPoint);
 				found = true;
 				Case c = grille.getCase(x, y);
 				currentWord += c.letter();
@@ -40,11 +42,15 @@ public class Worddle extends GameMode {
 		//grille;
 		x = (x-20)/20;
 		y = y/20;
+		Point curr = new Point(x,y);
+		if(Math.abs(lastPoint.x-curr.x) > 1 || Math.abs(lastPoint.y-curr.y) > 1)
+			return;
 		
+		lastPoint = curr;
 		Case c = grille.getCase(x, y);
 		if(c != null) {
 			currentWord += c.letter();
-			points.get(points.size()-1).add(new Point(x,y));
+			points.get(points.size()-1).add(curr);
 		}
 	}
 

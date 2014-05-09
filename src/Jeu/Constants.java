@@ -8,17 +8,16 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
 
 public class Constants {
 	public static int[][] Commands = null;
@@ -31,6 +30,7 @@ public class Constants {
 	public static Map<Character, Integer> letter; 
 	public static LinkedList<String> dictionary;
 	public static Font pacifico;
+	public static LinkedList<String> shortWords;
 	
 	public static class Key{
 		static int ROTATE = 0;
@@ -53,6 +53,7 @@ public class Constants {
 		Cube = a.getImage();
 		letter = new HashMap<Character, Integer>();
 		dictionary = new LinkedList<String>();
+		shortWords = new LinkedList<String>();
 		loadDictionary("french");
 		
 		Commands = new int[3][5];
@@ -98,9 +99,13 @@ public class Constants {
 			while (scanner.hasNextLine()) {
 			    String line = scanner.nextLine();
 			    line = line.toLowerCase();
-			    line = line.replace('à','a').replace('é', 'e').replace('ê', 'e').replace('è', 'e').replace('ä', 'a').replace('ï', 'i').replace('ë', 'e');
-			    if(!p.matcher(line).find())
-			    	dictionary.add(line.toUpperCase());
+			    line = line.replace('à','a').replace('é', 'e').replace('ê', 'e').replace('è', 'e').replace('ä', 'a').replace('ï', 'i').replace('ë', 'e').replace('ç', 'c');
+			    if(!p.matcher(line).find()) {
+			    	if(line.length() <= Grille.cols)
+			    		shortWords.add(line.toUpperCase());
+		    		else
+		    			dictionary.add(line.toUpperCase());
+			    }
 			}
 			//System.out.println(dictionary); 
 			scanner.close();
@@ -120,6 +125,57 @@ public class Constants {
 	}
 	
 	public static boolean wordExists(String word){
-		return dictionary.contains(word);
+		return dictionary.contains(word) || shortWords.contains(word);
 	}
+	
+	public static void printDico() {
+		for(String s : dictionary) {
+			System.out.println(s);
+		}
+	}
+	
+	public static String findBestWord(String line) {
+		String Word = ""; 
+		boolean b = false ; 
+		Combinations comb = new Combinations(line); //on cr�� toutes les combinaisons de String possibles
+		comb.combine();
+		Collections.sort(comb.stock, new LengthComparator());
+        Collections.reverse(comb.stock);
+                
+        ListIterator it = shortWords.listIterator();
+        
+        	//System.out.println(s);
+        	for(int i=0; i<comb.stock.size(); i++) {
+        		//System.out.println(comb.stock.get(i));
+        		it = shortWords.listIterator(0); 
+        		while(it.hasNext()) {
+                	String s = (String)it.next();		    		
+		    		b = isAnagram(comb.stock.get(i), s);		    		
+			    	if(b) {			    		
+			    		return  s; 	    		
+			    	}
+        		}
+        	}  
+			
+		return Word; 
+	}
+	
+	public static boolean isAnagram(String s1, String s2){
+
+        // Early termination check, if strings are of unequal lengths,
+        // then they cannot be anagrams
+		
+
+        char[] c1 = s1.toCharArray();
+        char[] c2 = s2.toCharArray();
+        Arrays.sort(c1);
+        Arrays.sort(c2);
+        String sc1 = new String(c1);
+        String sc2 = new String(c2);
+        //System.out.println(sc1 + "    "  + sc2);
+        return sc1.equals(sc2);
+       
+	}
+	
+	
 }
