@@ -17,9 +17,6 @@ public class Home extends JPanel implements ActionListener{
 	private JButton solo;
 	private JButton multi;
 	private JButton settings;
-	public static Boolean b1 = false;
-	private Boolean b2 = false;
-	private Boolean b3 = false;
 	
 	
 	public Home(final Jeu jeu){
@@ -62,7 +59,6 @@ public class Home extends JPanel implements ActionListener{
 		multi.setForeground(Color.white);
 		multi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				b2 = true;
 			}
 		});
 		size = settings.getPreferredSize();
@@ -77,7 +73,7 @@ public class Home extends JPanel implements ActionListener{
 		settings.setForeground(Color.white);
 		settings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				b3 = true;
+
 			}
 		});
 	}

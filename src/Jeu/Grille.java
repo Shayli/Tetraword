@@ -1,5 +1,6 @@
 package Jeu;
 
+import java.awt.Font;
 import java.awt.Graphics;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -35,6 +36,7 @@ public class Grille {
 
 	public void draw(Graphics g) {
 		// TODO Auto-generated method stub
+		g.setFont(new Font("Helvetica", Font.BOLD,18));
 		mutex.lock();
 		for(Brique b : briques) {
 			b.draw(g);
@@ -121,8 +123,8 @@ public class Grille {
 		}
 		Brique tmp = nextBrique;
 		nextBrique = nextBrique();
-		nextBrique.x = cols+cols/2;
-		nextBrique.y = rows/3+2;
+		nextBrique.x = cols+cols/4;
+		nextBrique.y = rows/3+1;
 		tmp.x = cols/2;
 		tmp.y = 0;
 		return tmp;

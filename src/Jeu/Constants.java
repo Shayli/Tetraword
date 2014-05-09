@@ -22,10 +22,13 @@ import javax.swing.ImageIcon;
 public class Constants {
 	public static int[][] Commands = null;
 	public static int Padding = 20;
+	public static int MarginImg = 4;
 	public static Image Cross;
 	public static Image S;
+	public static Image S2;
 	public static Image Bar;
 	public static Image L;
+	public static Image L2;
 	public static Image Cube;
 	public static Map<Character, Integer> letter; 
 	public static LinkedList<String> dictionary;
@@ -41,15 +44,19 @@ public class Constants {
 	}
 	
 	public static void initialize(){
-		ImageIcon a = new ImageIcon("resources/cross.png", ""); 
+		ImageIcon a = new ImageIcon("resources/1.png", ""); 
 		Cross = a.getImage();
-		a = new ImageIcon("resources/S.png", ""); 
+		a = new ImageIcon("resources/2.png", ""); 
 		S = a.getImage();
-		a = new ImageIcon("resources/bar.png", ""); 
+		a = new ImageIcon("resources/6.png", ""); 
+		S2 = a.getImage();
+		a = new ImageIcon("resources/3.png", ""); 
 		Bar = a.getImage();
-		a = new ImageIcon("resources/L.png", ""); 
+		a = new ImageIcon("resources/4.png", ""); 
 		L = a.getImage();
-		a = new ImageIcon("resources/cube.png", ""); 
+		a = new ImageIcon("resources/7.png", ""); 
+		L2 = a.getImage();
+		a = new ImageIcon("resources/5.png", ""); 
 		Cube = a.getImage();
 		letter = new HashMap<Character, Integer>();
 		dictionary = new LinkedList<String>();

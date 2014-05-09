@@ -46,14 +46,7 @@ public class Jeu extends JFrame implements WindowListener {
 	}
 	
 	public void solo(){
-		JPanel north = new JPanel();
-	    JLabel tetraword = new JLabel(); 
-	    tetraword.setFont(new Font("Clear Sans", Font.PLAIN, 30)); 
-	    tetraword.setText("Tetraword");
-	    tetraword.setForeground(new Color(119, 110, 101));
 	    plateau = new Plateau(0);
-	    north.add(tetraword);
-	    content.add(north, BorderLayout.NORTH);
 	    content.add(plateau, BorderLayout.CENTER);
 	    this.setContentPane(content);
 	    this.repaint();

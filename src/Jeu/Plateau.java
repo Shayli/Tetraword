@@ -1,20 +1,21 @@
 package Jeu;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayDeque;
-import java.util.Timer;
 
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import Briques.Brique;
 import Patterns.Observer;
 
 public class Plateau extends JPanel implements KeyListener, MouseListener {
@@ -31,14 +32,23 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 	GameMode current;
 	public int playerId;
 	private Image fond;
+	private Image grilleImg;
+	private Image scoreImg;
+	private Image next;
 	
 	public Plateau(int player){
 		this.setFocusable(true);
 		this.requestFocus();
 		this.setLayout(null);
-		
-		ImageIcon a = new ImageIcon("resources/home.jpg", ""); 
+	    
+		ImageIcon a = new ImageIcon("resources/fond.jpg", ""); 
 		fond = a.getImage();
+		a = new ImageIcon("resources/grille.png", "");
+		grilleImg = a.getImage();
+		a = new ImageIcon("resources/scoreImg.png", "");
+		scoreImg = a.getImage();
+		a = new ImageIcon("resources/next.png", "");
+		next = a.getImage();
 		grille = new Grille();
 		
 		lStartTime = System.currentTimeMillis();
@@ -89,23 +99,26 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 	@Override
 	public void paint(Graphics g){
 		super.paint(g);
+		g.setFont(Constants.pacifico); 
+		g.setColor(new Color(81,20,21));
+		g.drawImage(fond, 0, 0, null);
+		g.drawString("Tetraword", 185, 25);
 		
-		//g.setFont(new Font("Clear Sans", Font.PLAIN, 13)); 
-		g.setColor(new Color(187, 173, 160));
-		g.fillRoundRect(0+Constants.Padding, 0, (grille.cols) * 20 +1, (grille.rows)*20+1, 10, 10);
+		g.drawImage(grilleImg, 10, 55, null);
+		
+		//g.setColor(new Color(187, 173, 160));
+		//g.fillRoundRect(0+Constants.Padding, 0, (grille.cols) * 20 +1, (grille.rows)*20+1, 10, 10);
 		
 
 		//Score
-		g.setColor(new Color(187, 173, 160));
-		g.fillRoundRect(250+Constants.Padding, 0, 100, 80, 10, 10);
+		g.drawImage(scoreImg, 330, 130, null);
 		g.setColor(Color.white);
-		g.drawString("Score", 270+Constants.Padding, 20);
+		g.drawString("Score", 330+Constants.Padding, 150);
 		
 		//Next brique
-		g.setColor(new Color(187, 173, 160));
-		g.fillRoundRect(250+Constants.Padding, 100, 100, 80, 10, 10);
+		g.drawImage(next, 330, 240, null);
 		g.setColor(Color.white);
-		g.drawString("Next Brique", 270+Constants.Padding, 120);
+		g.drawString("Next Brique", 330+Constants.Padding, 260);
 	
 		current.draw(g);
 	}
