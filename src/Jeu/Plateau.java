@@ -46,6 +46,7 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 			@Override
 			public void notify(String s, Object o) {
 				if(s == "line") {
+					System.out.println("line");
 					changeMode(new Anagramme(Plateau.this, (Integer)o));
 					score += 1;
 					if(difficulte > 1 && score % 5 == 0)
@@ -83,7 +84,7 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 		super.paint(g);
 		//g.setFont(new Font("Clear Sans", Font.PLAIN, 13)); 
 		g.setColor(new Color(187, 173, 160));
-		g.fillRoundRect(0+Constants.Padding, 0, (grille.cols+1) * 20 +1, (grille.rows+1)*20+1, 10, 10);
+		g.fillRoundRect(0+Constants.Padding, 0, (grille.cols) * 20 +1, (grille.rows)*20+1, 10, 10);
 		
 
 		//Score

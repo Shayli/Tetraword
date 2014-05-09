@@ -10,8 +10,8 @@ import Briques.Case;
 import Patterns.Observable;
 
 public class Grille {
-	public static final int cols = 10;
-	public static final int rows = 17;
+	public static final int cols = 8;
+	public static final int rows = 16;
 	public LinkedList<Brique> briques;
 	protected Brique currentBrique;
 	protected Brique nextBrique;
@@ -47,7 +47,7 @@ public class Grille {
 	}
 
 	public boolean isEmpty(int x, int y) {
-		if(x < 0 || x > cols || y > rows)
+		if(x < 0 || x >= cols || y >= rows)
 			return false;
 		
 		for(Brique b: briques) {
@@ -62,7 +62,7 @@ public class Grille {
 	}
 	
 	public Case getCase(int x, int y) {
-		if(x < 0 || x > cols || y > rows)
+		if(x < 0 || x >= cols || y >= rows)
 			return null;
 		
 		for(Brique b: briques) {
@@ -95,9 +95,9 @@ public class Grille {
 	}
 
 	private void checkLine() {
-		for(rowChecker = rows; rowChecker > 0; --rowChecker) {
+		for(rowChecker = rows-1; rowChecker >= 0; --rowChecker) {
 			boolean full = true;
-			for(int x = 0; x <= cols; ++x) {
+			for(int x = 0; x < cols; ++x) {
 				if(isEmpty(x,rowChecker)) {
 					full = false;
 					break;

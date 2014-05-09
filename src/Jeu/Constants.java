@@ -26,6 +26,7 @@ public class Constants {
 	public static Image Cube;
 	public static Map<Character, Integer> letter; 
 	public static LinkedList<String> dictionary;
+	public static LinkedList<String> shortWords;
 	
 	public static class Key{
 		static int ROTATE = 0;
@@ -48,6 +49,7 @@ public class Constants {
 		Cube = a.getImage();
 		letter = new HashMap<Character, Integer>();
 		dictionary = new LinkedList<String>();
+		shortWords = new LinkedList<String>();
 		loadDictionary("french");
 		
 		Commands = new int[3][5];
@@ -81,9 +83,13 @@ public class Constants {
 			while (scanner.hasNextLine()) {
 			    String line = scanner.nextLine();
 			    line = line.toLowerCase();
-			    line = line.replace('à','a').replace('é', 'e').replace('ê', 'e').replace('è', 'e').replace('ä', 'a').replace('ï', 'i').replace('ë', 'e');
-			    if(!p.matcher(line).find())
-			    	dictionary.add(line.toUpperCase());
+			    line = line.replace('à','a').replace('é', 'e').replace('ê', 'e').replace('è', 'e').replace('ä', 'a').replace('ï', 'i').replace('ë', 'e').replace('ç', 'c');
+			    if(!p.matcher(line).find()) {
+			    	if(line.length() <= Grille.cols)
+			    		shortWords.add(line.toUpperCase());
+		    		else
+		    			dictionary.add(line.toUpperCase());
+			    }
 			}
 			//System.out.println(dictionary); 
 			scanner.close();
@@ -103,7 +109,7 @@ public class Constants {
 	}
 	
 	public static boolean wordExists(String word){
-		return dictionary.contains(word);
+		return dictionary.contains(word) || shortWords.contains(word);
 	}
 	
 	public static void printDico() {
@@ -120,12 +126,12 @@ public class Constants {
 		Collections.sort(comb.stock, new LengthComparator());
         Collections.reverse(comb.stock);
                 
-        ListIterator it = dictionary.listIterator();
+        ListIterator it = shortWords.listIterator();
         
         	//System.out.println(s);
         	for(int i=0; i<comb.stock.size(); i++) {
         		//System.out.println(comb.stock.get(i));
-        		it = dictionary.listIterator(0); 
+        		it = shortWords.listIterator(0); 
         		while(it.hasNext()) {
                 	String s = (String)it.next();		    		
 		    		b = isAnagram(comb.stock.get(i), s);		    		
