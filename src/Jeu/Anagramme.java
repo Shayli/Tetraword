@@ -51,14 +51,14 @@ public class Anagramme extends GameMode {
 	
 	public boolean win() {
 		//return Constants.wordExists(currentWord);
-	
+		if(!Constants.wordExists(currentWord))
+			return false;
 		boolean tmp = false; 
-		if(nbLetters > bestWord.length() && Constants.wordExists(currentWord)) return true; //si on a selectionn� plus de lettre que le meilleur anagramme
-
+		if(nbLetters > bestWord.length()) return true; //si on a selectionn� plus de lettre que le meilleur anagramme
+		
 		else {
-				
-			String wordFound = Constants.findBestWord(currentWord); 			
-			if(wordFound.length() >= this.bestWord.length()*this.difficulty/100) tmp = true; 
+			System.out.println("toto");			
+			if(currentWord.length() >= this.bestWord.length()*this.difficulty/100) tmp = true; 
 			else tmp = false; 
 		
 		}
@@ -72,8 +72,6 @@ public class Anagramme extends GameMode {
 	
 	public void click(int x, int y) {
 		//grille;
-		x = (x-20)/20;
-		y = y/20;
 		if(nbLetters == 11) this.found = win();
 		if(y == this.currentRow) {
 			Case c = grille.getCase(x, y);
@@ -117,7 +115,7 @@ public class Anagramme extends GameMode {
 			plateau.changeMode(new Tetris(plateau));
 			return;
 		}
-		if(nbLetters == grille.cols) {
+		if(nbLetters == Grille.cols) {
 			this.found = win();
 			if(!this.found) reset(); 
 		}

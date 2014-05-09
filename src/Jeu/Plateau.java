@@ -1,21 +1,27 @@
 package Jeu;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayDeque;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import Briques.Case;
 import Patterns.Observer;
 
 public class Plateau extends JPanel implements KeyListener, MouseListener {
@@ -35,12 +41,13 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 	private Image grilleImg;
 	private Image scoreImg;
 	private Image next;
+	private JButton wordle;
 	
 	public Plateau(int player){
 		this.setFocusable(true);
 		this.requestFocus();
 		this.setLayout(null);
-	    
+		
 		ImageIcon a = new ImageIcon("resources/fond.jpg", ""); 
 		fond = a.getImage();
 		a = new ImageIcon("resources/grille.png", "");
@@ -49,6 +56,27 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 		scoreImg = a.getImage();
 		a = new ImageIcon("resources/next.png", "");
 		next = a.getImage();
+		a = new ImageIcon("resources/wordle.png", "");
+		wordle = new JButton(a);
+		super.setBackground(new Color(255,255,255,0));
+		this.add(wordle);
+		
+		
+		
+		
+		Insets insets = this.getInsets();
+		Dimension size = wordle.getPreferredSize();
+		wordle.setBounds(330 + insets.left, 455 + insets.top, size.width, size.height);
+		wordle.setFocusPainted( false );
+		wordle.setBorderPainted(false); 
+		wordle.setOpaque( false ); 
+		wordle.setContentAreaFilled(false);
+		wordle.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		
 		grille = new Grille();
 		
 		lStartTime = System.currentTimeMillis();
@@ -120,6 +148,7 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 		g.setColor(Color.white);
 		g.drawString("Next Brique", 330+Constants.Padding, 260);
 	
+		
 		current.draw(g);
 	}
 	
@@ -151,8 +180,8 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		int posX = e.getX();
-        int posY = e.getY();
+		int posX = (int)((e.getX()-10)/Case.size);
+        int posY = (int)((e.getY()-55)/Case.size);
         if(!clicked) {
         	current.click(posX, posY);
         	clicked = true;

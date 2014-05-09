@@ -10,13 +10,12 @@ public class Case {
 	private char a;
 	private int x;
 	private int y;
-	private double size;
+	public static double size = 37.5;
 	
 	public Case(int x1, int y1, double size){
 		this.setX(x1);
 		this.setY(y1);
 		this.a = Constants.randomLetter();
-		this.size = 37.5;
 	}
 	
 	public void draw(Graphics g, int x1, int y1, Image i) { 

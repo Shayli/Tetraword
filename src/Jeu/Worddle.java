@@ -40,8 +40,6 @@ public class Worddle extends GameMode {
 	
 	public void click(int x, int y) {
 		//grille;
-		x = (x-20)/20;
-		y = y/20;
 		Point curr = new Point(x,y);
 		if(Math.abs(lastPoint.x-curr.x) > 1 || Math.abs(lastPoint.y-curr.y) > 1)
 			return;

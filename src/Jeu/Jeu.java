@@ -24,7 +24,7 @@ public class Jeu extends JFrame implements WindowListener {
 		    this.setTitle("Tetraword");
 		    this.setSize(500, 700);
 		    this.setLocationRelativeTo(null);
-		    this.setBackground(new Color(250, 248, 239));
+//		    this.setBackground(new Color(250, 248, 239));
 		    
 		   /* JPanel north = new JPanel();
 		    JLabel tetraword = new JLabel(); 
