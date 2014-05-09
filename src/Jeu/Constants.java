@@ -1,9 +1,13 @@
 package Jeu;
 
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -11,6 +15,10 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 
 public class Constants {
 	public static int[][] Commands = null;
@@ -22,6 +30,7 @@ public class Constants {
 	public static Image Cube;
 	public static Map<Character, Integer> letter; 
 	public static LinkedList<String> dictionary;
+	public static Font pacifico;
 	
 	public static class Key{
 		static int ROTATE = 0;
@@ -50,6 +59,18 @@ public class Constants {
 		loadCommands(0,KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER);
 		loadCommands(1,KeyEvent.VK_Z, KeyEvent.VK_S, KeyEvent.VK_Q, KeyEvent.VK_D, KeyEvent.VK_A);
 		loadCommands(2,KeyEvent.VK_I, KeyEvent.VK_K, KeyEvent.VK_J, KeyEvent.VK_L, KeyEvent.VK_U);
+	
+		try {
+			pacifico = Font.createFont(Font.TRUETYPE_FONT, new File("resources/Pacifico.ttf"));
+			pacifico = pacifico.deriveFont(Font.PLAIN,18);
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			ge.registerFont(pacifico);
+		} catch (FontFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 	
 	private static void loadCommands(int i, int vkUp, int vkDown, int vkLeft, int vkRight, int vkEnter) {
