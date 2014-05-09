@@ -18,6 +18,7 @@ public class Jeu extends JFrame implements WindowListener {
 	private JPanel home;
 	private JPanel content = new JPanel(new BorderLayout());
 	private int currMode = 1; //1 pour Tetris, 2 pour Anagramme, 3 pour Worddle 
+	private Boolean started = false;
 	
 	public Jeu(){
 		    this.setTitle("Tetraword");
@@ -56,6 +57,7 @@ public class Jeu extends JFrame implements WindowListener {
 	    content.add(plateau, BorderLayout.CENTER);
 	    this.setContentPane(content);
 	    this.repaint();
+	    started = true;
 	}
 	
 	public static void main(String[] args){
@@ -80,15 +82,16 @@ public class Jeu extends JFrame implements WindowListener {
 	public void run() {
 		while(true) {
 			//System.out.println("update");
-			plateau.update();
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					plateau.revalidate();
-					plateau.repaint();
-				}
-			});
-
+			if(started){
+				plateau.update();
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						plateau.revalidate();
+						plateau.repaint();
+					}
+				});
+			}
 			try {
 				Thread.sleep(40);
 			} catch (InterruptedException e) {

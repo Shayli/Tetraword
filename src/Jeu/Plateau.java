@@ -3,6 +3,7 @@ package Jeu;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -10,6 +11,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayDeque;
 import java.util.Timer;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import Briques.Brique;
@@ -28,10 +30,15 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 	
 	GameMode current;
 	public int playerId;
+	private Image fond;
 	
 	public Plateau(int player){
 		this.setFocusable(true);
 		this.requestFocus();
+		this.setLayout(null);
+		
+		ImageIcon a = new ImageIcon("resources/home.jpg", ""); 
+		fond = a.getImage();
 		grille = new Grille();
 		
 		lStartTime = System.currentTimeMillis();
@@ -82,6 +89,7 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 	@Override
 	public void paint(Graphics g){
 		super.paint(g);
+		
 		//g.setFont(new Font("Clear Sans", Font.PLAIN, 13)); 
 		g.setColor(new Color(187, 173, 160));
 		g.fillRoundRect(0+Constants.Padding, 0, (grille.cols) * 20 +1, (grille.rows)*20+1, 10, 10);
