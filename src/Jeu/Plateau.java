@@ -1,18 +1,27 @@
 package Jeu;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayDeque;
-import java.util.Timer;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import Briques.Brique;
+import Briques.Case;
 import Patterns.Observer;
 
 public class Plateau extends JPanel implements KeyListener, MouseListener {
@@ -28,10 +37,46 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 	
 	GameMode current;
 	public int playerId;
+	private Image fond;
+	private Image grilleImg;
+	private Image scoreImg;
+	private Image next;
+	private JButton wordle;
 	
 	public Plateau(int player){
 		this.setFocusable(true);
 		this.requestFocus();
+		this.setLayout(null);
+		
+		ImageIcon a = new ImageIcon("resources/fond.jpg", ""); 
+		fond = a.getImage();
+		a = new ImageIcon("resources/grille.png", "");
+		grilleImg = a.getImage();
+		a = new ImageIcon("resources/scoreImg.png", "");
+		scoreImg = a.getImage();
+		a = new ImageIcon("resources/next.png", "");
+		next = a.getImage();
+		a = new ImageIcon("resources/wordle.png", "");
+		wordle = new JButton(a);
+		super.setBackground(new Color(255,255,255,0));
+		this.add(wordle);
+		
+		
+		
+		
+		Insets insets = this.getInsets();
+		Dimension size = wordle.getPreferredSize();
+		wordle.setBounds(330 + insets.left, 455 + insets.top, size.width, size.height);
+		wordle.setFocusPainted( false );
+		wordle.setBorderPainted(false); 
+		wordle.setOpaque( false ); 
+		wordle.setContentAreaFilled(false);
+		wordle.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		
 		grille = new Grille();
 		
 		lStartTime = System.currentTimeMillis();
@@ -46,6 +91,7 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 			@Override
 			public void notify(String s, Object o) {
 				if(s == "line") {
+					System.out.println("line");
 					changeMode(new Anagramme(Plateau.this, (Integer)o));
 					score += 1;
 					if(difficulte > 1 && score % 5 == 0)
@@ -81,23 +127,28 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 	@Override
 	public void paint(Graphics g){
 		super.paint(g);
-		//g.setFont(new Font("Clear Sans", Font.PLAIN, 13)); 
-		g.setColor(new Color(187, 173, 160));
-		g.fillRoundRect(0+Constants.Padding, 0, (grille.cols+1) * 20 +1, (grille.rows+1)*20+1, 10, 10);
+		g.setFont(Constants.pacifico); 
+		g.setColor(new Color(81,20,21));
+		g.drawImage(fond, 0, 0, null);
+		g.drawString("Tetraword", 185, 25);
+		
+		g.drawImage(grilleImg, 10, 55, null);
+		
+		//g.setColor(new Color(187, 173, 160));
+		//g.fillRoundRect(0+Constants.Padding, 0, (grille.cols) * 20 +1, (grille.rows)*20+1, 10, 10);
 		
 
 		//Score
-		g.setColor(new Color(187, 173, 160));
-		g.fillRoundRect(250+Constants.Padding, 0, 100, 80, 10, 10);
+		g.drawImage(scoreImg, 330, 130, null);
 		g.setColor(Color.white);
-		g.drawString("Score", 270+Constants.Padding, 20);
+		g.drawString("Score", 330+Constants.Padding, 150);
 		
 		//Next brique
-		g.setColor(new Color(187, 173, 160));
-		g.fillRoundRect(250+Constants.Padding, 100, 100, 80, 10, 10);
+		g.drawImage(next, 330, 240, null);
 		g.setColor(Color.white);
-		g.drawString("Next Brique", 270+Constants.Padding, 120);
+		g.drawString("Next Brique", 330+Constants.Padding, 260);
 	
+		
 		current.draw(g);
 	}
 	
@@ -129,8 +180,8 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		int posX = e.getX();
-        int posY = e.getY();
+		int posX = (int)((e.getX()-10)/Case.size);
+        int posY = (int)((e.getY()-55)/Case.size);
         if(!clicked) {
         	current.click(posX, posY);
         	clicked = true;

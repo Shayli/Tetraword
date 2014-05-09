@@ -3,9 +3,6 @@ package Jeu;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
@@ -15,49 +12,46 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import Briques.Case;
 
 public class Jeu extends JFrame implements WindowListener {
 	private Plateau plateau;
+	private JPanel home;
 	private JPanel content = new JPanel(new BorderLayout());
-	private JLabel welcome = new JLabel();
-	private Menu menu = new Menu();
 	private int currMode = 1; //1 pour Tetris, 2 pour Anagramme, 3 pour Worddle 
+	private Boolean started = false;
 	
 	public Jeu(){
 		    this.setTitle("Tetraword");
-		    this.setSize(500, 500);
+		    this.setSize(500, 700);
 		    this.setLocationRelativeTo(null);
-		    this.setBackground(new Color(250, 248, 239));
-		    JPanel north = new JPanel();
+//		    this.setBackground(new Color(250, 248, 239));
+		    
+		   /* JPanel north = new JPanel();
 		    JLabel tetraword = new JLabel(); 
 		    tetraword.setFont(new Font("Clear Sans", Font.PLAIN, 30)); 
 		    tetraword.setText("Tetraword");
 		    tetraword.setForeground(new Color(119, 110, 101));
 		    plateau = new Plateau(0);
 		    north.add(tetraword);
-		    welcome.setText("Bienvenue sur Tetraword. Utilisez le menu pour lancer une partie");
-		    north.add(welcome);
 		    content.add(north, BorderLayout.NORTH);
+		    content.add(plateau, BorderLayout.CENTER)*/
 		    
-		   
-		    content.add(plateau, BorderLayout.CENTER);
+		    home = new Home(this);
+	        //this.setContentPane(content);
+		    this.setContentPane(home);
 		    
-		  /*  final JPanel casePan = new JPanel() {
-	            @Override
-	            protected void paintComponent(Graphics g) {
-	                super.paintComponent(g);
-	                c = new Case(100, 50, 'A', 30);
-	                c.draw(g);
-	            }
-	        };
-	        content.add(casePan, BorderLayout.CENTER);
-	        */
-	        this.setContentPane(content);
-	        this.setJMenuBar(menu);
 		    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		    this.setVisible(true);
 		
+	}
+	
+	public void solo(){
+	    plateau = new Plateau(0);
+	    content.add(plateau, BorderLayout.CENTER);
+	    this.setContentPane(content);
+	    this.repaint();
+	    plateau.requestFocus();
+	    started = true;
 	}
 	
 	public static void main(String[] args){
@@ -82,15 +76,16 @@ public class Jeu extends JFrame implements WindowListener {
 	public void run() {
 		while(true) {
 			//System.out.println("update");
-			plateau.update();
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					plateau.revalidate();
-					plateau.repaint();
-				}
-			});
-
+			if(started){
+				plateau.update();
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						plateau.revalidate();
+						plateau.repaint();
+					}
+				});
+			}
 			try {
 				Thread.sleep(40);
 			} catch (InterruptedException e) {

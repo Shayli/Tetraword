@@ -16,10 +16,10 @@ public class Cross extends Brique {
 	public Cross(Grille g) {
 		super(g, Constants.Cross);
 		state = 0;
-		cases.add(new Case(-1,0, 20));
-		cases.add(new Case(0, 0, 20));
-		cases.add(new Case(1, 0, 20));
-		cases.add(new Case(0, 1, 20));
+		cases.add(new Case(-1,0, 33));
+		cases.add(new Case(0, 0, 33));
+		cases.add(new Case(1, 0, 33));
+		cases.add(new Case(0, 1, 33));
 	}
 
 	public void rotate() {

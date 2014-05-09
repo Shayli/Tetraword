@@ -1,9 +1,13 @@
 package Jeu;
 
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -14,18 +18,22 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 import javax.swing.ImageIcon;
-import javax.swing.text.html.HTMLDocument.Iterator;
 
 public class Constants {
 	public static int[][] Commands = null;
 	public static int Padding = 20;
+	public static int MarginImg = 4;
 	public static Image Cross;
 	public static Image S;
+	public static Image S2;
 	public static Image Bar;
 	public static Image L;
+	public static Image L2;
 	public static Image Cube;
 	public static Map<Character, Integer> letter; 
 	public static LinkedList<String> dictionary;
+	public static Font pacifico;
+	public static LinkedList<String> shortWords;
 	
 	public static class Key{
 		static int ROTATE = 0;
@@ -36,24 +44,41 @@ public class Constants {
 	}
 	
 	public static void initialize(){
-		ImageIcon a = new ImageIcon("resources/cross.png", ""); 
+		ImageIcon a = new ImageIcon("resources/1.png", ""); 
 		Cross = a.getImage();
-		a = new ImageIcon("resources/S.png", ""); 
+		a = new ImageIcon("resources/2.png", ""); 
 		S = a.getImage();
-		a = new ImageIcon("resources/bar.png", ""); 
+		a = new ImageIcon("resources/6.png", ""); 
+		S2 = a.getImage();
+		a = new ImageIcon("resources/3.png", ""); 
 		Bar = a.getImage();
-		a = new ImageIcon("resources/L.png", ""); 
+		a = new ImageIcon("resources/4.png", ""); 
 		L = a.getImage();
-		a = new ImageIcon("resources/cube.png", ""); 
+		a = new ImageIcon("resources/7.png", ""); 
+		L2 = a.getImage();
+		a = new ImageIcon("resources/5.png", ""); 
 		Cube = a.getImage();
 		letter = new HashMap<Character, Integer>();
 		dictionary = new LinkedList<String>();
+		shortWords = new LinkedList<String>();
 		loadDictionary("french");
 		
 		Commands = new int[3][5];
 		loadCommands(0,KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER);
 		loadCommands(1,KeyEvent.VK_Z, KeyEvent.VK_S, KeyEvent.VK_Q, KeyEvent.VK_D, KeyEvent.VK_A);
 		loadCommands(2,KeyEvent.VK_I, KeyEvent.VK_K, KeyEvent.VK_J, KeyEvent.VK_L, KeyEvent.VK_U);
+	
+		try {
+			pacifico = Font.createFont(Font.TRUETYPE_FONT, new File("resources/Pacifico.ttf"));
+			pacifico = pacifico.deriveFont(Font.PLAIN,18);
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			ge.registerFont(pacifico);
+		} catch (FontFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 	
 	private static void loadCommands(int i, int vkUp, int vkDown, int vkLeft, int vkRight, int vkEnter) {
@@ -81,9 +106,19 @@ public class Constants {
 			while (scanner.hasNextLine()) {
 			    String line = scanner.nextLine();
 			    line = line.toLowerCase();
+<<<<<<< HEAD
 			    line = line.replace('à','a').replace('é', 'e').replace('ê', 'e').replace('è', 'e').replace('ä', 'a').replace('ï', 'i').replace('ë', 'e');
 			    if(!p.matcher(line).find() && line.length() <= 11)
 			    	dictionary.add(line.toUpperCase());
+=======
+			    line = line.replace('à','a').replace('é', 'e').replace('ê', 'e').replace('è', 'e').replace('ä', 'a').replace('ï', 'i').replace('ë', 'e').replace('ç', 'c');
+			    if(!p.matcher(line).find()) {
+			    	if(line.length() <= Grille.cols)
+			    		shortWords.add(line.toUpperCase());
+		    		else
+		    			dictionary.add(line.toUpperCase());
+			    }
+>>>>>>> origin/master
 			}
 			//System.out.println(dictionary); 
 			scanner.close();
@@ -106,7 +141,7 @@ public class Constants {
 	}
 	
 	public static boolean wordExists(String word){
-		return dictionary.contains(word);
+		return dictionary.contains(word) || shortWords.contains(word);
 	}
 	
 	public static void printDico() {
@@ -123,11 +158,12 @@ public class Constants {
 		Collections.sort(comb.stock, new LengthComparator());
         Collections.reverse(comb.stock);
                 
-        ListIterator it = dictionary.listIterator();
+        ListIterator it = shortWords.listIterator();
         
         	//System.out.println(s);
         	for(int i=0; i<comb.stock.size(); i++) {
         		//System.out.println(comb.stock.get(i));
+<<<<<<< HEAD
         		it = dictionary.listIterator(0); 
         		while(it.hasNext() ) {
                 	
@@ -141,6 +177,15 @@ public class Constants {
 		    			
 		    		} 
         			
+=======
+        		it = shortWords.listIterator(0); 
+        		while(it.hasNext()) {
+                	String s = (String)it.next();		    		
+		    		b = isAnagram(comb.stock.get(i), s);		    		
+			    	if(b) {			    		
+			    		return  s; 	    		
+			    	}
+>>>>>>> origin/master
         		}
         	}  
 			

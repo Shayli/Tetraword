@@ -1,5 +1,6 @@
 package Jeu;
 
+import java.awt.Font;
 import java.awt.Graphics;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -10,8 +11,8 @@ import Briques.Case;
 import Patterns.Observable;
 
 public class Grille {
-	public static final int cols = 10;
-	public static final int rows = 17;
+	public static final int cols = 8;
+	public static final int rows = 16;
 	public LinkedList<Brique> briques;
 	protected Brique currentBrique;
 	protected Brique nextBrique;
@@ -35,6 +36,7 @@ public class Grille {
 
 	public void draw(Graphics g) {
 		// TODO Auto-generated method stub
+		g.setFont(new Font("Helvetica", Font.BOLD,18));
 		mutex.lock();
 		for(Brique b : briques) {
 			b.draw(g);
@@ -47,7 +49,7 @@ public class Grille {
 	}
 
 	public boolean isEmpty(int x, int y) {
-		if(x < 0 || x > cols || y > rows)
+		if(x < 0 || x >= cols || y >= rows)
 			return false;
 		
 		for(Brique b: briques) {
@@ -62,7 +64,7 @@ public class Grille {
 	}
 	
 	public Case getCase(int x, int y) {
-		if(x < 0 || x > cols || y > rows)
+		if(x < 0 || x >= cols || y >= rows)
 			return null;
 		
 		for(Brique b: briques) {
@@ -95,9 +97,9 @@ public class Grille {
 	}
 
 	private void checkLine() {
-		for(rowChecker = rows; rowChecker > 0; --rowChecker) {
+		for(rowChecker = rows-1; rowChecker >= 0; --rowChecker) {
 			boolean full = true;
-			for(int x = 0; x <= cols; ++x) {
+			for(int x = 0; x < cols; ++x) {
 				if(isEmpty(x,rowChecker)) {
 					full = false;
 					break;
@@ -121,8 +123,8 @@ public class Grille {
 		}
 		Brique tmp = nextBrique;
 		nextBrique = nextBrique();
-		nextBrique.x = cols+cols/2;
-		nextBrique.y = rows/3+2;
+		nextBrique.x = cols+cols/4;
+		nextBrique.y = rows/3+1;
 		tmp.x = cols/2;
 		tmp.y = 0;
 		return tmp;
