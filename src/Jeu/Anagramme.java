@@ -78,14 +78,13 @@ public class Anagramme extends GameMode {
 		}
 	
 	public void click(int x, int y) {
-		//grille;
-		if(nbLetters == 11) this.found = win();
+
+		if(nbLetters == Grille.cols) this.found = win();
 		if(y == this.currentRow) {
 			Case c = grille.getCase(x, y);
 			if(c != null) {
 				this.currentWord += c.letter();
 				this.nbLetters++; 
-				System.out.println(currentWord);
 			}
 			
 			

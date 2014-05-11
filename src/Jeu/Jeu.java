@@ -161,11 +161,13 @@ public class Jeu extends JFrame implements KeyListener, MouseListener  {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		int posX = (int)((e.getX()-10)/Case.size);
-        int posY = (int)((e.getY()-55)/Case.size);
+		int posX = e.getX();
+        int posY = e.getY();
         if(!clicked) {
-        	for(Plateau p: plateaux)
-        		p.click(posX,posY);
+        	for(Plateau p: plateaux) {
+        		p.click((int)((posX-10)/Case.size),(int)((posY-80)/Case.size));
+        		posX -= 500;
+        	}
         
         	clicked = true;
         }

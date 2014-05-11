@@ -150,7 +150,6 @@ public class Plateau extends JPanel {
 
 	public void click(int posX, int posY) {
 		current.click(posX, posY);
-		
 	}
 
 	public void keyReleased(int k) {
