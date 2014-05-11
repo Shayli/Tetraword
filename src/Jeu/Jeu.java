@@ -1,29 +1,35 @@
 package Jeu;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import Briques.Case;
 
-public class Jeu extends JFrame implements WindowListener {
-	private Plateau plateau;
+
+public class Jeu extends JFrame implements KeyListener, MouseListener  {
+	private ArrayList<Plateau> plateaux;
 	private JPanel home;
-	private JPanel content = new JPanel(new BorderLayout());
+	private JPanel content;
 	private int currMode = 1; //1 pour Tetris, 2 pour Anagramme, 3 pour Worddle 
 	private Boolean started = false;
+	private boolean clicked;
 	
 	public Jeu(){
 		    this.setTitle("Tetraword");
 		    this.setSize(500, 700);
 		    this.setLocationRelativeTo(null);
+		    plateaux = new ArrayList<Plateau>();
 //		    this.setBackground(new Color(250, 248, 239));
 		    
 		   /* JPanel north = new JPanel();
@@ -42,16 +48,33 @@ public class Jeu extends JFrame implements WindowListener {
 		    
 		    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		    this.setVisible(true);
-		
+		this.setFocusable(true);
+		this.addKeyListener(this);
+		this.addMouseListener(this);
+		this.requestFocus();
 	}
 	
 	public void solo(){
-	    plateau = new Plateau(0);
-	    content.add(plateau, BorderLayout.CENTER);
+	    plateaux.add(new Plateau(0));
+	    content  = new JPanel(new GridLayout(1,1));
+	    content.add(plateaux.get(0));
 	    this.setContentPane(content);
 	    this.repaint();
-	    plateau.requestFocus();
 	    started = true;
+	    this.requestFocus();
+	}
+	
+	public void duo(){
+		this.setSize(1000, 700);
+		plateaux.add(new Plateau(0));
+		plateaux.add(new Plateau(1));
+		content = new JPanel(new GridLayout(1,2));
+		content.add(plateaux.get(0));
+		content.add(plateaux.get(1));
+		this.setContentPane(content);
+	    this.repaint();
+	    started = true;
+	    this.requestFocus();
 	}
 	
 	public static void main(String[] args){
@@ -68,6 +91,7 @@ public class Jeu extends JFrame implements WindowListener {
 		}
 	}
 	
+	
 	public void startGame(int n){
 		//plateau = new Plateau();
 		System.out.println(n+" joueurs");
@@ -77,12 +101,15 @@ public class Jeu extends JFrame implements WindowListener {
 		while(true) {
 			//System.out.println("update");
 			if(started){
-				plateau.update();
+				for(Plateau p: plateaux)
+					p.update();
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						plateau.revalidate();
-						plateau.repaint();
+						for(Plateau p: plateaux) {
+							p.revalidate();
+							p.repaint();
+						}
 					}
 				});
 			}
@@ -98,25 +125,49 @@ public class Jeu extends JFrame implements WindowListener {
 	public void stopGame(){
 		
 	}
+	@Override
+	public void keyPressed(KeyEvent e) {
+		int k = e.getKeyCode();
+		for(Plateau p: plateaux)
+			p.keyPressed(k);
+	}
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		int k = arg0.getKeyCode();
+		for(Plateau p: plateaux)
+			p.keyReleased(k);
+	}
+	@Override
+	public void keyTyped(KeyEvent arg0) {}
+	
+	@Override
+	public void mouseClicked(MouseEvent e) {
+	/*	int posX = e.getX();
+        int posY = e.getY();
+        
+        current.click(posX, posY);*/
+	}
 
 	@Override
-	public void windowActivated(WindowEvent e) {}
+	public void mouseEntered(MouseEvent e) {}
 
 	@Override
-	public void windowClosed(WindowEvent e) {}
+	public void mouseExited(MouseEvent e) {}
 
 	@Override
-	public void windowClosing(WindowEvent e) {}
+	public void mouseReleased(MouseEvent e) {
+		clicked = false;
+	}
 
 	@Override
-	public void windowDeactivated(WindowEvent e) {}
-
-	@Override
-	public void windowDeiconified(WindowEvent e) {}
-
-	@Override
-	public void windowIconified(WindowEvent e) {}
-
-	@Override
-	public void windowOpened(WindowEvent e) {}
+	public void mousePressed(MouseEvent e) {
+		int posX = (int)((e.getX()-10)/Case.size);
+        int posY = (int)((e.getY()-55)/Case.size);
+        if(!clicked) {
+        	for(Plateau p: plateaux)
+        		p.click(posX,posY);
+        
+        	clicked = true;
+        }
+    }
 }

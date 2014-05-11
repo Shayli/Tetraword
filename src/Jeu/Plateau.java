@@ -24,7 +24,7 @@ import javax.swing.JPanel;
 import Briques.Case;
 import Patterns.Observer;
 
-public class Plateau extends JPanel implements KeyListener, MouseListener {
+public class Plateau extends JPanel {
 	
 	public Grille grille;
 	private Difficulte dif;
@@ -33,23 +33,23 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 	private int score;
 	private long lStartTime;
 	private int difficulte;
-	private boolean clicked;
 	
 	GameMode current;
 	public int playerId;
 	private Image fond;
+	private Image fond2;
 	private Image grilleImg;
 	private Image scoreImg;
 	private Image next;
 	private JButton wordle;
 	
 	public Plateau(int player){
-		this.setFocusable(true);
-		this.requestFocus();
 		this.setLayout(null);
 		
-		ImageIcon a = new ImageIcon("resources/fond.jpg", ""); 
+		ImageIcon a = new ImageIcon("resources/fond1.jpg", ""); 
 		fond = a.getImage();
+		a = new ImageIcon("resources/fond2.jpg", ""); 
+		fond2 = a.getImage();
 		a = new ImageIcon("resources/grille.png", "");
 		grilleImg = a.getImage();
 		a = new ImageIcon("resources/scoreImg.png", "");
@@ -83,9 +83,7 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 		difficulte = 10;
 		playerId = player;
 		current = new Tetris(this);
-		clicked = false;
-		addKeyListener(this);
-		addMouseListener(this);
+
 		grille.events.add(new Observer() {
 
 			@Override
@@ -103,30 +101,16 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 		});
 	}
 	
-	public void destroyLine(int x){
-		
-	}
-	public void destroyBrick(int x, int y){
-	
-	}
-	@Override
-	public void keyPressed(KeyEvent e) {
-		int k = e.getKeyCode();
-		current.keyPress(k);
-		revalidate();
-		repaint();
-	}
-	@Override
-	public void keyReleased(KeyEvent arg0) {
-		int k = arg0.getKeyCode();
-		current.keyRelease(k);
-	}
-	@Override
-	public void keyTyped(KeyEvent arg0) {}
+
 	
 	@Override
 	public void paint(Graphics g){
-		g.drawImage(fond, 0, 0, null);
+		if(playerId == 0){
+			g.drawImage(fond, 0, 0, null);
+		}else{
+			g.drawImage(fond2, 0, 0, null);
+		}
+		
 		super.paint(g);
 		g.setFont(Constants.pacifico); 
 		g.setColor(new Color(81,20,21));
@@ -160,36 +144,20 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 		lStartTime = lEndTime;
 	}
 
-	@Override
-	public void mouseClicked(MouseEvent e) {
-	/*	int posX = e.getX();
-        int posY = e.getY();
-        
-        current.click(posX, posY);*/
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {}
-
-	@Override
-	public void mouseExited(MouseEvent e) {}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		clicked = false;
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		int posX = (int)((e.getX()-10)/Case.size);
-        int posY = (int)((e.getY()-55)/Case.size);
-        if(!clicked) {
-        	current.click(posX, posY);
-        	clicked = true;
-        }
-    }
-	
 	public void changeMode(GameMode mode) {
 		current = mode;
+	}
+
+	public void click(int posX, int posY) {
+		current.click(posX, posY);
+		
+	}
+
+	public void keyReleased(int k) {
+		current.keyRelease(k);
+	}
+
+	public void keyPressed(int k) {
+		current.keyPress(k);
 	}
 }

@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 public class Home extends JPanel implements ActionListener{
 	private Image fond; 
 	private JButton solo;
-	private JButton multi;
+	private JButton versus;
 	private JButton settings;
 	
 	
@@ -26,10 +26,10 @@ public class Home extends JPanel implements ActionListener{
 		fond = a.getImage();
 		a = new ImageIcon("resources/button.png", ""); 
 		solo = new JButton("Solo",a);
-		multi = new JButton("Multi", a);
+		versus = new JButton("Versus", a);
 		settings = new JButton("Settings", a);
 		this.add(solo);
-		this.add(multi);
+		this.add(versus);
 		this.add(settings);
 		Insets insets = this.getInsets();
 		Dimension size = solo.getPreferredSize();
@@ -47,18 +47,19 @@ public class Home extends JPanel implements ActionListener{
 				jeu.solo();
 			}
 		});
-		size = multi.getPreferredSize();
-		multi.setBounds(179 + insets.left, 505 + insets.top, size.width, size.height);
-		multi.setFocusPainted( false );
-		multi.setBorderPainted(false); 
-		multi.setOpaque( false ); 
-		multi.setContentAreaFilled(false);
-		multi.setHorizontalTextPosition(JButton.CENTER);
-		multi.setVerticalTextPosition(JButton.CENTER);
-		multi.setFont(Constants.pacifico);
-		multi.setForeground(Color.white);
-		multi.addActionListener(new ActionListener() {
+		size = versus.getPreferredSize();
+		versus.setBounds(179 + insets.left, 505 + insets.top, size.width, size.height);
+		versus.setFocusPainted( false );
+		versus.setBorderPainted(false); 
+		versus.setOpaque( false ); 
+		versus.setContentAreaFilled(false);
+		versus.setHorizontalTextPosition(JButton.CENTER);
+		versus.setVerticalTextPosition(JButton.CENTER);
+		versus.setFont(Constants.pacifico);
+		versus.setForeground(Color.white);
+		versus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				jeu.duo();
 			}
 		});
 		size = settings.getPreferredSize();
