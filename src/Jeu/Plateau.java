@@ -41,7 +41,7 @@ public class Plateau extends JPanel {
 	private Image grilleImg;
 	private Image scoreImg;
 	private Image next;
-	private JButton wordle;
+	public JButton wordle;
 	
 	public Plateau(int player){
 		this.setLayout(null);
