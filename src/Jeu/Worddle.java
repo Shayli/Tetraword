@@ -51,6 +51,10 @@ public class Worddle extends GameMode {
 		if(Math.abs(lastPoint.x-curr.x) > 1 || Math.abs(lastPoint.y-curr.y) > 1)
 			return;
 		
+		for(Point p : points.get(points.size()-1)){
+			if(curr.equals(p))
+				return;
+		}
 		lastPoint = curr;
 		Case c = grille.getCase(x, y);
 		if(c != null) {
@@ -82,6 +86,8 @@ public class Worddle extends GameMode {
 				Point p = points.get(points.size()-1).get(0);
 				points.get(points.size()-1).clear();
 				points.get(points.size()-1).add(p);
+				currentWord += grille.getCase(p.x, p.y).letter();
+				lastPoint = p;
 			}
 		}
 	}

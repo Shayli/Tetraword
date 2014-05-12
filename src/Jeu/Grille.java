@@ -48,16 +48,16 @@ public class Grille {
 		mutex.unlock();
 	}
 
-	public boolean isEmpty(int x, int y) {
-		if(x < 0 || x >= cols || y >= rows)
+	public boolean isEmpty(float f, float y) {
+		if((int)f < 0 || (int)f >= cols || y >= rows)
 			return false;
 		
 		for(Brique b: briques) {
-			if(b.isHere(x,y))
+			if(b.isHere((int)f,(int)y))
 				return false;
 		}
 		
-		if(currentBrique != null && currentBrique.isHere(x, y))
+		if(currentBrique != null && currentBrique.isHere((int)f, (int)y))
 			return false;
 		
 		return true;
@@ -123,8 +123,38 @@ public class Grille {
 		}
 		Brique tmp = nextBrique;
 		nextBrique = nextBrique();
-		nextBrique.x = cols+cols/4;
-		nextBrique.y = rows/3+1;
+		if(nextBrique instanceof Briques.L){
+			nextBrique.x = cols+cols/4;
+			nextBrique.y = rows/3+1;
+		}
+		if(nextBrique instanceof Briques.L){
+			nextBrique.x = cols+cols/4;
+			nextBrique.y = rows/3+1;
+		}
+		if(nextBrique instanceof Briques.L2){
+			nextBrique.x = cols+cols/4;
+			nextBrique.y = rows/3+2;
+		}
+		if(nextBrique instanceof Briques.S){
+			nextBrique.x = cols+cols/4;
+			nextBrique.y = rows/3+1;
+		}
+		if(nextBrique instanceof Briques.S2){
+			nextBrique.x = cols+cols/4;
+			nextBrique.y = rows/3+2;
+		}
+		if(nextBrique instanceof Briques.Cross){
+			nextBrique.x = cols+cols/4;
+			nextBrique.y = rows/3+1;
+		}
+		if(nextBrique instanceof Briques.Cube){
+			nextBrique.x = cols+cols/5;
+			nextBrique.y = rows/3+1;
+		}
+		if(nextBrique instanceof Briques.Bar){
+			nextBrique.x = cols+cols/3.2f;
+			nextBrique.y = rows/3+1;
+		}
 		tmp.x = cols/2;
 		tmp.y = 0;
 		return tmp;

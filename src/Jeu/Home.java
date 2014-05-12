@@ -48,7 +48,7 @@ public class Home extends JPanel implements ActionListener{
 			}
 		});
 		size = versus.getPreferredSize();
-		versus.setBounds(179 + insets.left, 505 + insets.top, size.width, size.height);
+		versus.setBounds(173 + insets.left, 505 + insets.top, size.width, size.height);
 		versus.setFocusPainted( false );
 		versus.setBorderPainted(false); 
 		versus.setOpaque( false ); 

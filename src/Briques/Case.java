@@ -18,15 +18,15 @@ public class Case {
 		this.a = Constants.randomLetter();
 	}
 	
-	public void draw(Graphics g, int x1, int y1, Image i) { 
-		if(y1+y >= 0){
-			g.drawImage (i,(int)((x1+x)*size+10+Constants.MarginImg), (int)((y1+y)*size+55+Constants.MarginImg), null ); 
+	public void draw(Graphics g, float x2, float y2, Image i) { 
+		if(y2+y >= 0){
+			g.drawImage (i,(int)((x2+x)*size+10+Constants.MarginImg), (int)((y2+y)*size+55+Constants.MarginImg), null ); 
 			String s = "" +a ;
 			//g.setColor(Color.red);
 			//g.drawRect((x1+x)*size, (y1+y)*size, size, size);
 			//g.fillRect((x1+x)*size, (y1+y)*size, size, size);
 			g.setColor(Color.black);
-			g.drawString(s, (int)((x1+x)*size+Constants.Padding+4), (int)((y1+y)*size+80));
+			g.drawString(s, (int)((x2+x)*size+Constants.Padding+4), (int)((y2+y)*size+80));
 		}
 	}
 

@@ -23,7 +23,7 @@ import Jeu.Grille;
 abstract public class Brique {
 	public ArrayList<Case> cases;
 	public Grille grille;
-	public int x,y;
+	public float x,y;
 	private Image img;
 	
 	public Brique(Grille g, Image i) {

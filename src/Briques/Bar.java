@@ -13,6 +13,7 @@ public class Bar extends Brique {
 		cases.add(new Case(0,0, 33));
 		cases.add(new Case(0,1, 33));
 		cases.add(new Case(0,2, 33));
+		rotate();
 	}
 	
 	public void rotate() {
