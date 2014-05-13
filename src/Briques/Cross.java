@@ -17,14 +17,22 @@ public class Cross extends Brique {
 	 *  0		 1		 2		3
 	 */
 
-	public Cross(Grille g) {
-		super(g, Constants.Cross);
+	public Cross() {
+		super(Constants.Cross);
 		state = 0;
 		cases.add(new Case(-1,0, 33));
 		cases.add(new Case(0, 0, 33));
 		cases.add(new Case(1, 0, 33));
 		cases.add(new Case(0, 1, 33));
 	}
+	
+	public Cross clone() {
+		Cross b = new Cross();
+		b.x = x;
+		b.y = y;
+		return b;
+	}
+	
 
 	public void rotate() {
 		//System.out.println("rotate "+state);

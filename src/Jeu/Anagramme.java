@@ -144,6 +144,7 @@ public class Anagramme extends GameMode {
 		}
 		if(this.found) {
 			grille.removeRow(currentRow);
+			plateau.addPoints(currentWord.length()*100 / bestWord.length());
 			if(rowsLeft.isEmpty())
 			{
 				plateau.changeMode(new Tetris(plateau));

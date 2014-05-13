@@ -18,13 +18,20 @@ public class L extends Brique {
 	 * 
 	 */
 
-	public L(Grille g) {
-		super(g, Constants.L);
+	public L() {
+		super(Constants.L);
 		state = 0;
 		cases.add(new Case(-1,1, 37.5));
 		cases.add(new Case(-1,0, 37.5));
 		cases.add(new Case(0,0, 37.5));
 		cases.add(new Case(1, 0, 37.5));
+	}
+	
+	public L clone() {
+		L b = new L();
+		b.x = x;
+		b.y = y;
+		return b;
 	}
 	
 	public void rotate() {

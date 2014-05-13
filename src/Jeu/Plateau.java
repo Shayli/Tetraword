@@ -42,10 +42,11 @@ public class Plateau extends JPanel {
 	private Image scoreImg;
 	private Image next;
 	public JButton wordle;
+	private Jeu jeu;
 	
-	public Plateau(int player){
+	public Plateau(Jeu j, int player){
 		this.setLayout(null);
-		
+		jeu = j;
 		ImageIcon a = new ImageIcon("resources/fond1.jpg", ""); 
 		fond = a.getImage();
 		a = new ImageIcon("resources/fond2.jpg", ""); 
@@ -74,6 +75,7 @@ public class Plateau extends JPanel {
 		wordle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				current.keyPress(Constants.Commands[playerId][Key.MODE]);
+				jeu.requestFocus();
 			}
 		});
 		
@@ -90,18 +92,43 @@ public class Plateau extends JPanel {
 			public void notify(String s, Object o) {
 				if(s == "line") {
 					if(Constants.takeMouse()) {
-						changeMode(new Anagramme(Plateau.this, (Stack<Integer>)o));
-						score += 1;
-						if(difficulte > 1 && score % 5 == 0)
-							--difficulte;
+						Stack<Integer> o2 = (Stack<Integer>)o;
+						changeMode(new Anagramme(Plateau.this, o2));
+						score += 50*o2.size()*o2.size();
+						computeDifficulte();
 					}
 				} else if(s.equals("lose")) {
+					jeu.home();
 					System.out.println("Lose");
 				}
 				
 			}
 			
 		});
+	}
+	
+	private void computeDifficulte() {
+		if(score < 100)
+			difficulte = 10;
+		if(score < 200)
+			difficulte =  9;
+		if(score < 400)
+			difficulte =  8;
+		if(score < 800)
+			difficulte =  7;
+		if(score < 1600)
+			difficulte =  6;
+		if(score < 3200)
+			difficulte = 5;
+		if(score < 4800)
+			difficulte = 4;
+		if(score < 6400)
+			difficulte = 3;
+		if(score < 8000)
+			difficulte = 2;
+		if(score >= 8000)
+			difficulte = 1;
+		
 	}
 	
 
@@ -130,7 +157,7 @@ public class Plateau extends JPanel {
 		g.drawImage(scoreImg, 330, 130, null);
 		g.setColor(Color.white);
 		g.drawString("Score", 330+Constants.Padding, 150);
-		
+		g.drawString(""+score, 330+Constants.Padding, 180);
 		//Next brique
 		g.drawImage(next, 330, 240, null);
 		g.setColor(Color.white);
@@ -165,5 +192,11 @@ public class Plateau extends JPanel {
 
 	public void keyPressed(int k) {
 		current.keyPress(k);
+	}
+
+
+
+	public void addPoints(int i) {
+		score += i;
 	}
 }

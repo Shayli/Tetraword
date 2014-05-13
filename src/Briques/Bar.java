@@ -11,8 +11,8 @@ import Jeu.Grille;
  */
 public class Bar extends Brique {
 	
-	public Bar(Grille g) {
-		super(g, Constants.Bar);
+	public Bar() {
+		super(Constants.Bar);
 		state = 0;
 		cases.add(new Case(0,-1, 33));
 		cases.add(new Case(0,0, 33));
@@ -21,7 +21,17 @@ public class Bar extends Brique {
 		rotate();
 	}
 	
+	public Bar clone() {
+		Bar b = new Bar();
+		b.x = x;
+		b.y = y;
+		return b;
+	}
+	
+	
 	public void rotate() {
+		if(grille == null)
+			return;
 		//System.out.println(state);
 		switch(state){
 			case 0 : 

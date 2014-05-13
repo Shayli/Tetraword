@@ -19,6 +19,7 @@ import java.util.regex.Pattern;
 
 import javax.swing.ImageIcon;
 
+import Briques.Brique;
 import sun.awt.Mutex;
 
 /**
@@ -43,6 +44,8 @@ public class Constants {
 	public static Font pacifico;
 	public static LinkedList<String> shortWords;
 	private static boolean mouse;
+	private static Mutex mutexBrique;
+	private static HashMap<Integer, Brique> briques;
 	
 	public static class Key{
 		static int ROTATE = 0;
@@ -71,6 +74,9 @@ public class Constants {
 		dictionary = new LinkedList<String>();
 		shortWords = new LinkedList<String>();
 		mouse = false;
+		mutexBrique = new Mutex();
+		briques = new HashMap<Integer, Brique>();
+		
 		loadDictionary("french");
 		
 		Commands = new int[3][5];
@@ -228,5 +234,40 @@ public class Constants {
 		mouse = false;
 	}
 	
+	public static Brique nextBrique(Grille g, int i) {
+		Brique ret = null;
+		mutexBrique.lock();
+		if(briques.isEmpty() || !briques.containsKey(i)) {
+			ret = nextBrique();
+			briques.put(i, ret);
+		} else {
+			ret = briques.get(i).clone();
+			briques.remove(i);
+		}
+		mutexBrique.unlock();
+		ret.grille = g;
+		return ret;
+	}
 	
+	private static Brique nextBrique() {
+		int i = ((int)(Math.random()*100)) % 7;
+		switch(i) {
+		case 0:
+			return new Briques.L();
+		case 1:
+			return new Briques.L2();
+		case 2:
+			return new Briques.S();
+		case 3:
+			return new Briques.S2();
+		case 4:
+			return new Briques.Cross();
+		case 5:
+			return new Briques.Cube();
+		case 6:
+			return new Briques.Bar();
+		default:
+			return null;
+		}
+	}
 }

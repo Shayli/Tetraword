@@ -24,7 +24,8 @@ public class Grille {
 	protected Brique currentBrique;
 	protected Brique nextBrique;
 	public Observable events;
-	private Mutex mutex ;
+	private Mutex mutex;
+	private int nbBriques;
 	
 	public Grille() {
 		briques = new LinkedList<Brique>();
@@ -32,6 +33,7 @@ public class Grille {
 		currentBrique = next();
 		events = new Observable();
 		mutex = new Mutex();
+		nbBriques = 0;
 		//briques.add(new Briques.Cross(this));
 	}
 	
@@ -130,10 +132,10 @@ public class Grille {
 	
 	private Brique next() {
 		if(nextBrique == null) {
-			nextBrique = nextBrique();
+			nextBrique = Constants.nextBrique(this, nbBriques++);
 		}
 		Brique tmp = nextBrique;
-		nextBrique = nextBrique();
+		nextBrique = Constants.nextBrique(this, nbBriques++);
 		if(nextBrique instanceof Briques.L){
 			nextBrique.x = cols+cols/4;
 			nextBrique.y = rows/3+1;
@@ -171,27 +173,7 @@ public class Grille {
 		return tmp;
 	}
 
-	private Brique nextBrique() {
-		int i = ((int)(Math.random()*100)) % 7;
-		switch(i) {
-		case 0:
-			return new Briques.L(this);
-		case 1:
-			return new Briques.L2(this);
-		case 2:
-			return new Briques.S(this);
-		case 3:
-			return new Briques.S2(this);
-		case 4:
-			return new Briques.Cross(this);
-		case 5:
-			return new Briques.Cube(this);
-		case 6:
-			return new Briques.Bar(this);
-		default:
-			return null;
-		}
-	}
+
 
 	public void rotateCurrent() {
 		if(currentBrique != null)

@@ -9,12 +9,19 @@ import Jeu.Grille;
  * @version 1 
  */
 public class Cube extends Brique {
-	public Cube(Grille g){
-		super(g, Constants.Cube);
+	public Cube(){
+		super(Constants.Cube);
 		cases.add(new Case(0, 0, 33));
 		cases.add(new Case(1, 0, 33));
 		cases.add(new Case(1, 1, 33));
 		cases.add(new Case(0, 1, 33));
+	}
+	
+	public Cube clone() {
+		Cube b = new Cube();
+		b.x = x;
+		b.y = y;
+		return b;
 	}
 	
 	public boolean down() {

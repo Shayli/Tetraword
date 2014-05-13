@@ -37,9 +37,8 @@ public class Jeu extends JFrame implements KeyListener, MouseListener  {
 	    this.setSize(500, 700);
 	    this.setLocationRelativeTo(null);
 	    plateaux = new ArrayList<Plateau>();
-
 	    home = new Home(this);
-	    this.setContentPane(home);
+	    home();
 	    
 	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    this.setVisible(true);
@@ -50,13 +49,14 @@ public class Jeu extends JFrame implements KeyListener, MouseListener  {
 	}
 	
 	public void home(){
+		started = false;
 		this.setContentPane(home);
 		this.validate();
 		this.repaint();
 	}
 	
 	public void solo(){
-	    plateaux.add(new Plateau(0));
+	    plateaux.add(new Plateau(this,0));
 	    content  = new JPanel(new GridLayout(1,1));
 	    content.add(plateaux.get(0));
 	    this.setContentPane(content);
@@ -67,8 +67,8 @@ public class Jeu extends JFrame implements KeyListener, MouseListener  {
 	
 	public void duo(){
 		this.setSize(1000, 700);
-		plateaux.add(new Plateau(0));
-		plateaux.add(new Plateau(1));
+		plateaux.add(new Plateau(this, 0));
+		plateaux.add(new Plateau(this, 1));
 		content = new JPanel(new GridLayout(1,2));
 		content.add(plateaux.get(0));
 		content.add(plateaux.get(1));

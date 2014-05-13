@@ -36,14 +36,15 @@ abstract public class Brique {
      */
 	protected int state;
 	
-	public Brique(Grille g, Image i) {
-		grille = g;
+	public Brique(Image i) {
 		cases = new ArrayList<Case>();
 		x = Grille.cols/2;
 		y = 0;
 		img = i;
 	}
 	
+	public abstract Brique clone();
+
 	public void draw(Graphics g){
 		for(Case c: cases) {
 			c.draw(g,x,y,img);
