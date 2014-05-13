@@ -7,6 +7,16 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Stack;
+
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -87,7 +97,7 @@ public class Plateau extends JPanel {
 			public void notify(String s, Object o) {
 				if(s == "line") {
 					System.out.println("line");
-					changeMode(new Anagramme(Plateau.this, (Integer)o));
+					changeMode(new Anagramme(Plateau.this, (Stack<Integer>)o));
 					score += 1;
 					if(difficulte > 1 && score % 5 == 0)
 						--difficulte;

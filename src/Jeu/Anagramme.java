@@ -1,8 +1,15 @@
 package Jeu;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Stack;
 
 import javax.swing.ImageIcon;
 
@@ -25,22 +32,33 @@ public class Anagramme extends GameMode {
 	private int difficulty; //pourcentage de lettres en commun avec ke bestword pour gagner
 	private long timeLeft;
 	private Image anagramme;
-	
-	public Anagramme(Plateau p, int nbrow) {
+	private ArrayList<Point> points;
+	private Stack<Integer> rowsLeft;
+
+	public Anagramme(Plateau p, Stack<Integer> o) {
 		super(p);
-		this.currentWord = "";
-		this.nbLetters = 0; 
+		rowsLeft = o;
 		this.difficulty= 50; 
-		this.found = false; 
-		this.currentRow = nbrow;
-		this.base = getStringLine(p,nbrow); 
-		this.bestWord = Constants.findBestWord(base); 
+		 
+		
+		points = new ArrayList<Point>();
 		timeLeft = 0;
-		System.out.println("Base :  " + base);
-		System.out.println("Best Word : " + bestWord);
+		
+		initWords();
 		
 		ImageIcon a = new ImageIcon("resources/anagramme.png", ""); 
 		anagramme = a.getImage();
+	}
+	
+	public void initWords()
+	{
+		reset();
+		this.found = false;
+		this.currentRow = rowsLeft.pop();
+		this.base = getStringLine(plateau,currentRow); 
+		this.bestWord = Constants.findBestWord(base); 
+		System.out.println("Base :  " + base);
+		System.out.println("Best Word : " + bestWord);
 	}
 	
 	public static String getStringLine(Plateau p, int nbrow) {
@@ -54,7 +72,8 @@ public class Anagramme extends GameMode {
 	
 	public void reset() { //recommencer tant qu'on a pas trouv�
 		this.currentWord = ""; 
-		this.nbLetters = 0; 
+		this.nbLetters = 0;
+		points.clear();
 	}
 	
 	public boolean win() {
@@ -83,9 +102,15 @@ public class Anagramme extends GameMode {
 		if(nbLetters == Grille.cols) this.found = win();
 		if(y == this.currentRow) {
 			Case c = grille.getCase(x, y);
+			
 			if(c != null) {
+				Point p = new Point(x,y);
+				if(points.contains(p))
+					return;
+				
 				this.currentWord += c.letter();
 				this.nbLetters++; 
+				points.add(p);
 			}
 			
 			
@@ -115,20 +140,17 @@ public class Anagramme extends GameMode {
 	@Override
 	public void update(long msecElapsed) {
 		timeLeft += msecElapsed;
-		if(timeLeft <= 0) {
-			if(win()) {
-				grille.removeRow(currentRow);
-			}
-			plateau.changeMode(new Tetris(plateau));
-			return;
-		}
 		if(nbLetters == Grille.cols) {
 			this.found = win();
 			if(!this.found) reset(); 
 		}
 		if(this.found) {
 			grille.removeRow(currentRow);
-			plateau.changeMode(new Tetris(plateau));
+			if(rowsLeft.isEmpty())
+				plateau.changeMode(new Tetris(plateau));
+			else {
+				initWords();
+			}
 		}
 	}
 
@@ -139,12 +161,27 @@ public class Anagramme extends GameMode {
 		g.setFont(Constants.pacifico); 
 		g.setColor(Color.white);		
 		int sec = (int)timeLeft/1000;
-		g.drawString("Time spend: "+sec, 355, 90);
+		g.drawString("Time spent: "+sec, 355, 90);
 		g.drawString(currentWord.toLowerCase(), 380, 577);
 		
+<<<<<<< HEAD
 		g.drawString("Appuyez sur "+Constants.getCommand(playerId, Key.MODE), 340, 620);
 		g.drawString("pour valider", 340, 645);
 		
+=======
+		{
+			Graphics2D g2 = (Graphics2D) g;
+			g2.setStroke(new BasicStroke(3));
+			g.setColor(Color.red);
+			g.drawRect((int)(Constants.MarginImg+5), (int)((currentRow+1)*Case.size+Constants.MarginImg+13), (int)(Grille.cols*Case.size), (int)(Case.size));
+		}
+		for(Point p: points) {
+			g.setColor(Color.red);
+			Graphics2D g2 = (Graphics2D) g;
+			g2.setStroke(new BasicStroke(3));
+			g.drawOval((int)(p.x*Case.size+8+Constants.MarginImg), (int)((p.y+1)*Case.size+12+Constants.MarginImg), (int)Case.size-2, (int)Case.size-2);
+		}
+>>>>>>> FETCH_HEAD
 		
 	}
 	
