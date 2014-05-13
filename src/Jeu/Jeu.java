@@ -31,6 +31,7 @@ public class Jeu extends JFrame implements KeyListener, MouseListener  {
 	private Boolean started = false;
 	private boolean clicked;
 	private Settings settings;
+	private Rules rules;
 	
 	public Jeu(){
 	    this.setTitle("Tetraword");
@@ -81,6 +82,13 @@ public class Jeu extends JFrame implements KeyListener, MouseListener  {
 	public void settings(Jeu j){
 		settings = new Settings(j);
 		this.setContentPane(settings);
+		this.validate();
+		this.repaint();
+	}
+	
+	public void rules(Jeu j){
+		rules = new Rules(j);
+		this.setContentPane(rules);
 		this.validate();
 		this.repaint();
 	}
