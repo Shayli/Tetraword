@@ -31,8 +31,8 @@ public class Settings extends JPanel implements KeyListener{
 	 */
 	private static final long serialVersionUID = 1L;
 	private Image fond;
-	private JComboBox languages;
-	private JComboBox difficult;
+	private JComboBox<String> languages;
+	private JComboBox<String> difficult;
 	private boolean writeCommand;
 	private JButton j1g, j1d, j1h, j1b, j1e, j2g, j2d, j2h, j2b, j2e;
 	protected int player;
@@ -47,7 +47,7 @@ public class Settings extends JPanel implements KeyListener{
 		fond = a.getImage();
 		this.setLayout(new GridLayout(0, 4));
 		JLabel lang = new JLabel("Langues");
-		languages = new JComboBox();
+		languages = new JComboBox<String>();
 		languages.addItem("Français");
 		languages.addItem("Anglais");
 		languages.addItemListener(new ItemListener() {
@@ -195,7 +195,7 @@ public class Settings extends JPanel implements KeyListener{
 			
 						
 		JLabel diff = new JLabel("Difficulté");
-		difficult = new JComboBox();
+		difficult = new JComboBox<String>();
 		difficult.addItem("Facile");
 		difficult.addItem("Moyen");
 		difficult.addItem("Difficile");

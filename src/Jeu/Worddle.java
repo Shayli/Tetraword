@@ -98,12 +98,6 @@ public class Worddle extends GameMode {
 		}
 	}
 
-	private void removeWords() {
-		// TODO Auto-generated method stub
-		for(String s: words)
-			System.out.println(s);
-	}
-
 	@Override
 	public void keyRelease(int keyCode) {
 		// TODO Auto-generated method stub

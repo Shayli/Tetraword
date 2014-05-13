@@ -7,8 +7,6 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Stack;
 
 import javax.swing.ImageIcon;
