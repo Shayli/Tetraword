@@ -32,7 +32,7 @@ public class Plateau extends JPanel {
 	
 	private int score;
 	private long lStartTime;
-	private int difficulte; //1 pour facile, 2 pour moyen, 3 pour difficile
+	public int difficulte; //1 pour facile, 2 pour moyen, 3 pour difficile
 	
 	GameMode current;
 	public int playerId;
@@ -90,16 +90,18 @@ public class Plateau extends JPanel {
 
 			@Override
 			public void notify(String s, Object o) {
-				if(s == "line") {
+				if(s.equals("line")) {
 					if(Constants.takeMouse()) {
 						Stack<Integer> o2 = (Stack<Integer>)o;
 						changeMode(new Anagramme(Plateau.this, o2));
-						score += 50*o2.size()*o2.size();
-						computeDifficulte();
+						addPoints(50*o2.size()*o2.size());
+						
 					}
 				} else if(s.equals("lose")) {
 					jeu.home();
 					System.out.println("Lose");
+				} else if(s.equals("block")) {
+					addPoints(25);
 				}
 				
 			}
@@ -110,24 +112,25 @@ public class Plateau extends JPanel {
 	private void computeDifficulte() {
 		if(score < 100)
 			difficulte = 10;
-		if(score < 200)
+		else if(score < 200)
 			difficulte =  9;
-		if(score < 400)
+		else if(score < 400)
 			difficulte =  8;
-		if(score < 800)
+		else if(score < 800)
 			difficulte =  7;
-		if(score < 1600)
+		else if(score < 1600)
 			difficulte =  6;
-		if(score < 3200)
+		else if(score < 3200)
 			difficulte = 5;
-		if(score < 4800)
+		else if(score < 4800)
 			difficulte = 4;
-		if(score < 6400)
+		else if(score < 6400)
 			difficulte = 3;
-		if(score < 8000)
+		else if(score < 8000)
 			difficulte = 2;
-		if(score >= 8000)
+		else
 			difficulte = 1;
+		
 		
 	}
 	
@@ -198,5 +201,6 @@ public class Plateau extends JPanel {
 
 	public void addPoints(int i) {
 		score += i;
+		computeDifficulte();
 	}
 }
