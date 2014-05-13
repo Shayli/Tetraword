@@ -115,9 +115,20 @@ public class Worddle extends GameMode {
 		// TODO Auto-generated method stub
 		timeLeft -= msecElapsed;
 		if(timeLeft < 0) {
-			removeWords();
+			checkWords();
 			plateau.wordle.setEnabled(true);
 			plateau.changeMode(new Tetris(plateau));
+		}
+	}
+
+	private void checkWords() {
+		if(!Constants.wordExists(currentWord))
+			points.remove(points.size()-1);
+		
+		for(ArrayList<Point> ap : points) {
+			for(Point p: ap) {
+				grille.removeCase(p.x,p.y);
+			}
 		}
 	}
 

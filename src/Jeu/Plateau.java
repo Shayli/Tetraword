@@ -96,11 +96,12 @@ public class Plateau extends JPanel {
 			@Override
 			public void notify(String s, Object o) {
 				if(s == "line") {
-					System.out.println("line");
 					changeMode(new Anagramme(Plateau.this, (Stack<Integer>)o));
 					score += 1;
 					if(difficulte > 1 && score % 5 == 0)
 						--difficulte;
+				} else if(s.equals("lose")) {
+					System.out.println("Lose");
 				}
 				
 			}

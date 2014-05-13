@@ -67,9 +67,9 @@ abstract public class Brique {
 		do {
 		
 			for(Case c: tmp) {
-				Case c2 = grille.getCase((int)x+c.getX(), (int)y+c.getY()+1);
-				System.out.println(y+c.getY()+1);
 				int t = (int)y+c.getY()+1;
+				Case c2 = grille.getCase((int)x+c.getX(), t);
+			
 				if(t >= Grille.rows || (c2 != null && !cases.contains(c2)))
 					return;
 			}
@@ -102,8 +102,10 @@ abstract public class Brique {
 		ArrayList<Case> tmp = new ArrayList<Case>();
 		while(it.hasNext()) {
 			Case c = it.next();
-			if(c.getY()+y == row)
+			if(c.getY()+y == row) {
+				System.out.println("Removing "+c.letter());
 				it.remove();
+			}
 			else if(c.getY()+y < row) {
 				int i;
 				for(i = 0; i<tmp.size(); ++i) {
@@ -127,5 +129,11 @@ abstract public class Brique {
 				return c;
 		}
 		return null;
+	}
+
+	public void removeCase(int x2, int y2) {
+		Case c = get(x2, y2);
+		if(c != null)
+			cases.remove(c);
 	}
 }

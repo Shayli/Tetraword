@@ -25,7 +25,6 @@ public class Grille {
 	protected Brique currentBrique;
 	protected Brique nextBrique;
 	public Observable events;
-	private int rowChecker;
 	private Mutex mutex ;
 	
 	public Grille() {
@@ -33,7 +32,6 @@ public class Grille {
 		nextBrique = null;
 		currentBrique = next();
 		events = new Observable();
-		rowChecker = 0;
 		mutex = new Mutex();
 		//briques.add(new Briques.Cross(this));
 	}
@@ -108,7 +106,7 @@ public class Grille {
 
 	private void checkLine() {
 		Stack<Integer> lines = new Stack<Integer>();
-		for(rowChecker = rows-1; rowChecker >= 0; --rowChecker) {
+		for(int rowChecker = rows-1; rowChecker >= 0; --rowChecker) {
 			boolean full = true;
 			for(int x = 0; x < cols; ++x) {
 				if(isEmpty(x,rowChecker)) {
@@ -218,12 +216,14 @@ public class Grille {
 	}
 	
 	public void removeRow(int row) {
-		++rowChecker;
 		for(Brique b : briques) {
 			b.removeCases(row);
 		}
+	}
+
+	public void removeCase(int x, int y) {
 		for(Brique b : briques) {
-			//b.fall();
+			b.removeCase(x, y);
 		}
 	}
 	

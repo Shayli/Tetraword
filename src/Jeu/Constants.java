@@ -116,7 +116,7 @@ public class Constants {
 			while (scanner.hasNextLine()) {
 			    String line = scanner.nextLine();
 			    line = line.toLowerCase();
-			    line = line.replace('à','a').replace('é', 'e').replace('ê', 'e').replace('è', 'e').replace('ä', 'a').replace('ï', 'i').replace('ë', 'e').replace('ç', 'c');
+			    line = line.replace('à','a').replace('é', 'e').replace('ê', 'e').replace('è', 'e').replace('ä', 'a').replace('ï', 'i').replace('î',  'i').replace('ë', 'e').replace('ç', 'c');
 			    if(!p.matcher(line).find()) {
 			    	if(line.length() <= Grille.cols)
 			    		shortWords.add(line.toUpperCase());
