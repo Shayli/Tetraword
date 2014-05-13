@@ -2,6 +2,11 @@ package Jeu;
 
 import java.util.*;
 
+/**
+ * Classe LengthComparator
+ * @author Monia, Laury & André
+ * @version 1 
+ */
 public class LengthComparator implements Comparator<String> {
     //nulls first, then by increasing length, break ties using String's natural order
     public int compare(String x, String y) {

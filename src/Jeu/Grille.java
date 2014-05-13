@@ -10,6 +10,12 @@ import Briques.Brique;
 import Briques.Case;
 import Patterns.Observable;
 
+/**
+ * Classe Grille 
+ * Gère les briques sur une grille 
+ * @author Monia, Laury & André
+ * @version 1 
+ */
 public class Grille {
 	public static final int cols = 8;
 	public static final int rows = 16;

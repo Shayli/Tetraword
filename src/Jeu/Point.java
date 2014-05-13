@@ -1,5 +1,11 @@
 package Jeu;
 
+/**
+ * Classe Point
+ * Créer un point de coordonnées (x,y)
+ * @author Monia, Laury & André
+ * @version 1 
+ */
 public class Point {
 	int x;
 	int y; 

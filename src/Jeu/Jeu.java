@@ -5,8 +5,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -16,42 +14,45 @@ import javax.swing.SwingUtilities;
 
 import Briques.Case;
 
-
+/**
+ * Classe Jeu
+ * Gère tout le tetris
+ * @author Monia, Laury & André
+ * @version 1 
+ */
 public class Jeu extends JFrame implements KeyListener, MouseListener  {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ArrayList<Plateau> plateaux;
 	private JPanel home;
 	private JPanel content;
-	private int currMode = 1; //1 pour Tetris, 2 pour Anagramme, 3 pour Worddle 
 	private Boolean started = false;
 	private boolean clicked;
+	private Settings settings;
 	
 	public Jeu(){
-		    this.setTitle("Tetraword");
-		    this.setSize(500, 700);
-		    this.setLocationRelativeTo(null);
-		    plateaux = new ArrayList<Plateau>();
-//		    this.setBackground(new Color(250, 248, 239));
-		    
-		   /* JPanel north = new JPanel();
-		    JLabel tetraword = new JLabel(); 
-		    tetraword.setFont(new Font("Clear Sans", Font.PLAIN, 30)); 
-		    tetraword.setText("Tetraword");
-		    tetraword.setForeground(new Color(119, 110, 101));
-		    plateau = new Plateau(0);
-		    north.add(tetraword);
-		    content.add(north, BorderLayout.NORTH);
-		    content.add(plateau, BorderLayout.CENTER)*/
-		    
-		    home = new Home(this);
-	        //this.setContentPane(content);
-		    this.setContentPane(home);
-		    
-		    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		    this.setVisible(true);
+	    this.setTitle("Tetraword");
+	    this.setSize(500, 700);
+	    this.setLocationRelativeTo(null);
+	    plateaux = new ArrayList<Plateau>();
+
+	    home = new Home(this);
+	    this.setContentPane(home);
+	    
+	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    this.setVisible(true);
 		this.setFocusable(true);
 		this.addKeyListener(this);
 		this.addMouseListener(this);
 		this.requestFocus();
+	}
+	
+	public void home(){
+		this.setContentPane(home);
+		this.validate();
+		this.repaint();
 	}
 	
 	public void solo(){
@@ -77,6 +78,13 @@ public class Jeu extends JFrame implements KeyListener, MouseListener  {
 	    this.requestFocus();
 	}
 	
+	public void settings(Jeu j){
+		settings = new Settings(j);
+		this.setContentPane(settings);
+		this.validate();
+		this.repaint();
+	}
+	
 	public static void main(String[] args){
 		Constants.initialize();
 		Jeu tetris = new Jeu();
@@ -91,7 +99,9 @@ public class Jeu extends JFrame implements KeyListener, MouseListener  {
 		}
 	}
 	
-	
+	public ArrayList<Plateau> getPlateaux(){
+		return plateaux;
+	}
 	public void startGame(int n){
 		//plateau = new Plateau();
 		System.out.println(n+" joueurs");

@@ -19,17 +19,27 @@ import Jeu.Grille;
  *    4      5              6
  *
  */
-
+/**
+ * Classe Brique 
+ * @author Monia, Laury & André
+ * @version 1 
+ */
 abstract public class Brique {
 	public ArrayList<Case> cases;
 	public Grille grille;
 	public float x,y;
 	private Image img;
+	/**
+     * L'état de rotation de la brique.
+     * <p>Il y a 4 états pour chaque brique.</p>
+     * 
+     */
+	protected int state;
 	
 	public Brique(Grille g, Image i) {
 		grille = g;
 		cases = new ArrayList<Case>();
-		x = grille.cols/2;
+		x = Grille.cols/2;
 		y = 0;
 		img = i;
 	}

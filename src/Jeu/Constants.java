@@ -19,6 +19,12 @@ import java.util.regex.Pattern;
 
 import javax.swing.ImageIcon;
 
+/**
+ * Classe Constants
+ * Sert à initiliser des variables utilitaires 
+ * @author Monia, Laury & André
+ * @version 1 
+ */
 public class Constants {
 	public static int[][] Commands = null;
 	public static int Padding = 20;
@@ -81,7 +87,7 @@ public class Constants {
 
 	}
 	
-	private static void loadCommands(int i, int vkUp, int vkDown, int vkLeft, int vkRight, int vkEnter) {
+	public static void loadCommands(int i, int vkUp, int vkDown, int vkLeft, int vkRight, int vkEnter) {
 		Commands[i][Key.ROTATE] = vkUp;
 		Commands[i][Key.DOWN] = vkDown;
 		Commands[i][Key.LEFT] = vkLeft;
@@ -91,17 +97,21 @@ public class Constants {
 
 	public static void loadDictionary(String filePath){	
 		dictionary.clear();
+		shortWords.clear();
 		letter.clear();
 		Scanner scanner = null;
 		try {
 			scanner = new Scanner(new File("resources/"+filePath+".lang"));
+			System.out.println("ouverture "+filePath+".lang");
 			for(int i =0; i < 26; ++i){
 				String line = scanner.next();				
 				int j = scanner.nextInt(); 
 				letter.put(line.charAt(0), j);
+				System.out.println(line + " "+ j);
 			}
 			scanner.close();
 			scanner = new Scanner(new File("resources/"+filePath+".dico"), "ISO-8859-1");
+			System.out.println("ouverture "+filePath+".dico");
 			Pattern p = Pattern.compile("[^a-zA-Z]");
 			while (scanner.hasNextLine()) {
 			    String line = scanner.nextLine();
@@ -144,12 +154,12 @@ public class Constants {
 	public static String findBestWord(String line) {
 		String Word = ""; 
 		boolean b = false ; 
-		Combinations comb = new Combinations(line); //on cr�� toutes les combinaisons de String possibles
+		Combinations comb = new Combinations(line); //on créé toutes les combinaisons de String possibles
 		comb.combine();
 		Collections.sort(comb.stock, new LengthComparator());
         Collections.reverse(comb.stock);
                 
-        ListIterator it = shortWords.listIterator();
+        ListIterator<String> it = shortWords.listIterator();
         
         	//System.out.println(s);
         	for(int i=0; i<comb.stock.size(); i++) {
@@ -182,6 +192,24 @@ public class Constants {
         //System.out.println(sc1 + "    "  + sc2);
         return sc1.equals(sc2);
        
+	}
+	
+	public static String getCommand(int p, int k){
+		switch(Constants.Commands[p][k]){
+		case KeyEvent.VK_ENTER:
+			return "Enter";
+		case KeyEvent.VK_UP:
+			return "Up";
+		case KeyEvent.VK_DOWN:
+			return "Down";
+		case KeyEvent.VK_LEFT:
+			return "Left";
+		case KeyEvent.VK_RIGHT:
+			return "Right";
+			
+		default:
+			return ""+(char)Constants.Commands[p][k];
+		}
 	}
 	
 	

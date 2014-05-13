@@ -12,6 +12,12 @@ import javax.swing.ImageIcon;
 import Briques.Case;
 import Jeu.Constants.Key;
 
+/**
+ * Classe Worddle
+ * Gère le mode Worddle
+ * @author Monia, Laury & André
+ * @version 1 
+ */
 public class Worddle extends GameMode {
 	protected ArrayList<String> words;
 	protected ArrayList<ArrayList<Point>> points;

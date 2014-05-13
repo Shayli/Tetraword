@@ -4,7 +4,12 @@ import java.awt.Graphics;
 
 import Jeu.Constants.Key;
 import Patterns.Observer;
-
+/**
+ * Classe Tetris
+ * Gère le mode Tetris
+ * @author Monia, Laury & André
+ * @version 1 
+ */
 public class Tetris extends GameMode {
 
 	private boolean fastForward, swapAtEnd;

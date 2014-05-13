@@ -2,6 +2,11 @@ package Jeu;
 
 import java.awt.Graphics;
 
+/**
+ * Classe GameMode
+ * @author Monia, Laury & André
+ * @version 1 
+ */
 public abstract class GameMode {
 	protected Grille grille;
 	protected Plateau plateau;

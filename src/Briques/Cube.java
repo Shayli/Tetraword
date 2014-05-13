@@ -2,10 +2,13 @@ package Briques;
 
 import Jeu.Constants;
 import Jeu.Grille;
-
+/**
+ * Classe Cube
+ * Un type de brique
+ * @author Monia, Laury & André
+ * @version 1 
+ */
 public class Cube extends Brique {
-	private int state;
-	
 	public Cube(Grille g){
 		super(g, Constants.Cube);
 		cases.add(new Case(0, 0, 33));

@@ -3,8 +3,13 @@ package Briques;
 import Jeu.Constants;
 import Jeu.Grille;
 
+/**
+ * Classe Bar
+ * <p>Un type de brique</p>
+ * @author Monia, Laury & André
+ * @version 1 
+ */
 public class Bar extends Brique {
-	private int state;
 	
 	public Bar(Grille g) {
 		super(g, Constants.Bar);

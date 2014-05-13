@@ -2,10 +2,13 @@ package Briques;
 
 import Jeu.Constants;
 import Jeu.Grille;
-
+/**
+ * Classe L
+ * Un type de brique
+ * @author Monia, Laury & André
+ * @version 1 
+ */
 public class L extends Brique {
-	private int state;
-	
 	/*
 	 * xxx		xx		  x		x
 	 * x		 x		xxx		x	

@@ -3,16 +3,17 @@ package Jeu;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 
 import javax.swing.ImageIcon;
 
-import Briques.Brique;
 import Briques.Case;
 import Jeu.Constants.Key;
-
+/**
+ * Classe Anagramme
+ * Gère le mode anagramme
+ * @author Monia, Laury & André
+ * @version 1 
+ */
 public class Anagramme extends GameMode {
 
 	private String currentWord;
@@ -140,6 +141,9 @@ public class Anagramme extends GameMode {
 		int sec = (int)timeLeft/1000;
 		g.drawString("Time spend: "+sec, 355, 90);
 		g.drawString(currentWord.toLowerCase(), 380, 577);
+		
+		g.drawString("Appuyez sur "+Constants.getCommand(playerId, Key.MODE), 340, 620);
+		g.drawString("pour valider", 340, 645);
 		
 		
 	}

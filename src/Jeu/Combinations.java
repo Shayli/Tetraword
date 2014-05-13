@@ -1,6 +1,11 @@
 package Jeu;
 import java.util.ArrayList;
 
+/**
+ * Classe Combinaisons
+ * @author Monia, Laury & André
+ * @version 1 
+ */
 public class Combinations {
     private StringBuilder output = new StringBuilder();
     private final String inputstring;

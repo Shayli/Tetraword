@@ -1,38 +1,35 @@
 package Jeu;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.ArrayDeque;
-
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import Briques.Case;
 import Patterns.Observer;
 
+/**
+ * Classe Plateau 
+ * @author Monia, Laury & André
+ * @version 1 
+ */
 public class Plateau extends JPanel {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public Grille grille;
-	private Difficulte dif;
-	private ArrayDeque hist; 
+	//private ArrayDeque hist; 
 	
 	private int score;
 	private long lStartTime;
-	private int difficulte;
+	private int difficulte; //1 pour facile, 2 pour moyen, 3 pour difficile
 	
 	GameMode current;
 	public int playerId;
@@ -142,6 +139,10 @@ public class Plateau extends JPanel {
 		long difference = lEndTime - lStartTime;
 		current.update(difference);
 		lStartTime = lEndTime;
+	}
+	
+	public void setDifficulte(int i){
+		difficulte = i;
 	}
 
 	public void changeMode(GameMode mode) {

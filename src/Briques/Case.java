@@ -4,7 +4,11 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import Jeu.Constants;
-
+/**
+ * Classe case 
+ * @author Monia, Laury & André
+ * @version 1 
+ */
 public class Case {
 	
 	private char a;

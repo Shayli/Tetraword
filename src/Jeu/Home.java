@@ -12,7 +12,17 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+/**
+ * Classe home
+ * Gère la page d'accueil 
+ * @author Monia, Laury & André
+ * @version 1 
+ */
 public class Home extends JPanel implements ActionListener{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Image fond; 
 	private JButton solo;
 	private JButton versus;
@@ -74,7 +84,7 @@ public class Home extends JPanel implements ActionListener{
 		settings.setForeground(Color.white);
 		settings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				jeu.settings(jeu);
 			}
 		});
 	}
