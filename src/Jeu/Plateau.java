@@ -7,13 +7,13 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import java.util.Stack;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import Jeu.Constants.Key;
 import Patterns.Observer;
 
 /**
@@ -60,7 +60,7 @@ public class Plateau extends JPanel {
 		wordle = new JButton(a);
 		super.setBackground(new Color(255,255,255,0));
 		this.add(wordle);
-		
+		playerId = player;
 		
 		
 		
@@ -73,7 +73,7 @@ public class Plateau extends JPanel {
 		wordle.setContentAreaFilled(false);
 		wordle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//Plateau.this.changeMode(new Worddle(Plateau.this));
+				current.keyPress(Constants.Commands[playerId][Key.MODE]);
 			}
 		});
 		
@@ -81,7 +81,7 @@ public class Plateau extends JPanel {
 		
 		lStartTime = System.currentTimeMillis();
 		difficulte = 10;
-		playerId = player;
+		
 		current = new Tetris(this);
 
 		grille.events.add(new Observer() {
