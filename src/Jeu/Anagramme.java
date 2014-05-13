@@ -164,11 +164,9 @@ public class Anagramme extends GameMode {
 		g.drawString("Time spent: "+sec, 355, 90);
 		g.drawString(currentWord.toLowerCase(), 380, 577);
 		
-<<<<<<< HEAD
 		g.drawString("Appuyez sur "+Constants.getCommand(playerId, Key.MODE), 340, 620);
 		g.drawString("pour valider", 340, 645);
-		
-=======
+
 		{
 			Graphics2D g2 = (Graphics2D) g;
 			g2.setStroke(new BasicStroke(3));
@@ -179,13 +177,8 @@ public class Anagramme extends GameMode {
 			g.setColor(Color.red);
 			Graphics2D g2 = (Graphics2D) g;
 			g2.setStroke(new BasicStroke(3));
-			g.drawOval((int)(p.x*Case.size+8+Constants.MarginImg), (int)((p.y+1)*Case.size+12+Constants.MarginImg), (int)Case.size-2, (int)Case.size-2);
+			g.drawOval((int)(p.x*Case.size+8+Constants.MarginImg), (int)((p.y+1)*Case.size+14+Constants.MarginImg), (int)Case.size-2, (int)Case.size-2);
 		}
->>>>>>> FETCH_HEAD
-		
+
 	}
-	
-	
-	
-	
 }
