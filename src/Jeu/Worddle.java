@@ -112,6 +112,7 @@ public class Worddle extends GameMode {
 			checkWords();
 			plateau.wordle.setEnabled(true);
 			plateau.changeMode(new Tetris(plateau));
+			Constants.releaseMouse();
 		}
 	}
 

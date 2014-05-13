@@ -25,7 +25,7 @@ public class Tetris extends GameMode {
 			@Override
 			public void notify(String s, Object o) {
 				// TODO Auto-generated method stub
-				if(s == "block" && swapAtEnd) {
+				if(s == "block" && swapAtEnd && Constants.takeMouse()) {
 					System.out.println("block");
 					swapAtEnd = false;
 					grille.events.remove(this);

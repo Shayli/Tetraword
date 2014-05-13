@@ -79,7 +79,7 @@ public class Anagramme extends GameMode {
 		if(!Constants.wordExists(currentWord))
 			return false;
 		boolean tmp = false; 
-		if(nbLetters > bestWord.length()) return true; //si on a selectionn� plus de lettre que le meilleur anagramme
+		if(nbLetters > bestWord.length()) return true; //si on a selectionné plus de lettre que le meilleur anagramme
 		
 		else {
 			System.out.println("toto");			
@@ -145,7 +145,10 @@ public class Anagramme extends GameMode {
 		if(this.found) {
 			grille.removeRow(currentRow);
 			if(rowsLeft.isEmpty())
+			{
 				plateau.changeMode(new Tetris(plateau));
+				Constants.releaseMouse();
+			}
 			else {
 				initWords();
 			}

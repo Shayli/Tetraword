@@ -19,6 +19,8 @@ import java.util.regex.Pattern;
 
 import javax.swing.ImageIcon;
 
+import sun.awt.Mutex;
+
 /**
  * Classe Constants
  * Sert à initiliser des variables utilitaires 
@@ -40,6 +42,7 @@ public class Constants {
 	public static LinkedList<String> dictionary;
 	public static Font pacifico;
 	public static LinkedList<String> shortWords;
+	private static boolean mouse;
 	
 	public static class Key{
 		static int ROTATE = 0;
@@ -67,6 +70,7 @@ public class Constants {
 		letter = new HashMap<Character, Integer>();
 		dictionary = new LinkedList<String>();
 		shortWords = new LinkedList<String>();
+		mouse = false;
 		loadDictionary("french");
 		
 		Commands = new int[3][5];
@@ -210,6 +214,18 @@ public class Constants {
 		default:
 			return ""+(char)Constants.Commands[p][k];
 		}
+	}
+
+	public static boolean takeMouse() {
+		if(mouse)
+			return false;
+		
+		mouse = true;	
+		return true;
+	}
+	
+	public static void releaseMouse() {
+		mouse = false;
 	}
 	
 	
