@@ -3,6 +3,7 @@ package Briques;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 import Jeu.Grille;
@@ -40,6 +41,33 @@ abstract public class Brique {
 		}
 	}
 	
+	public void fall() {
+		ArrayList<Case> tmp = new ArrayList<Case>();
+		if(cases.isEmpty())
+			return;
+		
+		for(Case c: cases) {
+			int i;
+			for(i = 0; i<tmp.size(); ++i) {
+				if(tmp.get(i).getY() <c.getY())
+					break;
+			}
+			tmp.add(i, c);
+		}
+		do {
+		
+			for(Case c: tmp) {
+				Case c2 = grille.getCase((int)x+c.getX(), (int)y+c.getY()+1);
+				System.out.println(y+c.getY()+1);
+				int t = (int)y+c.getY()+1;
+				if(t >= Grille.rows || (c2 != null && !cases.contains(c2)))
+					return;
+			}
+			
+			++y;
+		} while(true);
+	}
+	
 	abstract public void rotate();
 
 	abstract public void moveLeft();
@@ -61,11 +89,23 @@ abstract public class Brique {
 		if(y > row)
 			return;
 		Iterator<Case> it = cases.iterator();
+		ArrayList<Case> tmp = new ArrayList<Case>();
 		while(it.hasNext()) {
 			Case c = it.next();
 			if(c.getY()+y == row)
 				it.remove();
-			else if(c.getY()+y < row)
+			else if(c.getY()+y < row) {
+				int i;
+				for(i = 0; i<tmp.size(); ++i) {
+					if(tmp.get(i).getY() <c.getY())
+						break;
+				}
+				tmp.add(i, c);
+			}
+		}
+		
+		for(Case c: tmp) {
+			if(grille.isEmpty(x+c.getX(), y+c.getY()+1))
 				c.setY(c.getY()+1);
 		}
 	}

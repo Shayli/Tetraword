@@ -2,8 +2,10 @@ package Jeu;
 
 import java.awt.Font;
 import java.awt.Graphics;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Stack;
 
 import sun.awt.Mutex;
 import Briques.Brique;
@@ -73,7 +75,9 @@ public class Grille {
 				return c;
 		}
 		
-		return currentBrique.get(x, y);
+		if(currentBrique != null)
+			return currentBrique.get(x, y);
+		return null;
 	}
 
 	public void update() {
@@ -97,6 +101,7 @@ public class Grille {
 	}
 
 	private void checkLine() {
+		Stack<Integer> lines = new Stack<Integer>();
 		for(rowChecker = rows-1; rowChecker >= 0; --rowChecker) {
 			boolean full = true;
 			for(int x = 0; x < cols; ++x) {
@@ -106,8 +111,11 @@ public class Grille {
 				}
 			}
 			if(full)
-				events.notify("line",rowChecker);
+				lines.add(rowChecker);
 		}
+		if(!lines.isEmpty())
+			events.notify("line",lines);
+		
 		Iterator<Brique> it = briques.iterator();
 		while(it.hasNext()) {
 			Brique b = it.next();
@@ -207,6 +215,9 @@ public class Grille {
 		++rowChecker;
 		for(Brique b : briques) {
 			b.removeCases(row);
+		}
+		for(Brique b : briques) {
+			//b.fall();
 		}
 	}
 	
