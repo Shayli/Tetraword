@@ -1,0 +1,23 @@
+======================
+Projet:
+	Tetraword
+
+Equipe:
+	Arrada Monia
+	Landrau Laury
+	Sochard André
+======================
+
+1 - Build 
+	Vous pouvez recompiler le jeu à tout instant avec Ant via le fichier build.xml à la racine.
+	
+2 - Execution
+	Pour lancer le jeu, exécutez le fichier tetraword.jar à la racine du projet.
+	
+3 - Règles et touches
+	Pour connaitre les règles cliquez sur le bouton "Rules" dans le jeu.
+	Pour connaitre ou redéfinir les touches pour chaque joueur cliquez sur le bouton "Settings" dans le jeu.
+	Vous pouvez mettre le jeu en pause à tout moment avec la touche "Pause".
+	
+4 - Langue
+	Vous pouvez jouer en français ou en anglais en cliquant sur le drapeau associé, dans le menu principal.

@@ -40,7 +40,7 @@ public class Anagramme extends GameMode {
 		 
 		
 		points = new ArrayList<Point>();
-		timeLeft = 0;
+		timeLeft = 1000*20;
 		
 		initWords();
 		
@@ -142,7 +142,7 @@ public class Anagramme extends GameMode {
 
 	@Override
 	public void update(long msecElapsed) {
-		timeLeft += msecElapsed;
+		timeLeft -= msecElapsed;
 		if(nbLetters == Grille.cols) {
 			this.found = win();
 			if(!this.found) reset(); 
@@ -159,6 +159,19 @@ public class Anagramme extends GameMode {
 				initWords();
 			}
 		}
+		if(timeLeft <0) {
+			grille.removeRow(currentRow);
+			plateau.addPoints(-100);
+			if(rowsLeft.isEmpty())
+			{
+				plateau.changeMode(new Tetris(plateau));
+				Constants.releaseMouse();
+			}
+			else {
+				initWords();
+			}
+			
+		}
 	}
 
 	@Override
@@ -168,7 +181,7 @@ public class Anagramme extends GameMode {
 		g.setFont(Constants.pacifico); 
 		g.setColor(Color.white);		
 		int sec = (int)timeLeft/1000;
-		g.drawString("Time spent: "+sec, 355, 90);
+		g.drawString("Time left: "+sec, 355, 90);
 		g.drawString(currentWord.toLowerCase(), 380, 577);
 		
 		g.drawString("Appuyez sur "+Constants.getCommand(playerId, Key.MODE), 333, 620);

@@ -232,6 +232,8 @@ public class Plateau extends JPanel {
 
 	public void addPoints(int i) {
 		score += i*scoreModifier;
+		if(score < 0)
+			score = 0;
 	}
 
 	public boolean isAlive() {
