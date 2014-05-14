@@ -68,7 +68,7 @@ public class Anagramme extends GameMode {
 		return tmp; 
 	}
 	
-	public void reset() { //recommencer tant qu'on a pas trouv�
+	public void reset() { //recommencer tant qu'on a pas trouvé
 		this.currentWord = ""; 
 		this.nbLetters = 0;
 		points.clear();

@@ -110,8 +110,9 @@ public class Plateau extends JPanel {
 							}
 							
 						});
-					} catch (InvocationTargetException | InterruptedException e) {
-						// TODO Auto-generated catch block
+					} catch (InvocationTargetException e) {
+						e.printStackTrace();
+					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
 					System.out.println(name);
