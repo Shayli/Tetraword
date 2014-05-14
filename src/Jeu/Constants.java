@@ -7,11 +7,16 @@ import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Scanner;
@@ -29,6 +34,7 @@ import sun.awt.Mutex;
  * @version 1 
  */
 public class Constants {
+	
 	public static int[][] Commands = null;
 	public static int Padding = 20;
 	public static int MarginImg = 4;
@@ -46,6 +52,7 @@ public class Constants {
 	private static boolean mouse;
 	private static Mutex mutexBrique;
 	private static HashMap<Integer, Brique> briques;
+	public static List<HighScore> highscores;
 	
 	public static class Key{
 		static int ROTATE = 0;
@@ -76,6 +83,7 @@ public class Constants {
 		mouse = false;
 		mutexBrique = new Mutex();
 		briques = new HashMap<Integer, Brique>();
+		highscores = new ArrayList<HighScore>();
 		
 		loadDictionary("french");
 		
@@ -267,6 +275,51 @@ public class Constants {
 			return new Briques.Bar();
 		default:
 			return null;
+		}
+	}
+
+	public static int writeScore(String name, int score) {
+		HighScore s = new HighScore(name, score);
+		highscores.add(s);
+		Collections.sort(highscores);
+		saveScores();
+		return highscores.indexOf(s);
+	}
+	
+	public static void saveScores() {
+		Collections.sort(highscores);
+		while(highscores.size() > 10) {
+			highscores.remove(10);
+		}
+		FileWriter file;
+		try {
+			file = new FileWriter("resources/scores.tw",false);
+			PrintWriter pw = new PrintWriter(file);
+			for(int i = 0; i<10; ++i) {
+				pw.println(highscores.get(i).name+" "+highscores.get(i).score);
+			}
+			pw.close();
+			file.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public static void loadScores() {
+		highscores.clear();
+		Scanner scanner = null;
+		try {
+			scanner = new Scanner(new File("resources/scores.tw"));
+			for(int i = 0; i<10 && scanner.hasNext(); ++i) {
+				String name = scanner.next();
+				int score = scanner.nextInt();
+				highscores.add(new HighScore(name, score));
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }

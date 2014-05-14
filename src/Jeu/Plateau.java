@@ -115,8 +115,8 @@ public class Plateau extends JPanel {
 								name = JOptionPane.showInputDialog(jeu, "You scored "+score+". Enter your nickname:");
 							} while(name == null);
 							
-							System.out.println(name);
-							jeu.home();
+							
+							jeu.highscore(Constants.writeScore(name, score));
 						}
 						
 					});
