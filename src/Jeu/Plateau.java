@@ -7,11 +7,14 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Stack;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import Jeu.Constants.Key;
 import Patterns.Observer;
@@ -43,6 +46,7 @@ public class Plateau extends JPanel {
 	private Image next;
 	public JButton wordle;
 	private Jeu jeu;
+	private String name;
 	
 	public Plateau(Jeu j, int player){
 		this.setLayout(null);
@@ -98,6 +102,19 @@ public class Plateau extends JPanel {
 						
 					}
 				} else if(s.equals("lose")) {
+					try {
+						SwingUtilities.invokeAndWait(new Runnable() {
+							@Override
+							public void run() {
+								name = JOptionPane.showInputDialog("You scored "+score+". Enter your nickname:");
+							}
+							
+						});
+					} catch (InvocationTargetException | InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					System.out.println(name);
 					jeu.home();
 					System.out.println("Lose");
 				} else if(s.equals("block")) {

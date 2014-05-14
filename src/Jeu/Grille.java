@@ -26,6 +26,7 @@ public class Grille {
 	public Observable events;
 	private Mutex mutex;
 	private int nbBriques;
+	private boolean lostGame;
 	
 	public Grille() {
 		briques = new LinkedList<Brique>();
@@ -34,6 +35,7 @@ public class Grille {
 		events = new Observable();
 		mutex = new Mutex();
 		nbBriques = 0;
+		lostGame = false;
 		//briques.add(new Briques.Cross(this));
 	}
 	
@@ -86,6 +88,8 @@ public class Grille {
 	}
 
 	public void update() {
+		if(lostGame)
+			return;
 		mutex.lock();
 		if(!currentBrique.down()) {
 			briques.add(currentBrique);
@@ -93,6 +97,7 @@ public class Grille {
 			for(Case c: currentBrique.cases){
 				if(c.getY()+currentBrique.y < 1)
 				{
+					lostGame = true;
 					events.notify("lose", null);
 				}
 			}

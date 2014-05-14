@@ -117,7 +117,6 @@ public class Constants {
 				String line = scanner.next();				
 				int j = scanner.nextInt(); 
 				letter.put(line.charAt(0), j);
-				System.out.println(line + " "+ j);
 			}
 			scanner.close();
 			scanner = new Scanner(new File("resources/"+filePath+".dico"), "ISO-8859-1");

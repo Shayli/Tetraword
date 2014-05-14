@@ -1,7 +1,6 @@
 package Briques;
 
 import Jeu.Constants;
-import Jeu.Grille;
 
 /**
  * Classe Bar
@@ -13,12 +12,11 @@ public class Bar extends Brique {
 	
 	public Bar() {
 		super(Constants.Bar);
-		state = 0;
-		cases.add(new Case(0,-1, 33));
+		state = 1;
+		cases.add(new Case(1,0, 33));
 		cases.add(new Case(0,0, 33));
-		cases.add(new Case(0,1, 33));
-		cases.add(new Case(0,2, 33));
-		rotate();
+		cases.add(new Case(-1,0, 33));
+		cases.add(new Case(-2,0, 33));
 	}
 	
 	public Bar clone() {

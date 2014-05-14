@@ -1,7 +1,6 @@
 package Briques;
 
 import Jeu.Constants;
-import Jeu.Grille;
 /**
  * Classe Cube
  * Un type de brique
