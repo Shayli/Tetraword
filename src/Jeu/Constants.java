@@ -52,6 +52,7 @@ public class Constants {
 	private static Mutex mutexBrique;
 	private static HashMap<Integer, Brique> briques;
 	public static List<HighScore> highscores;
+	public static int difficulty;
 	
 	public static class Key{
 		static int ROTATE = 0;
@@ -83,7 +84,7 @@ public class Constants {
 		mutexBrique = new Mutex();
 		briques = new HashMap<Integer, Brique>();
 		highscores = new ArrayList<HighScore>();
-		
+		difficulty = 50;
 		loadDictionary("french");
 		loadScores();
 		

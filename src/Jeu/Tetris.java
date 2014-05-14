@@ -74,7 +74,7 @@ public class Tetris extends GameMode {
 			}
 		}
 		else {
-			if(elapsed > 1000-(10-plateau.difficulte)*100) {
+			if(elapsed > 1000-(10-plateau.niveau)*100) {
 				grille.update();
 				elapsed = 0;
 				

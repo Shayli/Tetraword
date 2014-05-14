@@ -35,7 +35,8 @@ public class Plateau extends JPanel {
 	
 	private int score;
 	private long lStartTime;
-	public int difficulte; //30 pour facile, 50 pour moyen, 75 pour difficile
+	public int niveau, difficulte; //1 pour facile, 2 pour moyen, 3 pour difficile
+
 	
 	GameMode current;
 	public int playerId;
@@ -87,7 +88,8 @@ public class Plateau extends JPanel {
 		grille = new Grille();
 		
 		lStartTime = System.currentTimeMillis();
-		difficulte = 10;
+		niveau = 10;
+		difficulte = Constants.difficulty;
 		
 		current = new Tetris(this);
 
@@ -98,7 +100,7 @@ public class Plateau extends JPanel {
 				if(s.equals("line")) {
 					if(Constants.takeMouse()) {
 						Stack<Integer> o2 = (Stack<Integer>)o;
-						changeMode(new Anagramme(Plateau.this, o2));
+						changeMode(new Anagramme(Plateau.this, o2, difficulte));
 						addPoints(50*o2.size()*o2.size());
 						
 					}
@@ -115,25 +117,25 @@ public class Plateau extends JPanel {
 	
 	private void computeDifficulte() {
 		if(score < 100)
-			difficulte = 10;
+			niveau = 10;
 		else if(score < 200)
-			difficulte =  9;
+			niveau =  9;
 		else if(score < 400)
-			difficulte =  8;
+			niveau =  8;
 		else if(score < 800)
-			difficulte =  7;
+			niveau =  7;
 		else if(score < 1600)
-			difficulte =  6;
+			niveau =  6;
 		else if(score < 3200)
-			difficulte = 5;
+			niveau = 5;
 		else if(score < 4800)
-			difficulte = 4;
+			niveau = 4;
 		else if(score < 6400)
-			difficulte = 3;
+			niveau = 3;
 		else if(score < 8000)
-			difficulte = 2;
+			niveau = 2;
 		else
-			difficulte = 1;
+			niveau = 1;
 		
 		
 	}
