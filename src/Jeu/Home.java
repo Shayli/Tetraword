@@ -36,15 +36,17 @@ public class Home extends JPanel implements ActionListener{
 		this.setLayout(null);
 		
 		ImageIcon a = new ImageIcon("resources/home.jpg", ""); 
+		final ImageIcon frImg = new ImageIcon("resources/fr.png", ""); 
+		final ImageIcon enImg = new ImageIcon("resources/en.png", ""); 
 		fond = a.getImage();
 		a = new ImageIcon("resources/button.png", ""); 
 		solo = new JButton("Solo",a);
 		versus = new JButton("Versus", a);
 		settings = new JButton("Settings", a);
 		rules = new JButton("Rules", a);
-		a = new ImageIcon("resources/fr.png", "");
+		a = new ImageIcon("resources/fr_dis.png", "");
 		fr = new JButton(a);
-		a = new ImageIcon("resources/en.png", "");
+		a = new ImageIcon("resources/en_dis.png", "");
 		en = new JButton(a);
 		this.add(solo);
 		this.add(versus);
@@ -119,9 +121,14 @@ public class Home extends JPanel implements ActionListener{
 		fr.setBorderPainted(false); 
 		fr.setOpaque( false ); 
 		fr.setContentAreaFilled(false);
+		fr.setEnabled(false);
+		fr.setDisabledIcon(frImg);
 		fr.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Constants.loadDictionary("french");
+				fr.setEnabled(false);
+				en.setEnabled(true);
+				fr.setDisabledIcon(frImg);
 			}
 		});
 		 
@@ -134,6 +141,9 @@ public class Home extends JPanel implements ActionListener{
 		en.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Constants.loadDictionary("english");
+				en.setEnabled(false);
+				fr.setEnabled(true);
+				en.setDisabledIcon(enImg);
 			}
 		});
 	}
