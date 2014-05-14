@@ -27,19 +27,19 @@ public class Rules extends JPanel{
 		
 		ImageIcon a = new ImageIcon("resources/fond.jpg", ""); 
 		fond = a.getImage();
-		text = new JTextArea("Le jeu se déroule comme un Tétris. A chaque tour de jeu, une \nbrique apparaît au milieu et en haut de l'écran et se met à chuter. "
+		text = new JTextArea("Le jeu se déroule comme un Tetris. A chaque tour de jeu, une \nbrique apparaît au milieu et en haut de l'écran et se met à chuter. "
 				+ "\n\nUtilisez gauche-droite pour décaler la brique d'un cran pendant sa \nchute. "
 				+ "\n\nUtilisez haut pour effectuer une rotation d'un quart de tour. "
 				+ "\n\nUtilisez bas pour la faire descendre plus rapidement."
 				+ ""
 				+ "\nSur chacune des cases des briques se trouve une lettre. \nUne fois une ligne formée, le mode Anagramme est lancé."
-				+ "\n\nCliquez sur les lettres qui vous intéressent dans la ligne \nformée pour construire le mot le plus long possible. \nPressez 'ENTER' pour valider. "
-				+ "\nUne ligne est détruite uniquement si l'on a proposé un \nmot comportant au moins le pourcentage correspondant à la difficulté \nchoisie du nombre de lettres du meilleur anagramme existant."
+				+ "\n\nCliquez sur les lettres qui vous intéressent dans la ligne formée pour \nconstruire le mot le plus long possible. \nPressez 'ENTER' pour valider. "
+				+ "\nUne ligne est détruite uniquement si l'on a proposé un mot \ncomportant au moins le pourcentage correspondant à la difficulté \nchoisie du nombre de lettres du meilleur anagramme existant."
 				+ ""
 				+ "\n\nQuand vous le souhaitez, le mode worddle peut s'activer. \nDans ce cas là, vous disposez d'un temps limité pour trouver un \nmaximum de mots du dictionnaire à partir d'une brique sélectionnée \naléatoirement."
-				+ "\n\nCliquez sur les briques adjacentes pour constituer \nvotre mot et pressez 'ENTER' pour valider."
-				+ "\n\nUne fois le mot validé, continuez en suivant le même \nprincipe à partir d'une brique du mot précédent. "
-				+ "\n\nA la fin du temps, les briques formant un des \nmots valides sont détruites.");
+				+ "\n\nCliquez sur les briques adjacentes pour constituer votre mot et \npressez 'ENTER' pour valider."
+				+ "\n\nUne fois le mot validé, continuez en suivant le même principe à \npartir d'une brique du mot précédent. "
+				+ "\n\nA la fin du temps, les briques formant un des mots valides sont \ndétruites.");
 		text.setEditable(false);
 		text.setBackground( new Color(255, 255, 255, 150) );
 		text.setMargin(new Insets(10,10,10,10));
