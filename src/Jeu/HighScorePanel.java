@@ -1,10 +1,7 @@
 package Jeu;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,8 +18,8 @@ public class HighScorePanel extends JPanel{
 	 */
 	private static final long serialVersionUID = 1L;
 	private Image fond; 
-	private JButton back;
-	private int indice;
+	//private JButton back;
+	//private int indice;
 	
 	public HighScorePanel(int indice, final Jeu j){
 		super();
@@ -30,7 +27,7 @@ public class HighScorePanel extends JPanel{
 		ImageIcon a = new ImageIcon("resources/fond.jpg", ""); 
 		fond = a.getImage();
 		
-		back = new JButton("Retour");
+		JButton back = new JButton("Retour");
 		back.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("toto");
@@ -38,6 +35,7 @@ public class HighScorePanel extends JPanel{
 			}
 		});
 		back.setBounds(380, 620, 80, 30);
+		back.requestFocus();
 
 		this.add(back);
 		this.revalidate();

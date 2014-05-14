@@ -145,7 +145,14 @@ public class Jeu extends JFrame implements KeyListener, MouseListener  {
 					for(Plateau p: plateaux)
 						p.askForName();
 					
-					highscore(-1);
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							plateaux.clear();
+							highscore(-1);
+						}
+					});
+					
 				}
 				
 				SwingUtilities.invokeLater(new Runnable() {
