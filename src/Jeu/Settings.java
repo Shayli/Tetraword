@@ -203,13 +203,13 @@ public class Settings extends JPanel implements KeyListener{
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getItem().equals("Facile")) {
 					for(Plateau p : j.getPlateaux())
-						p.setDifficulte(1);
+						p.setDifficulte(30);
 				}else if (e.getItem().equals("Moyen")){
 					for(Plateau p : j.getPlateaux())
-						p.setDifficulte(2);
+						p.setDifficulte(50);
 				}else{
 					for(Plateau p : j.getPlateaux())
-						p.setDifficulte(3);
+						p.setDifficulte(75);
 				}
 			}
 		});

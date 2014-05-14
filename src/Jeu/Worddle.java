@@ -139,7 +139,7 @@ public class Worddle extends GameMode {
 		g.drawImage(worddleImg, 335, 455, null);
 		g.drawString(currentWord.toLowerCase(), 370, 503);
 
-		g.setColor(Color.red);
+		g.setColor(Color.pink);
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setStroke(new BasicStroke(1));
 		for(int j = 0; j<points.size(); ++j) {

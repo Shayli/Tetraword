@@ -10,8 +10,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import Briques.Case;
-
 public class HighScorePanel extends JPanel{
 	/**
 	 * 
@@ -44,12 +42,15 @@ public class HighScorePanel extends JPanel{
 	
 	public void paintComponent(Graphics g) {
         g.drawImage(fond, 0, 0, null);
+        g.setFont(Constants.pacifico); 
+		g.setColor(new Color(81,20,21));
+        g.drawString("Les Meilleurs Scores", 180, 40);
         g.setColor(new Color(255, 255, 255, 120));
-        g.fillRoundRect(90, 50, 300, 400, 10, 10);
+        g.fillRoundRect(90, 70, 300, 400, 10, 10);
         g.setFont(Constants.pacifico); 
 		g.setColor(Color.black);
-		g.drawString("Pseudo", 110, 80);
-		g.drawString("Score", 300, 80);
+		g.drawString("Pseudo", 110, 100);
+		g.drawString("Score", 300, 100);
         for(int i = 0; i < Constants.highscores.size(); ++i){
         	/*if (i == indice){
         		{
@@ -63,8 +64,8 @@ public class HighScorePanel extends JPanel{
         		g.drawString(""+Constants.highscores.get(i).score, 300, (i+4)*30);
         	}else{*/
         		g.setColor(Color.black);
-	        	g.drawString(Constants.highscores.get(i).name, 110, (i+4)*30);
-	        	g.drawString(""+Constants.highscores.get(i).score, 300, (i+4)*30);        
+	        	g.drawString(Constants.highscores.get(i).name, 110, (i+5)*30);
+	        	g.drawString(""+Constants.highscores.get(i).score, 300, (i+5)*30);        
         	/*}*/
         }
     }

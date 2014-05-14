@@ -28,6 +28,8 @@ public class Home extends JPanel implements ActionListener{
 	private JButton versus;
 	private JButton settings;
 	private JButton rules;
+	private JButton fr;
+	private JButton en;
 	
 	
 	public Home(final Jeu jeu){
@@ -40,10 +42,16 @@ public class Home extends JPanel implements ActionListener{
 		versus = new JButton("Versus", a);
 		settings = new JButton("Settings", a);
 		rules = new JButton("Rules", a);
+		a = new ImageIcon("resources/fr.png", "");
+		fr = new JButton(a);
+		a = new ImageIcon("resources/en.png", "");
+		en = new JButton(a);
 		this.add(solo);
 		this.add(versus);
 		this.add(settings);
 		this.add(rules);
+		this.add(fr);
+		this.add(en);
 		Insets insets = this.getInsets();
 		Dimension size = solo.getPreferredSize();
 		solo.setBounds(180 + insets.left, 435 + insets.top, size.width, size.height);
@@ -105,6 +113,19 @@ public class Home extends JPanel implements ActionListener{
 				jeu.rules();
 			}
 		});
+		size = fr.getPreferredSize();
+		fr.setBounds(370, 600, size.width, size.height);
+		fr.setFocusPainted( false );
+		fr.setBorderPainted(false); 
+		fr.setOpaque( false ); 
+		fr.setContentAreaFilled(false);
+		 
+		size = en.getPreferredSize();
+		en.setBounds(430, 600, size.width, size.height);
+		en.setFocusPainted( false );
+		en.setBorderPainted(false); 
+		en.setOpaque( false ); 
+		en.setContentAreaFilled(false);
 	}
 	
 	public void paintComponent(Graphics g) {

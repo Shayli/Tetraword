@@ -35,7 +35,7 @@ public class Plateau extends JPanel {
 	
 	private int score;
 	private long lStartTime;
-	public int difficulte; //1 pour facile, 2 pour moyen, 3 pour difficile
+	public int difficulte; //30 pour facile, 50 pour moyen, 75 pour difficile
 	
 	GameMode current;
 	public int playerId;
