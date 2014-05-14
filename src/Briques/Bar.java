@@ -30,7 +30,6 @@ public class Bar extends Brique {
 	public void rotate() {
 		if(grille == null)
 			return;
-		//System.out.println(state);
 		switch(state){
 			case 0 : 
 				if(!grille.isEmpty(x+1, y) || !grille.isEmpty(x-1, y) || !grille.isEmpty(x-2, y))

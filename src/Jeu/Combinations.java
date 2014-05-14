@@ -13,7 +13,6 @@ public class Combinations {
     
     public Combinations( final String str ){
         inputstring = str;
-        //System.out.println("The input string  is  : " + inputstring);
         stock =  new ArrayList<String>();
     }
     

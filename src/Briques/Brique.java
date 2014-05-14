@@ -103,7 +103,6 @@ abstract public class Brique {
 		while(it.hasNext()) {
 			Case c = it.next();
 			if(c.getY()+y == row) {
-				System.out.println("Removing "+c.letter());
 				it.remove();
 			}
 			else if(c.getY()+y < row) {

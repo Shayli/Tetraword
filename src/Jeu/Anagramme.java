@@ -59,8 +59,7 @@ public class Anagramme extends GameMode {
 			@Override
 			public void run() {
 				bestWord = Constants.findBestWord(base);
-				System.out.println("Base :  " + base);
-				System.out.println("Best Word : " + bestWord);
+				System.out.println(bestWord);
 			}
 		});
 		t.start();
@@ -88,8 +87,7 @@ public class Anagramme extends GameMode {
 		boolean tmp = false; 
 		if(nbLetters > bestWord.length()) return true; //si on a selectionné plus de lettre que le meilleur anagramme
 		
-		else {
-			System.out.println("toto");			
+		else {	
 			if(currentWord.length() >= this.bestWord.length()*this.difficulty/100) tmp = true; 
 			else tmp = false; 
 		
@@ -132,8 +130,6 @@ public class Anagramme extends GameMode {
 		if(keyCode == commands[Key.MODE]) {
 			this.found = win();
 			if(!this.found) reset(); 
-			
-			System.out.println(this.found);
 		}
 	}
 

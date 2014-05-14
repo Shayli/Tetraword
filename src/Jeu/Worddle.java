@@ -79,7 +79,6 @@ public class Worddle extends GameMode {
 		
 		if(keyCode == commands[Key.MODE]) {
 			if(Constants.wordExists(currentWord)) {
-				System.out.println(currentWord+" exists");
 				words.add(currentWord);
 				
 				ArrayList<Point> tmp = points.get(points.size()-1);
@@ -89,7 +88,6 @@ public class Worddle extends GameMode {
 				points.get(points.size()-1).add(p);
 				currentWord = ""+currentWord.charAt(r);
 			} else {
-				System.out.println(currentWord+" does not exists");
 				currentWord = "";
 				Point p = points.get(points.size()-1).get(0);
 				points.get(points.size()-1).clear();

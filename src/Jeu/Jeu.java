@@ -117,7 +117,6 @@ public class Jeu extends JFrame implements KeyListener, MouseListener  {
 	}
 	
 	public void quit() {
-		System.out.println("quitter");
 		if(0 == JOptionPane.showConfirmDialog(this,"Souhaitez-vous quitter le jeu ?","Demande de confirmation",JOptionPane.OK_OPTION)) {
 			dispose();
 			System.exit(0);
@@ -128,13 +127,11 @@ public class Jeu extends JFrame implements KeyListener, MouseListener  {
 		return plateaux;
 	}
 	public void startGame(int n){
-		//plateau = new Plateau();
-		System.out.println(n+" joueurs");
+
 	}
 	
 	public void run() {
 		while(true) {
-			//System.out.println("update");
 			if(started && !paused){
 				boolean alive = false;
 				for(Plateau p: plateaux) {

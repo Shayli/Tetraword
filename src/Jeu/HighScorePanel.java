@@ -28,7 +28,6 @@ public class HighScorePanel extends JPanel{
 		JButton back = new JButton("Retour");
 		back.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("toto");
 				j.home();
 			}
 		});

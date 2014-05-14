@@ -11,7 +11,6 @@ public class HalfScore extends Modificateur {
 
 	@Override
 	public void onStart() {
-		System.out.println("half start");
 		plateau.scoreModifier /= 2;
 	}
 
@@ -21,7 +20,6 @@ public class HalfScore extends Modificateur {
 
 	@Override
 	public void onStop() {
-		System.out.println("half end");
 		plateau.scoreModifier *= 2;
 	}
 

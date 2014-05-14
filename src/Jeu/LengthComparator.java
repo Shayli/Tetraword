@@ -27,12 +27,9 @@ public class LengthComparator implements Comparator<String> {
     //demo
     public static void main(String[] args) {
         ArrayList <String> data = new ArrayList <String>(); 
-        System.out.println(data);
         data.add("test"); data.add("blablabla"); data.add("a"); data.add("Monia"); data.add("loliiiiiiiiiii"); data.add("ii"); 
-        System.out.println(data);
             
         Collections.sort(data, new LengthComparator());
         Collections.reverse(data);
-        System.out.println(data);
     }
 }

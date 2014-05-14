@@ -15,13 +15,11 @@ public class Inversion extends Modificateur {
 	}
 	
 	public void onStop() {
-		System.out.println("invert end");
 		plateau.grille.setInverted(false);
 	}
 
 	@Override
 	public void onStart() {
-		System.out.println("invert start");
 		plateau.grille.setInverted(true);
 	}
 }

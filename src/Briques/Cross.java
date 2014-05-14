@@ -35,7 +35,6 @@ public class Cross extends Brique {
 	
 
 	public void rotate() {
-		//System.out.println("rotate "+state);
 		switch(state){
 			case 0 : 
 				if(!grille.isEmpty(x, y-1))
@@ -101,7 +100,6 @@ public class Cross extends Brique {
 
 	
 	public boolean down() {
-		//System.out.println(state);
 		switch(state){
 			case 0 : 
 			{

@@ -257,7 +257,6 @@ public class Settings extends JPanel implements KeyListener{
 	public void keyPressed(KeyEvent e) {
 		int k = e.getKeyCode();
 		if(writeCommand) {
-			System.out.println(k);
 			Constants.Commands[player][key] = k;
 			writeCommand = false;
 			refreshCommand();

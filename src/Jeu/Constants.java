@@ -133,7 +133,6 @@ public class Constants {
 		Scanner scanner = null;
 		try {
 			scanner = new Scanner(new File("resources/"+filePath+".lang"));
-			System.out.println("ouverture "+filePath+".lang");
 			for(int i =0; i < 26; ++i){
 				String line = scanner.next();				
 				int j = scanner.nextInt(); 
@@ -141,7 +140,6 @@ public class Constants {
 			}
 			scanner.close();
 			scanner = new Scanner(new File("resources/"+filePath+".dico"), "ISO-8859-1");
-			System.out.println("ouverture "+filePath+".dico");
 			Pattern p = Pattern.compile("[^a-zA-Z]");
 			while (scanner.hasNextLine()) {
 			    String line = scanner.nextLine();
@@ -154,7 +152,6 @@ public class Constants {
 		    			dictionary.add(line.toUpperCase());
 			    }
 			}
-			//System.out.println(dictionary); 
 			scanner.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -191,9 +188,7 @@ public class Constants {
                 
         ListIterator<String> it = shortWords.listIterator();
         
-        	//System.out.println(s);
         	for(int i=0; i<comb.stock.size(); i++) {
-        		//System.out.println(comb.stock.get(i));
         		it = shortWords.listIterator(0); 
         		while(it.hasNext()) {
                 	String s = (String)it.next();		    		
@@ -219,7 +214,6 @@ public class Constants {
         Arrays.sort(c2);
         String sc1 = new String(c1);
         String sc2 = new String(c2);
-        //System.out.println(sc1 + "    "  + sc2);
         return sc1.equals(sc2);
        
 	}
@@ -329,7 +323,6 @@ public class Constants {
 				String name = scanner.next();
 				int score = scanner.nextInt();
 				highscores.add(new HighScore(name, score));
-				System.out.println(name + " "+ score);
 			}
 			scanner.close();
 		} catch (FileNotFoundException e) {

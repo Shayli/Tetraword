@@ -62,7 +62,10 @@ public class Grille {
 		}
 		
 		if(currentModif != null) {
-			currentModif.draw(g, (int)(currentModif.x*Case.size+10+Constants.MarginImg), (int)(currentModif.y*Case.size+55+Constants.MarginImg));
+			if(inverted)
+				currentModif.draw(g, (int)(currentModif.x*Case.size+10+Constants.MarginImg), (int)((Grille.rows-(currentModif.y+1))*Case.size+55+Constants.MarginImg));
+			else
+				currentModif.draw(g, (int)(currentModif.x*Case.size+10+Constants.MarginImg), (int)(currentModif.y*Case.size+55+Constants.MarginImg));
 		}
 		nextBrique.draw(g, false);
 		
@@ -140,7 +143,6 @@ public class Grille {
 				m.x = x;
 				m.y = y;
 				found = true;
-				System.out.println("Modif in "+m.x+" "+m.y);
 			}
 		} while(!found);
 		return m;
