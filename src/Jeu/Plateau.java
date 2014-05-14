@@ -47,6 +47,7 @@ public class Plateau extends JPanel {
 	public JButton wordle;
 	private Jeu jeu;
 	private String name;
+	private boolean enterName;
 	
 	public Plateau(Jeu j, int player){
 		this.setLayout(null);
@@ -66,7 +67,7 @@ public class Plateau extends JPanel {
 		super.setBackground(new Color(255,255,255,0));
 		this.add(wordle);
 		playerId = player;
-		
+		enterName = true;
 		
 		
 		Insets insets = this.getInsets();
@@ -102,21 +103,24 @@ public class Plateau extends JPanel {
 						
 					}
 				} else if(s.equals("lose")) {
-					try {
-						SwingUtilities.invokeAndWait(new Runnable() {
-							@Override
-							public void run() {
-								name = JOptionPane.showInputDialog("You scored "+score+". Enter your nickname:");
-							}
+					SwingUtilities.invokeLater(new Runnable() {
+
+						@Override
+						public void run() {
+							if(!enterName)
+								return;
+							enterName = false;
+							String name;
+							do {
+								name = JOptionPane.showInputDialog(jeu, "You scored "+score+". Enter your nickname:");
+							} while(name == null);
 							
-						});
-					} catch (InvocationTargetException e) {
-						e.printStackTrace();
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					System.out.println(name);
-					jeu.home();
+							System.out.println(name);
+							jeu.home();
+						}
+						
+					});
+					
 					System.out.println("Lose");
 				} else if(s.equals("block")) {
 					addPoints(25);
