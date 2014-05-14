@@ -159,15 +159,15 @@ public class Anagramme extends GameMode {
 	@Override
 	public void draw(Graphics g) {
 		grille.draw(g);
-		g.drawImage(anagramme, 340, 525, null);
+		g.drawImage(anagramme, 333, 525, null);
 		g.setFont(Constants.pacifico); 
 		g.setColor(Color.white);		
 		int sec = (int)timeLeft/1000;
 		g.drawString("Time spent: "+sec, 355, 90);
 		g.drawString(currentWord.toLowerCase(), 380, 577);
 		
-		g.drawString("Appuyez sur "+Constants.getCommand(playerId, Key.MODE), 340, 620);
-		g.drawString("pour valider", 340, 645);
+		g.drawString("Appuyez sur "+Constants.getCommand(playerId, Key.MODE), 333, 620);
+		g.drawString("pour valider", 333, 645);
 
 		{
 			Graphics2D g2 = (Graphics2D) g;

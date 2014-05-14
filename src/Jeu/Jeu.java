@@ -45,6 +45,7 @@ public class Jeu extends JFrame implements KeyListener, MouseListener  {
 	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    this.setVisible(true);
 		this.setFocusable(true);
+		this.setResizable(false);
 		this.addKeyListener(this);
 		this.addMouseListener(this);
 		this.requestFocus();

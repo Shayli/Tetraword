@@ -72,7 +72,7 @@ public class Plateau extends JPanel {
 		
 		Insets insets = this.getInsets();
 		Dimension size = wordle.getPreferredSize();
-		wordle.setBounds(330 + insets.left, 455 + insets.top, size.width, size.height);
+		wordle.setBounds(315 + insets.left, 455 + insets.top, size.width, size.height);
 		wordle.setFocusPainted( false );
 		wordle.setBorderPainted(false); 
 		wordle.setOpaque( false ); 
@@ -223,7 +223,7 @@ public class Plateau extends JPanel {
 					enterName = false;
 					String name;
 					do {
-						name = JOptionPane.showInputDialog(jeu, "Player "+(playerId+1)+" scored "+score,"Enter your nickname", JOptionPane.QUESTION_MESSAGE);
+						name = JOptionPane.showInputDialog(Plateau.this, "Player "+(playerId+1)+" scored "+score,"Enter your nickname", JOptionPane.QUESTION_MESSAGE);
 					} while(name == null);
 					Constants.writeScore(name, score);
 				}
