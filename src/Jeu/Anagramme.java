@@ -172,7 +172,7 @@ public class Anagramme extends GameMode {
 		{
 			Graphics2D g2 = (Graphics2D) g;
 			g2.setStroke(new BasicStroke(3));
-			g.setColor(Color.red);
+			g.setColor(Color.pink);
 			g.drawRect((int)(Constants.MarginImg+5), (int)((currentRow+1)*Case.size+Constants.MarginImg+13), (int)(Grille.cols*Case.size), (int)(Case.size));
 		}
 		for(Point p: points) {
