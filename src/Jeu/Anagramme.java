@@ -53,10 +53,17 @@ public class Anagramme extends GameMode {
 		reset();
 		this.found = false;
 		this.currentRow = rowsLeft.pop();
-		this.base = getStringLine(plateau,currentRow); 
-		this.bestWord = Constants.findBestWord(base); 
-		System.out.println("Base :  " + base);
-		System.out.println("Best Word : " + bestWord);
+		this.base = getStringLine(plateau,currentRow);
+		bestWord = "";
+		Thread t = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				bestWord = Constants.findBestWord(base);
+				System.out.println("Base :  " + base);
+				System.out.println("Best Word : " + bestWord);
+			}
+		});
+		t.start();
 	}
 	
 	public static String getStringLine(Plateau p, int nbrow) {
