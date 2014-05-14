@@ -33,10 +33,10 @@ public class Anagramme extends GameMode {
 	private ArrayList<Point> points;
 	private Stack<Integer> rowsLeft;
 
-	public Anagramme(Plateau p, Stack<Integer> o) {
+	public Anagramme(Plateau p, Stack<Integer> o, int difficulte) {
 		super(p);
 		rowsLeft = o;
-		this.difficulty= 50; 
+		this.difficulty= difficulte; 
 		 
 		
 		points = new ArrayList<Point>();
