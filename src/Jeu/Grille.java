@@ -50,9 +50,14 @@ public class Grille {
 		for(Brique b : briques) {
 			b.draw(g);
 		}
-		if(currentBrique != null)
+		if(currentBrique != null) {
 			currentBrique.draw(g);
+		}
+		
+		boolean tmp = Case.invert;
+		Case.invert = false;
 		nextBrique.draw(g);
+		Case.invert = tmp;
 		
 		mutex.unlock();
 	}

@@ -3,7 +3,9 @@ package Briques;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+
 import Jeu.Constants;
+import Jeu.Grille;
 /**
  * Classe case 
  * @author Monia, Laury & André
@@ -15,6 +17,7 @@ public class Case {
 	private int x;
 	private int y;
 	public static double size = 37.5;
+	public static boolean invert = true;
 	
 	public Case(int x1, int y1, double size){
 		this.setX(x1);
@@ -24,13 +27,20 @@ public class Case {
 	
 	public void draw(Graphics g, float x2, float y2, Image i) { 
 		if(y2+y >= 0){
-			g.drawImage (i,(int)((x2+x)*size+10+Constants.MarginImg), (int)((y2+y)*size+55+Constants.MarginImg), null ); 
+			if(invert)
+				g.drawImage (i,(int)((x2+x)*size+10+Constants.MarginImg), (int)((Grille.rows-(y2+y+1))*size+55+Constants.MarginImg), null );
+			else
+				g.drawImage (i,(int)((x2+x)*size+10+Constants.MarginImg), (int)((y2+y)*size+55+Constants.MarginImg), null );
+			
 			String s = "" +a ;
 			//g.setColor(Color.red);
 			//g.drawRect((x1+x)*size, (y1+y)*size, size, size);
 			//g.fillRect((x1+x)*size, (y1+y)*size, size, size);
 			g.setColor(Color.black);
-			g.drawString(s, (int)((x2+x)*size+Constants.Padding+4), (int)((y2+y)*size+80));
+			if(invert)
+				g.drawString(s, (int)((x2+x)*size+Constants.Padding+4), (int)((Grille.rows-(y2+y+1))*size+80));
+			else
+				g.drawString(s, (int)((x2+x)*size+Constants.Padding+4), (int)((y2+y)*size+80));
 		}
 	}
 

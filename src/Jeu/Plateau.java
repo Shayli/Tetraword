@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Stack;
+import java.util.regex.Pattern;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -224,9 +225,12 @@ public class Plateau extends JPanel {
 						return;
 					enterName = false;
 					String name;
+					Pattern p = Pattern.compile("[a-zA-Z0-9]");
 					do {
 						name = JOptionPane.showInputDialog(Plateau.this, "Player "+(playerId+1)+" scored "+score,"Enter your nickname", JOptionPane.QUESTION_MESSAGE);
-					} while(name == null);
+						if(name.isEmpty() || name == null)
+							name = "Player"+(playerId+1);
+					} while(!p.matcher(name).find());
 					Constants.writeScore(name, score);
 				}
 			});

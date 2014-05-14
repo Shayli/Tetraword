@@ -1,7 +1,9 @@
 package Jeu;
 
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 
+import Briques.Case;
 import Jeu.Constants.Key;
 import Patterns.Observer;
 /**
