@@ -116,6 +116,8 @@ public class Plateau extends JPanel {
 					alive = false;
 				} else if(s.equals("block")) {
 					addPoints(25);
+				} else if(s.equals("modif")) {
+					addModifier((Modificateur)o);
 				}
 				
 			}
@@ -180,7 +182,9 @@ public class Plateau extends JPanel {
 		g.setColor(Color.white);
 		g.drawString("Next Brique", 330+Constants.Padding, 260);
 	
-		
+		for(int i = 0; i<modifiers.size(); ++i) {
+			modifiers.get(i).draw(g, 300, i*30);
+		}
 		current.draw(g);
 	}
 	
@@ -246,7 +250,7 @@ public class Plateau extends JPanel {
 					Pattern p = Pattern.compile("[a-zA-Z0-9]");
 					do {
 						name = JOptionPane.showInputDialog(Plateau.this, "Player "+(playerId+1)+" scored "+score,"Enter your nickname", JOptionPane.QUESTION_MESSAGE);
-						if(name.isEmpty() || name == null)
+						if(name == null || name.isEmpty())
 							name = "Player"+(playerId+1);
 					} while(!p.matcher(name).find());
 					Constants.writeScore(name, score);
@@ -262,6 +266,14 @@ public class Plateau extends JPanel {
 	}
 	
 	public void addModifier(Modificateur m) {
+		for(Modificateur m2 : modifiers) 
+			if(m.type == m2.type)
+			{
+				m2.refresh();
+				return;
+			}
+		
+		m.plateau = this;
 		m.start();
 		modifiers.add(m);
 	}

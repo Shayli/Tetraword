@@ -5,8 +5,8 @@ import Jeu.Plateau;
 
 public class DoubleScore extends Modificateur {
 
-	public DoubleScore(Plateau p) {
-		super(p, Constants.ModifDouble, 1000*10);
+	public DoubleScore() {
+		super(Type.DOUBLE, Constants.ModifDouble, 1000*10);
 	}
 	
 	@Override
@@ -17,11 +17,13 @@ public class DoubleScore extends Modificateur {
 
 	@Override
 	public void onStop() {
+		System.out.println("double end");
 		plateau.scoreModifier /= 2;
 	}
 
 	@Override
 	public void onStart() {
+		System.out.println("double start");
 		plateau.scoreModifier *= 2;		
 	}
 

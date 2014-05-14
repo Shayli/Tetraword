@@ -24,6 +24,7 @@ import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
 
 import Briques.Brique;
+import Modificateurs.Modificateur;
 import sun.awt.Mutex;
 
 /**
@@ -53,7 +54,7 @@ public class Constants {
 	private static HashMap<Integer, Brique> briques;
 	public static List<HighScore> highscores;
 	public static int difficulty;
-	public static Image ModifDouble, ModifHalf, ModifInv;
+	public static Image ModifDouble, ModifHalf, ModifInv, ModifRandom;
 	
 	public static class Key{
 		static int ROTATE = 0;
@@ -78,15 +79,15 @@ public class Constants {
 		L2 = a.getImage();
 		a = new ImageIcon("resources/9.png", ""); 
 		Cube = a.getImage();
-		/*a = new ImageIcon("resources/double.png", "");
+		a = new ImageIcon("resources/double.png", "");
 		ModifDouble = a.getImage();
 		a = new ImageIcon("resources/half.png", "");
 		ModifHalf = a.getImage();
-		a = new ImageIcon("resources/inversion.png", "");
-		ModifInv = a.getImage();*/
-		ModifDouble = null;
-		ModifHalf = null;
-		ModifInv = null;
+		a = new ImageIcon("resources/invert.png", "");
+		ModifInv = a.getImage();
+		a = new ImageIcon("resources/modif.png","");
+		ModifRandom = a.getImage();
+		
 		
 		letter = new HashMap<Character, Integer>();
 		dictionary = new LinkedList<String>();
@@ -145,7 +146,7 @@ public class Constants {
 			while (scanner.hasNextLine()) {
 			    String line = scanner.nextLine();
 			    line = line.toLowerCase();
-			    line = line.replace('à','a').replace('é', 'e').replace('ê', 'e').replace('è', 'e').replace('ä', 'a').replace('ï', 'i').replace('î',  'i').replace('ë', 'e').replace('ç', 'c');
+			    line = line.replace('à','a').replace('â', 'a').replace('é', 'e').replace('ê', 'e').replace('è', 'e').replace('ä', 'a').replace('ï', 'i').replace('î',  'i').replace('ë', 'e').replace('ç', 'c');
 			    if(!p.matcher(line).find()) {
 			    	if(line.length() <= Grille.cols)
 			    		shortWords.add(line.toUpperCase());
@@ -334,6 +335,20 @@ public class Constants {
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+
+	public static Modificateur randomModificateur() {
+		int i = ((int)(Math.random()*100)) % 3;
+		switch(i) {
+		case 0:
+			return new Modificateurs.Inversion();
+		case 1:
+			return new Modificateurs.DoubleScore();
+		case 2:
+			return new Modificateurs.HalfScore();
+		default:
+			return null;
 		}
 	}
 }

@@ -9,6 +9,7 @@ import java.util.Stack;
 import sun.awt.Mutex;
 import Briques.Brique;
 import Briques.Case;
+import Modificateurs.Modificateur;
 import Patterns.Observable;
 
 /**
@@ -28,6 +29,7 @@ public class Grille {
 	private int nbBriques;
 	private boolean lostGame;
 	private boolean inverted;
+	private Modificateur currentModif;
 	
 	public Grille() {
 		briques = new LinkedList<Brique>();
@@ -38,7 +40,6 @@ public class Grille {
 		nbBriques = 0;
 		lostGame = false;
 		inverted = false;
-		//briques.add(new Briques.Cross(this));
 	}
 	
 	public void add(){
@@ -50,7 +51,6 @@ public class Grille {
 	}
 
 	public void draw(Graphics g) {
-		// TODO Auto-generated method stub
 		g.setFont(new Font("Helvetica", Font.PLAIN,18));
 	
 		mutex.lock();
@@ -61,6 +61,9 @@ public class Grille {
 			currentBrique.draw(g, inverted);
 		}
 		
+		if(currentModif != null) {
+			currentModif.draw(g, (int)(currentModif.x*Case.size+10+Constants.MarginImg), (int)(currentModif.y*Case.size+55+Constants.MarginImg));
+		}
 		nextBrique.draw(g, false);
 		
 		mutex.unlock();
@@ -99,6 +102,13 @@ public class Grille {
 	public void update() {
 		if(lostGame)
 			return;
+		
+		if(currentModif == null) {
+			int rnd = (int)(Math.random()*100);
+			if(rnd >= 98) {
+				currentModif = nextModif();
+			}
+		}
 		mutex.lock();
 		if(!currentBrique.down()) {
 			briques.add(currentBrique);
@@ -117,6 +127,23 @@ public class Grille {
 			currentBrique = next();
 		}
 		mutex.unlock();
+		checkModificateur();
+	}
+
+	private Modificateur nextModif() {
+		Modificateur m = new Modificateurs.Random();
+		boolean found = false;
+		do {
+			int x = (int)(Math.random()*100) % Grille.cols;
+			int y = (int)(Math.random()*100) % Grille.rows;
+			if(isEmpty(x, y)) {
+				m.x = x;
+				m.y = y;
+				found = true;
+				System.out.println("Modif in "+m.x+" "+m.y);
+			}
+		} while(!found);
+		return m;
 	}
 
 	private void checkLine() {
@@ -190,22 +217,43 @@ public class Grille {
 
 
 	public void rotateCurrent() {
-		if(currentBrique != null)
-		currentBrique.rotate();
+		if(currentBrique != null) {
+			currentBrique.rotate();
+			checkModificateur();
+		}
 	}
 
 	public void moveLeftCurrent() {
-		if(currentBrique != null)
-		currentBrique.moveLeft();
+		if(currentBrique != null) {
+			currentBrique.moveLeft();
+			checkModificateur();
+		}
 	}
 
 	public void moveRightCurrent() {
-		if(currentBrique != null)
-		currentBrique.moveRight();
-		// TODO Auto-generated method stub
+		if(currentBrique != null) {
+			currentBrique.moveRight();
+			checkModificateur();
+		}
 		
 	}
 	
+	private void checkModificateur() {
+		mutex.lock();
+		if(currentBrique == null || currentModif == null) {
+			mutex.unlock();
+			return;
+		}
+		
+		
+		if(currentBrique.isHere(currentModif.x, currentModif.y))
+		{
+			events.notify("modif", Constants.randomModificateur());
+			currentModif = null;
+		}
+		mutex.unlock();
+	}
+
 	public Brique getCurrentBrique(){
 		return currentBrique;
 	}
