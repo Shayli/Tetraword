@@ -32,7 +32,7 @@ public class Worddle extends GameMode {
 		points = new ArrayList<ArrayList<Point>>();
 		points.add(new ArrayList<Point>());
 		currentWord = "";
-		timeLeft = 1000*60;
+		timeLeft = 1000*30;
 		boolean found = false;
 		do {
 			int x = (int)(Math.random()*100) % Grille.cols;
@@ -134,7 +134,7 @@ public class Worddle extends GameMode {
 		g.setColor(Color.white);
 		g.setFont(Constants.pacifico); 
 		int sec = (int)timeLeft/1000;
-		g.drawString("Time spend: "+sec, 355, 90);
+		g.drawString("Time left: "+sec, 355, 90);
 		
 		g.drawImage(worddleImg, 335, 455, null);
 		g.drawString(currentWord.toLowerCase(), 370, 503);

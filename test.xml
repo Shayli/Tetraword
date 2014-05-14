@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
-<project name="Tetraword" basedir=".." default="compile">
-	<property name="class" location="bin"/>
-	<property name="doc"  location="doc"/>
-	<property name="src" location="src"/>
-	<property name="jar" location="jar"/>
-	<property name="resources" location="resources"/>
+<project name="Tetraword" basedir=".." default="jar">
+	<property name="class" location="Tetraword/bin"/>
+	<property name="doc"  location="Tetraword/doc"/>
+	<property name="src" location="Tetraword/src"/>
+	<property name="jar" location="Tetraword"/>
+	<property name="resources" location="Tetraword/resources"/>
  
 	<target name="init">
 		<tstamp/>
@@ -13,8 +13,8 @@
 	</target>
 
 	<target name="compile" depends="init">
-		<mkdir dir="bin"/>
-		<javac srcdir="src" destdir="bin" debug="on"/>
+		<mkdir dir="Tetraword/bin"/>
+		<javac srcdir="Tetraword/src" destdir="Tetraword/bin" debug="on"/>
 	</target>
  
 	<target name="clean" description="clean up" >
@@ -28,7 +28,7 @@
 	</target>
  
 	<target name="jar" depends="compile">
-		<jar destfile="jar/tetraword.jar" basedir="${class}">
+		<jar destfile="Tetraword/tetraword.jar" basedir="${class}">
 			<manifest>
 				<attribute name="Main-Class" value="Jeu.Jeu"/>
 			</manifest>
@@ -39,7 +39,7 @@
  
  
 	<target name="run" depends="jar">
-		<java jar="jar/tetraword.jar" fork="true"/>
+		<java jar="Tetraword/tetraword.jar" fork="true"/>
 	</target>
  
 </project>
