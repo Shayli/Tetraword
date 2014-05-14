@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<project name="Tetraword" basedir=".." default="compile">
+	<property name="class" location="bin"/>
+	<property name="doc"  location="doc"/>
+	<property name="src" location="src"/>
+	<property name="jar" location="jar"/>
+	<property name="resources" location="resources"/>
+ 
+	<target name="init">
+		<tstamp/>
+		<mkdir dir="${class}"/>
+		<mkdir dir="${doc}"/>
+	</target>
+
+	<target name="compile" depends="init">
+		<mkdir dir="bin"/>
+		<javac srcdir="src" destdir="bin" debug="on"/>
+	</target>
+ 
+	<target name="clean" description="clean up" >
+		<delete dir="${class}"/>
+		<delete dir="${doc}"/>
+		<delete verbose="true">
+			<fileset defaultexcludes="no" dir="." includes="**/*~"/>
+			<fileset defaultexcludes="no" dir="." includes="**/#*#"/>
+			<fileset defaultexcludes="no" dir="." includes="**/.#*"/>
+		</delete>
+	</target>
+ 
+	<target name="jar" depends="compile">
+		<jar destfile="jar/tetraword.jar" basedir="${class}">
+			<manifest>
+				<attribute name="Main-Class" value="Jeu.Jeu"/>
+			</manifest>
+			<fileset dir="${class}">
+			</fileset>
+		</jar>
+	</target>
+ 
+ 
+	<target name="run" depends="jar">
+		<java jar="jar/tetraword.jar" fork="true"/>
+	</target>
+ 
+</project>
