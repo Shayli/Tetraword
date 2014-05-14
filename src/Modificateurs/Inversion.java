@@ -1,7 +1,6 @@
 package Modificateurs;
 
 import Jeu.Constants;
-import Jeu.Plateau;
 
 public class Inversion extends Modificateur {
 

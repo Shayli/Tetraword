@@ -39,7 +39,8 @@ public class Plateau extends JPanel {
 	
 	private int score;
 	private long lStartTime;
-	public int niveau, difficulte; //1 pour facile, 2 pour moyen, 3 pour difficile
+	public int niveau;
+	public float difficulte; //1 pour facile, 2 pour moyen, 3 pour difficile
 
 	
 	GameMode current;
@@ -108,7 +109,7 @@ public class Plateau extends JPanel {
 				if(s.equals("line")) {
 					if(Constants.takeMouse()) {
 						Stack<Integer> o2 = (Stack<Integer>)o;
-						changeMode(new Anagramme(Plateau.this, o2, difficulte));
+						changeMode(new Anagramme(Plateau.this, o2, (int)Math.ceil(difficulte)));
 						addPoints(50*o2.size()*o2.size());
 						
 					}
@@ -203,6 +204,7 @@ public class Plateau extends JPanel {
 		}
 		
 		current.update(difference);
+		computeDifficulte();
 		lStartTime = lEndTime;
 	}
 	
@@ -230,7 +232,6 @@ public class Plateau extends JPanel {
 
 	public void addPoints(int i) {
 		score += i*scoreModifier;
-		computeDifficulte();
 	}
 
 	public boolean isAlive() {

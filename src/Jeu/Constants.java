@@ -54,8 +54,8 @@ public class Constants {
 	private static HashMap<Integer, Brique> briques;
 	public static List<HighScore> highscores;
 	public static int difficulty;
-	public static Image ModifDouble, ModifHalf, ModifInv, ModifRandom;
-	
+	public static Image ModifDouble, ModifHalf, ModifInv, ModifRandom, ModifFast, ModifSlow;
+
 	public static class Key{
 		static int ROTATE = 0;
 		static int DOWN = 1;
@@ -87,7 +87,10 @@ public class Constants {
 		ModifInv = a.getImage();
 		a = new ImageIcon("resources/modif.png","");
 		ModifRandom = a.getImage();
-		
+		a = new ImageIcon("resources/fast.png","");
+		ModifFast = a.getImage();
+		a = new ImageIcon("resources/slow.png","");
+		ModifSlow = a.getImage();
 		
 		letter = new HashMap<Character, Integer>();
 		dictionary = new LinkedList<String>();
@@ -308,7 +311,6 @@ public class Constants {
 			pw.close();
 			file.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -326,13 +328,12 @@ public class Constants {
 			}
 			scanner.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	public static Modificateur randomModificateur() {
-		int i = ((int)(Math.random()*100)) % 3;
+		int i = ((int)(Math.random()*100)) % 5;
 		switch(i) {
 		case 0:
 			return new Modificateurs.Inversion();
@@ -340,6 +341,10 @@ public class Constants {
 			return new Modificateurs.DoubleScore();
 		case 2:
 			return new Modificateurs.HalfScore();
+		case 3:
+			return new Modificateurs.Fast();
+		case 4:
+			return new Modificateurs.Slow();
 		default:
 			return null;
 		}

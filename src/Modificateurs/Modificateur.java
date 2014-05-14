@@ -3,9 +3,6 @@ package Modificateurs;
 import java.awt.Graphics;
 import java.awt.Image;
 
-import Briques.Case;
-import Jeu.Constants;
-import Jeu.Grille;
 import Jeu.Plateau;
 
 public abstract class Modificateur {
@@ -13,7 +10,9 @@ public abstract class Modificateur {
 		RANDOM,
 		HALF,
 		DOUBLE,
-		INVERT
+		INVERT,
+		FAST,
+		SLOW
 	};
 	
 	public Plateau plateau;
