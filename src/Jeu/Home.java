@@ -114,18 +114,28 @@ public class Home extends JPanel implements ActionListener{
 			}
 		});
 		size = fr.getPreferredSize();
-		fr.setBounds(370, 600, size.width, size.height);
+		fr.setBounds(360, 600, size.width, size.height);
 		fr.setFocusPainted( false );
 		fr.setBorderPainted(false); 
 		fr.setOpaque( false ); 
 		fr.setContentAreaFilled(false);
+		fr.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Constants.loadDictionary("french");
+			}
+		});
 		 
 		size = en.getPreferredSize();
-		en.setBounds(430, 600, size.width, size.height);
+		en.setBounds(420, 600, size.width, size.height);
 		en.setFocusPainted( false );
 		en.setBorderPainted(false); 
 		en.setOpaque( false ); 
 		en.setContentAreaFilled(false);
+		en.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Constants.loadDictionary("english");
+			}
+		});
 	}
 	
 	public void paintComponent(Graphics g) {
