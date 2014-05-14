@@ -52,7 +52,7 @@ public class Plateau extends JPanel {
 	public JButton wordle;
 	private Jeu jeu;
 	private boolean enterName, alive;
-	public int scoreModifier;
+	public float scoreModifier;
 	private ArrayList<Modificateur> modifiers;
 	
 	
@@ -183,7 +183,7 @@ public class Plateau extends JPanel {
 		g.drawString("Next Brique", 330+Constants.Padding, 260);
 	
 		for(int i = 0; i<modifiers.size(); ++i) {
-			modifiers.get(i).draw(g, 300, i*30);
+			modifiers.get(i).draw(g, 300+i*35,10);
 		}
 		current.draw(g);
 	}
