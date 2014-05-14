@@ -10,18 +10,16 @@ public class Fast extends Modificateur {
 	
 	@Override
 	public void onStart() {
-		// TODO Auto-generated method stub
-		plateau.difficulte *= 2;
+
 	}
 
 	@Override
 	public void onUpdate(float elapsed) {
-		// TODO Auto-generated method stub
+		plateau.difficulte *= 2;
 	}
 
 	@Override
 	public void onStop() {
-		// TODO Auto-generated method stub
 		plateau.difficulte /= 2;
 	}
 

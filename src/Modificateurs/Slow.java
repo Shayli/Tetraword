@@ -10,17 +10,17 @@ public class Slow extends Modificateur {
 	
 	@Override
 	public void onStart() {
-		plateau.difficulte /= 2;
+		
 	}
 
 	@Override
 	public void onUpdate(float elapsed) {
-
+		plateau.difficulte /= 2;
 	}
 
 	@Override
 	public void onStop() {
-		plateau.difficulte *= 2;
+
 	}
 
 }
