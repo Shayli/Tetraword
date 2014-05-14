@@ -106,11 +106,6 @@ public class Constants {
 			while (scanner.hasNextLine()) {
 			    String line = scanner.nextLine();
 			    line = line.toLowerCase();
-<<<<<<< HEAD
-			    line = line.replace('à','a').replace('é', 'e').replace('ê', 'e').replace('è', 'e').replace('ä', 'a').replace('ï', 'i').replace('ë', 'e');
-			    if(!p.matcher(line).find() && line.length() <= 11)
-			    	dictionary.add(line.toUpperCase());
-=======
 			    line = line.replace('à','a').replace('é', 'e').replace('ê', 'e').replace('è', 'e').replace('ä', 'a').replace('ï', 'i').replace('ë', 'e').replace('ç', 'c');
 			    if(!p.matcher(line).find()) {
 			    	if(line.length() <= Grille.cols)
@@ -118,7 +113,7 @@ public class Constants {
 		    		else
 		    			dictionary.add(line.toUpperCase());
 			    }
->>>>>>> origin/master
+
 			}
 			//System.out.println(dictionary); 
 			scanner.close();
@@ -163,21 +158,7 @@ public class Constants {
         	//System.out.println(s);
         	for(int i=0; i<comb.stock.size(); i++) {
         		//System.out.println(comb.stock.get(i));
-<<<<<<< HEAD
-        		it = dictionary.listIterator(0); 
-        		while(it.hasNext() ) {
-                	
-        			String s = (String)it.next();		    		
-		    		if(s.length() < comb.stock.get(i).length()) break; 
-		    		if(s.length() == comb.stock.get(i).length()) {
-		    			b = isAnagram(comb.stock.get(i), s);		    		
-				    	if(b) {			    		
-				    		return  s; 	    		
-				    	}
-		    			
-		    		} 
-        			
-=======
+       			
         		it = shortWords.listIterator(0); 
         		while(it.hasNext()) {
                 	String s = (String)it.next();		    		
@@ -185,7 +166,7 @@ public class Constants {
 			    	if(b) {			    		
 			    		return  s; 	    		
 			    	}
->>>>>>> origin/master
+
         		}
         	}  
 			
