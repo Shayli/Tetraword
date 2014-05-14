@@ -13,9 +13,13 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 public class Rules extends JPanel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Image fond;
 	private JTextArea text;
-	JButton back;
+	private JButton back;
 	
 	public Rules(final Jeu j){			
 		super();

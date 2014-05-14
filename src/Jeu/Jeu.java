@@ -32,6 +32,7 @@ public class Jeu extends JFrame implements KeyListener, MouseListener  {
 	private boolean clicked;
 	private Settings settings;
 	private Rules rules;
+	private HighScorePanel score;
 	
 	public Jeu(){
 	    this.setTitle("Tetraword");
@@ -79,16 +80,23 @@ public class Jeu extends JFrame implements KeyListener, MouseListener  {
 	    this.requestFocus();
 	}
 	
-	public void settings(Jeu j){
-		settings = new Settings(j);
+	public void settings(){
+		settings = new Settings(this);
 		this.setContentPane(settings);
 		this.validate();
 		this.repaint();
 	}
 	
-	public void rules(Jeu j){
-		rules = new Rules(j);
+	public void rules(){
+		rules = new Rules(this);
 		this.setContentPane(rules);
+		this.validate();
+		this.repaint();
+	}
+	
+	public void highscore(int indice){
+		score = new HighScorePanel(indice, this);
+		this.setContentPane(score);
 		this.validate();
 		this.repaint();
 	}

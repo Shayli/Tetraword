@@ -87,7 +87,7 @@ public class Home extends JPanel implements ActionListener{
 		settings.setForeground(Color.white);
 		settings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				jeu.settings(jeu);
+				jeu.settings();
 			}
 		});
 		size = rules.getPreferredSize();
@@ -102,7 +102,7 @@ public class Home extends JPanel implements ActionListener{
 		rules.setForeground(Color.white);
 		rules.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				jeu.rules(jeu);
+				jeu.rules();
 			}
 		});
 	}
