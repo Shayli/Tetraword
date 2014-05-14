@@ -105,6 +105,8 @@ public class Anagramme extends GameMode {
 	public void click(int x, int y) {
 
 		if(nbLetters == Grille.cols) this.found = win();
+		if(grille.isInverted())
+			y = Grille.rows - (y+1);
 		if(y == this.currentRow) {
 			Case c = grille.getCase(x, y);
 			
@@ -180,13 +182,19 @@ public class Anagramme extends GameMode {
 			Graphics2D g2 = (Graphics2D) g;
 			g2.setStroke(new BasicStroke(3));
 			g.setColor(Color.pink);
-			g.drawRect((int)(Constants.MarginImg+5), (int)((currentRow+1)*Case.size+Constants.MarginImg+13), (int)(Grille.cols*Case.size), (int)(Case.size));
+			if(grille.isInverted())
+				g.drawRect((int)(Constants.MarginImg+5), (int)((Grille.rows-(currentRow))*Case.size+Constants.MarginImg+13), (int)(Grille.cols*Case.size), (int)(Case.size));
+			else
+				g.drawRect((int)(Constants.MarginImg+5), (int)((currentRow+1)*Case.size+Constants.MarginImg+13), (int)(Grille.cols*Case.size), (int)(Case.size));
 		}
 		for(Point p: points) {
 			g.setColor(Color.pink);
 			Graphics2D g2 = (Graphics2D) g;
 			g2.setStroke(new BasicStroke(3));
-			g.drawOval((int)(p.x*Case.size+8+Constants.MarginImg), (int)((p.y+1)*Case.size+14+Constants.MarginImg), (int)Case.size-2, (int)Case.size-2);
+			if(grille.isInverted())
+				g.drawOval((int)(p.x*Case.size+8+Constants.MarginImg), (int)((Grille.rows-(p.y))*Case.size+14+Constants.MarginImg), (int)Case.size-2, (int)Case.size-2);
+			else
+				g.drawOval((int)(p.x*Case.size+8+Constants.MarginImg), (int)((p.y+1)*Case.size+14+Constants.MarginImg), (int)Case.size-2, (int)Case.size-2);
 		}
 
 	}

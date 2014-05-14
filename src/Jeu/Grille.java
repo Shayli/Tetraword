@@ -269,4 +269,8 @@ public class Grille {
 			b.removeCase(x, y);
 		}
 	}
+
+	public boolean isInverted() {
+		return inverted;
+	}
 }

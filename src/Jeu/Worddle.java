@@ -53,6 +53,8 @@ public class Worddle extends GameMode {
 	
 	public void click(int x, int y) {
 		//grille;
+		if(grille.isInverted())
+			y = Grille.rows - (y+1);
 		Point curr = new Point(x,y);
 		if(Math.abs(lastPoint.x-curr.x) > 1 || Math.abs(lastPoint.y-curr.y) > 1)
 			return;
@@ -152,13 +154,19 @@ public class Worddle extends GameMode {
 			
 			if(a.size() == 1) {
 				Point p = a.get(0);
-				g2.drawLine((int)(p.x*Case.size+22+Constants.MarginImg), (int)((p.y+1)*Case.size+28+Constants.MarginImg), (int)(p.x*Case.size+27+Constants.MarginImg), (int)((p.y+1)*Case.size+32+Constants.MarginImg));
+				if(grille.isInverted())
+					g2.drawLine((int)(p.x*Case.size+22+Constants.MarginImg), (int)((Grille.rows-(p.y))*Case.size+28+Constants.MarginImg), (int)(p.x*Case.size+27+Constants.MarginImg), (int)((Grille.rows-(p.y))*Case.size+32+Constants.MarginImg));
+				else
+					g2.drawLine((int)(p.x*Case.size+22+Constants.MarginImg), (int)((p.y+1)*Case.size+28+Constants.MarginImg), (int)(p.x*Case.size+27+Constants.MarginImg), (int)((p.y+1)*Case.size+32+Constants.MarginImg));
 			}
 			else {
 				for(int i = 0; i<a.size()-1; ++i) {
 					Point p = a.get(i);
 					Point p2 = a.get(i+1);
-					g2.drawLine((int)(p.x*Case.size+25+Constants.MarginImg), (int)((p.y+1)*Case.size+30+Constants.MarginImg), (int)(p2.x*Case.size+25+Constants.MarginImg), (int)((p2.y+1)*Case.size+30+Constants.MarginImg));
+					if(grille.isInverted())
+						g2.drawLine((int)(p.x*Case.size+25+Constants.MarginImg), (int)((Grille.rows-(p.y))*Case.size+30+Constants.MarginImg), (int)(p2.x*Case.size+25+Constants.MarginImg), (int)((Grille.rows-(p2.y))*Case.size+30+Constants.MarginImg));
+					else
+						g2.drawLine((int)(p.x*Case.size+25+Constants.MarginImg), (int)((p.y+1)*Case.size+30+Constants.MarginImg), (int)(p2.x*Case.size+25+Constants.MarginImg), (int)((p2.y+1)*Case.size+30+Constants.MarginImg));
 				}
 			}
 		}
