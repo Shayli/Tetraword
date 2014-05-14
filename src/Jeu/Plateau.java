@@ -8,6 +8,8 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Stack;
 import java.util.regex.Pattern;
 
@@ -18,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import Jeu.Constants.Key;
+import Modificateurs.Modificateur;
 import Patterns.Observer;
 
 /**
@@ -48,8 +51,10 @@ public class Plateau extends JPanel {
 	private Image next;
 	public JButton wordle;
 	private Jeu jeu;
-	private String name;
 	private boolean enterName, alive;
+	public int scoreModifier;
+	private ArrayList<Modificateur> modifiers;
+	
 	
 	public Plateau(Jeu j, int player){
 		this.setLayout(null);
@@ -71,6 +76,8 @@ public class Plateau extends JPanel {
 		playerId = player;
 		enterName = true;
 		alive = true;
+		scoreModifier = 1;
+		modifiers = new ArrayList<Modificateur>();
 		
 		Insets insets = this.getInsets();
 		Dimension size = wordle.getPreferredSize();
@@ -180,6 +187,17 @@ public class Plateau extends JPanel {
 	public void update() {
 		long lEndTime = System.currentTimeMillis();
 		long difference = lEndTime - lStartTime;
+		Iterator it = modifiers.iterator();
+		while(it.hasNext()) {
+			Modificateur m = (Modificateur)it.next();
+			if(m.done()) {
+				m.stop();
+				it.remove();
+			}
+			else
+				m.update(difference);
+		}
+		
 		current.update(difference);
 		lStartTime = lEndTime;
 	}
@@ -207,7 +225,7 @@ public class Plateau extends JPanel {
 
 
 	public void addPoints(int i) {
-		score += i;
+		score += i*scoreModifier;
 		computeDifficulte();
 	}
 
@@ -241,5 +259,10 @@ public class Plateau extends JPanel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void addModifier(Modificateur m) {
+		m.start();
+		modifiers.add(m);
 	}
 }

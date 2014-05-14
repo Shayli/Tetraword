@@ -1,5 +1,5 @@
 package Jeu;
-
+/*
 public enum Modificateur {
 	VITESSE,
 	TREMBLEMENT,
@@ -11,3 +11,4 @@ public enum Modificateur {
 	ROLLBACK,
 	WORDDLE;
 }
+*/

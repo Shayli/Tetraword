@@ -27,6 +27,7 @@ public class Grille {
 	private Mutex mutex;
 	private int nbBriques;
 	private boolean lostGame;
+	private boolean inverted;
 	
 	public Grille() {
 		briques = new LinkedList<Brique>();
@@ -36,28 +37,31 @@ public class Grille {
 		mutex = new Mutex();
 		nbBriques = 0;
 		lostGame = false;
+		inverted = false;
 		//briques.add(new Briques.Cross(this));
 	}
 	
 	public void add(){
 		
 	}
+	
+	public void setInverted(boolean invert) {
+		inverted = invert;
+	}
 
 	public void draw(Graphics g) {
 		// TODO Auto-generated method stub
 		g.setFont(new Font("Helvetica", Font.PLAIN,18));
+	
 		mutex.lock();
 		for(Brique b : briques) {
-			b.draw(g);
+			b.draw(g,inverted);
 		}
 		if(currentBrique != null) {
-			currentBrique.draw(g);
+			currentBrique.draw(g, inverted);
 		}
 		
-		boolean tmp = Case.invert;
-		Case.invert = false;
-		nextBrique.draw(g);
-		Case.invert = tmp;
+		nextBrique.draw(g, false);
 		
 		mutex.unlock();
 	}
@@ -217,6 +221,4 @@ public class Grille {
 			b.removeCase(x, y);
 		}
 	}
-	
-
 }

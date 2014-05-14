@@ -17,7 +17,6 @@ public class Case {
 	private int x;
 	private int y;
 	public static double size = 37.5;
-	public static boolean invert = true;
 	
 	public Case(int x1, int y1, double size){
 		this.setX(x1);
@@ -25,7 +24,7 @@ public class Case {
 		this.a = Constants.randomLetter();
 	}
 	
-	public void draw(Graphics g, float x2, float y2, Image i) { 
+	public void draw(Graphics g, float x2, float y2, Image i, boolean invert) { 
 		if(y2+y >= 0){
 			if(invert)
 				g.drawImage (i,(int)((x2+x)*size+10+Constants.MarginImg), (int)((Grille.rows-(y2+y+1))*size+55+Constants.MarginImg), null );

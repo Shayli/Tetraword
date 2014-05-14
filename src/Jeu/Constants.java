@@ -53,6 +53,7 @@ public class Constants {
 	private static HashMap<Integer, Brique> briques;
 	public static List<HighScore> highscores;
 	public static int difficulty;
+	public static Image ModifDouble, ModifHalf, ModifInv;
 	
 	public static class Key{
 		static int ROTATE = 0;
@@ -77,6 +78,16 @@ public class Constants {
 		L2 = a.getImage();
 		a = new ImageIcon("resources/9.png", ""); 
 		Cube = a.getImage();
+		/*a = new ImageIcon("resources/double.png", "");
+		ModifDouble = a.getImage();
+		a = new ImageIcon("resources/half.png", "");
+		ModifHalf = a.getImage();
+		a = new ImageIcon("resources/inversion.png", "");
+		ModifInv = a.getImage();*/
+		ModifDouble = null;
+		ModifHalf = null;
+		ModifInv = null;
+		
 		letter = new HashMap<Character, Integer>();
 		dictionary = new LinkedList<String>();
 		shortWords = new LinkedList<String>();

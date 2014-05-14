@@ -45,9 +45,9 @@ abstract public class Brique {
 	
 	public abstract Brique clone();
 
-	public void draw(Graphics g){
+	public void draw(Graphics g, boolean inv){
 		for(Case c: cases) {
-			c.draw(g,x,y,img);
+			c.draw(g,x,y,img, inv);
 		}
 	}
 	
