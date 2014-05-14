@@ -7,6 +7,7 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Stack;
 
 import javax.swing.ImageIcon;
@@ -46,7 +47,7 @@ public class Plateau extends JPanel {
 	public JButton wordle;
 	private Jeu jeu;
 	private String name;
-	private boolean enterName;
+	private boolean enterName, alive;
 	
 	public Plateau(Jeu j, int player){
 		this.setLayout(null);
@@ -67,7 +68,7 @@ public class Plateau extends JPanel {
 		this.add(wordle);
 		playerId = player;
 		enterName = true;
-		
+		alive = true;
 		
 		Insets insets = this.getInsets();
 		Dimension size = wordle.getPreferredSize();
@@ -102,25 +103,7 @@ public class Plateau extends JPanel {
 						
 					}
 				} else if(s.equals("lose")) {
-					SwingUtilities.invokeLater(new Runnable() {
-
-						@Override
-						public void run() {
-							if(!enterName)
-								return;
-							enterName = false;
-							String name;
-							do {
-								name = JOptionPane.showInputDialog(jeu, "You scored "+score+". Enter your nickname:");
-							} while(name == null);
-							
-							
-							jeu.highscore(Constants.writeScore(name, score));
-						}
-						
-					});
-					
-					System.out.println("Lose");
+					alive = false;
 				} else if(s.equals("block")) {
 					addPoints(25);
 				}
@@ -223,5 +206,33 @@ public class Plateau extends JPanel {
 	public void addPoints(int i) {
 		score += i;
 		computeDifficulte();
+	}
+
+	public boolean isAlive() {
+		return alive;
+	}
+	
+	public void askForName() {
+		try {
+			SwingUtilities.invokeAndWait(new Runnable() {
+
+				@Override
+				public void run() {
+					if(!enterName)
+						return;
+					enterName = false;
+					String name;
+					do {
+						name = JOptionPane.showInputDialog(jeu, "Player "+(playerId+1)+" scored "+score,"Enter your nickname", JOptionPane.QUESTION_MESSAGE);
+					} while(name == null);
+				}
+			});
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
