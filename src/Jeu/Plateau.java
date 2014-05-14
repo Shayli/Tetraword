@@ -225,6 +225,7 @@ public class Plateau extends JPanel {
 					do {
 						name = JOptionPane.showInputDialog(jeu, "Player "+(playerId+1)+" scored "+score,"Enter your nickname", JOptionPane.QUESTION_MESSAGE);
 					} while(name == null);
+					Constants.writeScore(name, score);
 				}
 			});
 		} catch (InvocationTargetException e) {
