@@ -86,6 +86,7 @@ public class Constants {
 		highscores = new ArrayList<HighScore>();
 		
 		loadDictionary("french");
+		loadScores();
 		
 		Commands = new int[3][5];
 		loadCommands(0,KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER);
@@ -295,7 +296,7 @@ public class Constants {
 		try {
 			file = new FileWriter("resources/scores.tw",false);
 			PrintWriter pw = new PrintWriter(file);
-			for(int i = 0; i<10; ++i) {
+			for(int i = 0; i<highscores.size(); ++i) {
 				pw.println(highscores.get(i).name+" "+highscores.get(i).score);
 			}
 			pw.close();
@@ -316,7 +317,9 @@ public class Constants {
 				String name = scanner.next();
 				int score = scanner.nextInt();
 				highscores.add(new HighScore(name, score));
+				System.out.println(name + " "+ score);
 			}
+			scanner.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

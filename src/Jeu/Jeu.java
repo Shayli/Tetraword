@@ -51,6 +51,7 @@ public class Jeu extends JFrame implements KeyListener, MouseListener  {
 	}
 	
 	public void home(){
+		this.setSize(500, 700);
 		started = false;
 		this.setContentPane(home);
 		this.validate();
@@ -58,6 +59,8 @@ public class Jeu extends JFrame implements KeyListener, MouseListener  {
 	}
 	
 	public void solo(){
+		this.setSize(500, 700);
+		plateaux.clear();
 	    plateaux.add(new Plateau(this,0));
 	    content  = new JPanel(new GridLayout(1,1));
 	    content.add(plateaux.get(0));
@@ -69,6 +72,7 @@ public class Jeu extends JFrame implements KeyListener, MouseListener  {
 	
 	public void duo(){
 		this.setSize(1000, 700);
+		plateaux.clear();
 		plateaux.add(new Plateau(this, 0));
 		plateaux.add(new Plateau(this, 1));
 		content = new JPanel(new GridLayout(1,2));
@@ -81,6 +85,7 @@ public class Jeu extends JFrame implements KeyListener, MouseListener  {
 	}
 	
 	public void settings(){
+		this.setSize(500, 700);
 		settings = new Settings(this);
 		this.setContentPane(settings);
 		this.validate();
@@ -88,6 +93,7 @@ public class Jeu extends JFrame implements KeyListener, MouseListener  {
 	}
 	
 	public void rules(){
+		this.setSize(500, 700);
 		rules = new Rules(this);
 		this.setContentPane(rules);
 		this.validate();
@@ -95,6 +101,7 @@ public class Jeu extends JFrame implements KeyListener, MouseListener  {
 	}
 	
 	public void highscore(int indice){
+		this.setSize(500, 700);
 		score = new HighScorePanel(indice, this);
 		this.setContentPane(score);
 		this.validate();
