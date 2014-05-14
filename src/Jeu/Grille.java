@@ -4,12 +4,19 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Stack;
 
 import sun.awt.Mutex;
 import Briques.Brique;
 import Briques.Case;
 import Patterns.Observable;
 
+/**
+ * Classe Grille 
+ * Gère les briques sur une grille 
+ * @author Monia, Laury & André
+ * @version 1 
+ */
 public class Grille {
 	public static final int cols = 8;
 	public static final int rows = 16;
@@ -17,16 +24,18 @@ public class Grille {
 	protected Brique currentBrique;
 	protected Brique nextBrique;
 	public Observable events;
-	private int rowChecker;
-	private Mutex mutex ;
+	private Mutex mutex;
+	private int nbBriques;
+	private boolean lostGame;
 	
 	public Grille() {
 		briques = new LinkedList<Brique>();
 		nextBrique = null;
 		currentBrique = next();
 		events = new Observable();
-		rowChecker = 0;
 		mutex = new Mutex();
+		nbBriques = 0;
+		lostGame = false;
 		//briques.add(new Briques.Cross(this));
 	}
 	
@@ -36,7 +45,7 @@ public class Grille {
 
 	public void draw(Graphics g) {
 		// TODO Auto-generated method stub
-		g.setFont(new Font("Helvetica", Font.BOLD,18));
+		g.setFont(new Font("Helvetica", Font.PLAIN,18));
 		mutex.lock();
 		for(Brique b : briques) {
 			b.draw(g);
@@ -48,16 +57,16 @@ public class Grille {
 		mutex.unlock();
 	}
 
-	public boolean isEmpty(int x, int y) {
-		if(x < 0 || x >= cols || y >= rows)
+	public boolean isEmpty(float f, float y) {
+		if((int)f < 0 || (int)f >= cols || y >= rows)
 			return false;
 		
 		for(Brique b: briques) {
-			if(b.isHere(x,y))
+			if(b.isHere((int)f,(int)y))
 				return false;
 		}
 		
-		if(currentBrique != null && currentBrique.isHere(x, y))
+		if(currentBrique != null && currentBrique.isHere((int)f, (int)y))
 			return false;
 		
 		return true;
@@ -73,10 +82,14 @@ public class Grille {
 				return c;
 		}
 		
-		return currentBrique.get(x, y);
+		if(currentBrique != null)
+			return currentBrique.get(x, y);
+		return null;
 	}
 
 	public void update() {
+		if(lostGame)
+			return;
 		mutex.lock();
 		if(!currentBrique.down()) {
 			briques.add(currentBrique);
@@ -84,6 +97,7 @@ public class Grille {
 			for(Case c: currentBrique.cases){
 				if(c.getY()+currentBrique.y < 1)
 				{
+					lostGame = true;
 					events.notify("lose", null);
 				}
 			}
@@ -97,7 +111,8 @@ public class Grille {
 	}
 
 	private void checkLine() {
-		for(rowChecker = rows-1; rowChecker >= 0; --rowChecker) {
+		Stack<Integer> lines = new Stack<Integer>();
+		for(int rowChecker = rows-1; rowChecker >= 0; --rowChecker) {
 			boolean full = true;
 			for(int x = 0; x < cols; ++x) {
 				if(isEmpty(x,rowChecker)) {
@@ -106,8 +121,11 @@ public class Grille {
 				}
 			}
 			if(full)
-				events.notify("line",rowChecker);
+				lines.add(rowChecker);
 		}
+		if(!lines.isEmpty())
+			events.notify("line",lines);
+		
 		Iterator<Brique> it = briques.iterator();
 		while(it.hasNext()) {
 			Brique b = it.next();
@@ -119,38 +137,48 @@ public class Grille {
 	
 	private Brique next() {
 		if(nextBrique == null) {
-			nextBrique = nextBrique();
+			nextBrique = Constants.nextBrique(this, nbBriques++);
 		}
 		Brique tmp = nextBrique;
-		nextBrique = nextBrique();
-		nextBrique.x = cols+cols/4;
-		nextBrique.y = rows/3+1;
+		nextBrique = Constants.nextBrique(this, nbBriques++);
+		if(nextBrique instanceof Briques.L){
+			nextBrique.x = cols+cols/4;
+			nextBrique.y = rows/3+1;
+		}
+		if(nextBrique instanceof Briques.L){
+			nextBrique.x = cols+cols/4;
+			nextBrique.y = rows/3+1;
+		}
+		if(nextBrique instanceof Briques.L2){
+			nextBrique.x = cols+cols/4;
+			nextBrique.y = rows/3+2;
+		}
+		if(nextBrique instanceof Briques.S){
+			nextBrique.x = cols+cols/4;
+			nextBrique.y = rows/3+1;
+		}
+		if(nextBrique instanceof Briques.S2){
+			nextBrique.x = cols+cols/4;
+			nextBrique.y = rows/3+2;
+		}
+		if(nextBrique instanceof Briques.Cross){
+			nextBrique.x = cols+cols/4;
+			nextBrique.y = rows/3+1;
+		}
+		if(nextBrique instanceof Briques.Cube){
+			nextBrique.x = cols+cols/5;
+			nextBrique.y = rows/3+1;
+		}
+		if(nextBrique instanceof Briques.Bar){
+			nextBrique.x = cols+cols/3.2f;
+			nextBrique.y = rows/3+1;
+		}
 		tmp.x = cols/2;
 		tmp.y = 0;
 		return tmp;
 	}
 
-	private Brique nextBrique() {
-		int i = ((int)(Math.random()*100)) % 7;
-		switch(i) {
-		case 0:
-			return new Briques.L(this);
-		case 1:
-			return new Briques.L2(this);
-		case 2:
-			return new Briques.S(this);
-		case 3:
-			return new Briques.S2(this);
-		case 4:
-			return new Briques.Cross(this);
-		case 5:
-			return new Briques.Cube(this);
-		case 6:
-			return new Briques.Bar(this);
-		default:
-			return null;
-		}
-	}
+
 
 	public void rotateCurrent() {
 		if(currentBrique != null)
@@ -174,9 +202,14 @@ public class Grille {
 	}
 	
 	public void removeRow(int row) {
-		++rowChecker;
 		for(Brique b : briques) {
 			b.removeCases(row);
+		}
+	}
+
+	public void removeCase(int x, int y) {
+		for(Brique b : briques) {
+			b.removeCase(x, y);
 		}
 	}
 	

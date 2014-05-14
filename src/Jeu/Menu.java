@@ -9,9 +9,18 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 
+/**
+ * Classe Menu
+ * Créer un Menu sur la JFrame
+ * @author Monia, Laury & André
+ * @version 1 
+ */
 public class Menu extends JMenuBar implements ActionListener{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected static Menu menu;
-	private Jeu tetris;
 	private JMenu jeu = new JMenu("Jeu");
 	private JMenuItem solo = new JMenuItem("Jeu Solo");
 	private JMenuItem multi = new JMenuItem("Jeu Multi");

@@ -1,15 +1,24 @@
 package Jeu;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
+import java.awt.Graphics2D;
+import java.awt.Image;
 
-import Briques.Brique;
+import java.util.ArrayList;
+import java.util.Stack;
+
+import javax.swing.ImageIcon;
+
 import Briques.Case;
 import Jeu.Constants.Key;
-
+/**
+ * Classe Anagramme
+ * Gère le mode anagramme
+ * @author Monia, Laury & André
+ * @version 1 
+ */
 public class Anagramme extends GameMode {
 
 	private String currentWord;
@@ -20,17 +29,32 @@ public class Anagramme extends GameMode {
 	private int currentRow; 
 	private int difficulty; //pourcentage de lettres en commun avec ke bestword pour gagner
 	private long timeLeft;
-	
-	public Anagramme(Plateau p, int nbrow) {
+	private Image anagramme;
+	private ArrayList<Point> points;
+	private Stack<Integer> rowsLeft;
+
+	public Anagramme(Plateau p, Stack<Integer> o) {
 		super(p);
-		this.currentWord = "";
-		this.nbLetters = 0; 
+		rowsLeft = o;
 		this.difficulty= 50; 
-		this.found = false; 
-		this.currentRow = nbrow;
-		this.base = getStringLine(p,nbrow); 
-		this.bestWord = Constants.findBestWord(base); 
+		 
+		
+		points = new ArrayList<Point>();
 		timeLeft = 0;
+		
+		initWords();
+		
+		ImageIcon a = new ImageIcon("resources/anagramme.png", ""); 
+		anagramme = a.getImage();
+	}
+	
+	public void initWords()
+	{
+		reset();
+		this.found = false;
+		this.currentRow = rowsLeft.pop();
+		this.base = getStringLine(plateau,currentRow); 
+		this.bestWord = Constants.findBestWord(base); 
 		System.out.println("Base :  " + base);
 		System.out.println("Best Word : " + bestWord);
 	}
@@ -46,7 +70,8 @@ public class Anagramme extends GameMode {
 	
 	public void reset() { //recommencer tant qu'on a pas trouv�
 		this.currentWord = ""; 
-		this.nbLetters = 0; 
+		this.nbLetters = 0;
+		points.clear();
 	}
 	
 	public boolean win() {
@@ -54,7 +79,7 @@ public class Anagramme extends GameMode {
 		if(!Constants.wordExists(currentWord))
 			return false;
 		boolean tmp = false; 
-		if(nbLetters > bestWord.length()) return true; //si on a selectionn� plus de lettre que le meilleur anagramme
+		if(nbLetters > bestWord.length()) return true; //si on a selectionné plus de lettre que le meilleur anagramme
 		
 		else {
 			System.out.println("toto");			
@@ -71,14 +96,19 @@ public class Anagramme extends GameMode {
 		}
 	
 	public void click(int x, int y) {
-		//grille;
-		if(nbLetters == 11) this.found = win();
+
+		if(nbLetters == Grille.cols) this.found = win();
 		if(y == this.currentRow) {
 			Case c = grille.getCase(x, y);
+			
 			if(c != null) {
+				Point p = new Point(x,y);
+				if(points.contains(p))
+					return;
+				
 				this.currentWord += c.letter();
 				this.nbLetters++; 
-				System.out.println(currentWord);
+				points.add(p);
 			}
 			
 			
@@ -108,43 +138,49 @@ public class Anagramme extends GameMode {
 	@Override
 	public void update(long msecElapsed) {
 		timeLeft += msecElapsed;
-		if(timeLeft <= 0) {
-			if(win()) {
-				grille.removeRow(currentRow);
-			}
-			plateau.changeMode(new Tetris(plateau));
-			return;
-		}
 		if(nbLetters == Grille.cols) {
 			this.found = win();
 			if(!this.found) reset(); 
 		}
 		if(this.found) {
 			grille.removeRow(currentRow);
-			plateau.changeMode(new Tetris(plateau));
+			plateau.addPoints(currentWord.length()*100 / bestWord.length());
+			if(rowsLeft.isEmpty())
+			{
+				plateau.changeMode(new Tetris(plateau));
+				Constants.releaseMouse();
+			}
+			else {
+				initWords();
+			}
 		}
 	}
 
 	@Override
 	public void draw(Graphics g) {
 		grille.draw(g);
-		
-		// TODO draw letters selected
-		g.setColor(new Color(187, 173, 160));
-		g.fillRoundRect(250+Constants.Padding, 200, 100, 80, 10, 10);
-		g.setColor(Color.black);
-		g.drawString("Time left:", 270 + Constants.Padding, 220);
+		g.drawImage(anagramme, 340, 525, null);
+		g.setFont(Constants.pacifico); 
+		g.setColor(Color.white);		
 		int sec = (int)timeLeft/1000;
-		g.drawString(""+sec, 270+Constants.Padding, 240);
+		g.drawString("Time spent: "+sec, 355, 90);
+		g.drawString(currentWord.toLowerCase(), 380, 577);
 		
-		// TODO draw letters selected
-		g.setColor(new Color(187, 173, 160));
-		g.fillRoundRect(250+Constants.Padding, 200, 100, 80, 10, 10);
-		g.setColor(Color.black);
+		g.drawString("Appuyez sur "+Constants.getCommand(playerId, Key.MODE), 340, 620);
+		g.drawString("pour valider", 340, 645);
+
+		{
+			Graphics2D g2 = (Graphics2D) g;
+			g2.setStroke(new BasicStroke(3));
+			g.setColor(Color.red);
+			g.drawRect((int)(Constants.MarginImg+5), (int)((currentRow+1)*Case.size+Constants.MarginImg+13), (int)(Grille.cols*Case.size), (int)(Case.size));
+		}
+		for(Point p: points) {
+			g.setColor(Color.red);
+			Graphics2D g2 = (Graphics2D) g;
+			g2.setStroke(new BasicStroke(3));
+			g.drawOval((int)(p.x*Case.size+8+Constants.MarginImg), (int)((p.y+1)*Case.size+14+Constants.MarginImg), (int)Case.size-2, (int)Case.size-2);
+		}
 
 	}
-	
-	
-	
-	
 }

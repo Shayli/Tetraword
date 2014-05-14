@@ -4,18 +4,27 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Stroke;
+import java.awt.Image;
 import java.util.ArrayList;
+
+import javax.swing.ImageIcon;
 
 import Briques.Case;
 import Jeu.Constants.Key;
 
+/**
+ * Classe Worddle
+ * Gère le mode Worddle
+ * @author Monia, Laury & André
+ * @version 1 
+ */
 public class Worddle extends GameMode {
 	protected ArrayList<String> words;
 	protected ArrayList<ArrayList<Point>> points;
 	protected Point lastPoint;
 	private String currentWord;
 	private long timeLeft;
+	private Image worddleImg;
 	
 	public Worddle(Plateau p) {
 		super(p);
@@ -36,6 +45,10 @@ public class Worddle extends GameMode {
 				currentWord += c.letter();
 			}
 		} while(!found);
+		
+		ImageIcon a = new ImageIcon("resources/worddleImg.png", ""); 
+		worddleImg = a.getImage();
+		p.wordle.setEnabled(false);
 	}
 	
 	public void click(int x, int y) {
@@ -44,6 +57,10 @@ public class Worddle extends GameMode {
 		if(Math.abs(lastPoint.x-curr.x) > 1 || Math.abs(lastPoint.y-curr.y) > 1)
 			return;
 		
+		for(Point p : points.get(points.size()-1)){
+			if(curr.equals(p))
+				return;
+		}
 		lastPoint = curr;
 		Case c = grille.getCase(x, y);
 		if(c != null) {
@@ -72,15 +89,13 @@ public class Worddle extends GameMode {
 			} else {
 				System.out.println(currentWord+" does not exists");
 				currentWord = "";
+				Point p = points.get(points.size()-1).get(0);
 				points.get(points.size()-1).clear();
+				points.get(points.size()-1).add(p);
+				currentWord += grille.getCase(p.x, p.y).letter();
+				lastPoint = p;
 			}
 		}
-	}
-
-	private void removeWords() {
-		// TODO Auto-generated method stub
-		for(String s: words)
-			System.out.println(s);
 	}
 
 	@Override
@@ -94,8 +109,21 @@ public class Worddle extends GameMode {
 		// TODO Auto-generated method stub
 		timeLeft -= msecElapsed;
 		if(timeLeft < 0) {
-			removeWords();
+			checkWords();
+			plateau.wordle.setEnabled(true);
 			plateau.changeMode(new Tetris(plateau));
+			Constants.releaseMouse();
+		}
+	}
+
+	private void checkWords() {
+		if(!Constants.wordExists(currentWord))
+			points.remove(points.size()-1);
+		
+		for(ArrayList<Point> ap : points) {
+			for(Point p: ap) {
+				grille.removeCase(p.x,p.y);
+			}
 		}
 	}
 
@@ -103,15 +131,14 @@ public class Worddle extends GameMode {
 	public void draw(Graphics g) {
 		grille.draw(g);
 		
-		// TODO draw letters selected
-		g.setColor(new Color(187, 173, 160));
-		g.fillRoundRect(250+Constants.Padding, 200, 100, 80, 10, 10);
-		g.setColor(Color.black);
-		g.drawString("Time left:", 270 + Constants.Padding, 220);
+		g.setColor(Color.white);
+		g.setFont(Constants.pacifico); 
 		int sec = (int)timeLeft/1000;
+		g.drawString("Time spend: "+sec, 355, 90);
 		
-		g.drawString(currentWord, 255+Constants.Padding, 205);
-		g.drawString(""+sec, 270+Constants.Padding, 240);
+		g.drawImage(worddleImg, 335, 455, null);
+		g.drawString(currentWord.toLowerCase(), 370, 503);
+
 		g.setColor(Color.red);
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setStroke(new BasicStroke(1));
@@ -125,13 +152,13 @@ public class Worddle extends GameMode {
 			
 			if(a.size() == 1) {
 				Point p = a.get(0);
-				g2.drawLine(p.x*20+8+ Constants.Padding, p.y*20+8, p.x*20+12 + Constants.Padding, p.y*20+12);
+				g2.drawLine((int)(p.x*Case.size+22+Constants.MarginImg), (int)((p.y+1)*Case.size+28+Constants.MarginImg), (int)(p.x*Case.size+27+Constants.MarginImg), (int)((p.y+1)*Case.size+32+Constants.MarginImg));
 			}
 			else {
 				for(int i = 0; i<a.size()-1; ++i) {
 					Point p = a.get(i);
 					Point p2 = a.get(i+1);
-					g2.drawLine(p.x*20+10+ Constants.Padding, p.y*20+10, p2.x*20+10 + Constants.Padding, p2.y*20+10);
+					g2.drawLine((int)(p.x*Case.size+25+Constants.MarginImg), (int)((p.y+1)*Case.size+30+Constants.MarginImg), (int)(p2.x*Case.size+25+Constants.MarginImg), (int)((p2.y+1)*Case.size+30+Constants.MarginImg));
 				}
 			}
 		}

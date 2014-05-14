@@ -1,55 +1,60 @@
 package Jeu;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.ArrayDeque;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Stack;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
-import Briques.Case;
+import Jeu.Constants.Key;
 import Patterns.Observer;
 
-public class Plateau extends JPanel implements KeyListener, MouseListener {
+/**
+ * Classe Plateau 
+ * @author Monia, Laury & André
+ * @version 1 
+ */
+public class Plateau extends JPanel {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public Grille grille;
-	private Difficulte dif;
-	private ArrayDeque hist; 
+	//private ArrayDeque hist; 
 	
 	private int score;
 	private long lStartTime;
-	private int difficulte;
-	private boolean clicked;
+	public int difficulte; //1 pour facile, 2 pour moyen, 3 pour difficile
 	
 	GameMode current;
 	public int playerId;
 	private Image fond;
+	private Image fond2;
 	private Image grilleImg;
 	private Image scoreImg;
 	private Image next;
-	private JButton wordle;
+	public JButton wordle;
+	private Jeu jeu;
+	private String name;
 	
-	public Plateau(int player){
-		this.setFocusable(true);
-		this.requestFocus();
+	public Plateau(Jeu j, int player){
 		this.setLayout(null);
-		
-		ImageIcon a = new ImageIcon("resources/fond.jpg", ""); 
+		jeu = j;
+		ImageIcon a = new ImageIcon("resources/fond1.jpg", ""); 
 		fond = a.getImage();
+		a = new ImageIcon("resources/fond2.jpg", ""); 
+		fond2 = a.getImage();
 		a = new ImageIcon("resources/grille.png", "");
 		grilleImg = a.getImage();
 		a = new ImageIcon("resources/scoreImg.png", "");
@@ -60,7 +65,7 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 		wordle = new JButton(a);
 		super.setBackground(new Color(255,255,255,0));
 		this.add(wordle);
-		
+		playerId = player;
 		
 		
 		
@@ -73,7 +78,8 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 		wordle.setContentAreaFilled(false);
 		wordle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				current.keyPress(Constants.Commands[playerId][Key.MODE]);
+				jeu.requestFocus();
 			}
 		});
 		
@@ -81,21 +87,38 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 		
 		lStartTime = System.currentTimeMillis();
 		difficulte = 10;
-		playerId = player;
+		
 		current = new Tetris(this);
-		clicked = false;
-		addKeyListener(this);
-		addMouseListener(this);
+
 		grille.events.add(new Observer() {
 
 			@Override
 			public void notify(String s, Object o) {
-				if(s == "line") {
-					System.out.println("line");
-					changeMode(new Anagramme(Plateau.this, (Integer)o));
-					score += 1;
-					if(difficulte > 1 && score % 5 == 0)
-						--difficulte;
+				if(s.equals("line")) {
+					if(Constants.takeMouse()) {
+						Stack<Integer> o2 = (Stack<Integer>)o;
+						changeMode(new Anagramme(Plateau.this, o2));
+						addPoints(50*o2.size()*o2.size());
+						
+					}
+				} else if(s.equals("lose")) {
+					try {
+						SwingUtilities.invokeAndWait(new Runnable() {
+							@Override
+							public void run() {
+								name = JOptionPane.showInputDialog("You scored "+score+". Enter your nickname:");
+							}
+							
+						});
+					} catch (InvocationTargetException | InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					System.out.println(name);
+					jeu.home();
+					System.out.println("Lose");
+				} else if(s.equals("block")) {
+					addPoints(25);
 				}
 				
 			}
@@ -103,33 +126,45 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 		});
 	}
 	
-	public void destroyLine(int x){
+	private void computeDifficulte() {
+		if(score < 100)
+			difficulte = 10;
+		else if(score < 200)
+			difficulte =  9;
+		else if(score < 400)
+			difficulte =  8;
+		else if(score < 800)
+			difficulte =  7;
+		else if(score < 1600)
+			difficulte =  6;
+		else if(score < 3200)
+			difficulte = 5;
+		else if(score < 4800)
+			difficulte = 4;
+		else if(score < 6400)
+			difficulte = 3;
+		else if(score < 8000)
+			difficulte = 2;
+		else
+			difficulte = 1;
+		
 		
 	}
-	public void destroyBrick(int x, int y){
 	
-	}
-	@Override
-	public void keyPressed(KeyEvent e) {
-		int k = e.getKeyCode();
-		current.keyPress(k);
-		revalidate();
-		repaint();
-	}
-	@Override
-	public void keyReleased(KeyEvent arg0) {
-		int k = arg0.getKeyCode();
-		current.keyRelease(k);
-	}
-	@Override
-	public void keyTyped(KeyEvent arg0) {}
+
 	
 	@Override
 	public void paint(Graphics g){
+		if(playerId == 0){
+			g.drawImage(fond, 0, 0, null);
+		}else{
+			g.drawImage(fond2, 0, 0, null);
+		}
+		
 		super.paint(g);
 		g.setFont(Constants.pacifico); 
 		g.setColor(new Color(81,20,21));
-		g.drawImage(fond, 0, 0, null);
+		
 		g.drawString("Tetraword", 185, 25);
 		
 		g.drawImage(grilleImg, 10, 55, null);
@@ -142,7 +177,7 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 		g.drawImage(scoreImg, 330, 130, null);
 		g.setColor(Color.white);
 		g.drawString("Score", 330+Constants.Padding, 150);
-		
+		g.drawString(""+score, 330+Constants.Padding, 180);
 		//Next brique
 		g.drawImage(next, 330, 240, null);
 		g.setColor(Color.white);
@@ -158,37 +193,31 @@ public class Plateau extends JPanel implements KeyListener, MouseListener {
 		current.update(difference);
 		lStartTime = lEndTime;
 	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-	/*	int posX = e.getX();
-        int posY = e.getY();
-        
-        current.click(posX, posY);*/
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {}
-
-	@Override
-	public void mouseExited(MouseEvent e) {}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		clicked = false;
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		int posX = (int)((e.getX()-10)/Case.size);
-        int posY = (int)((e.getY()-55)/Case.size);
-        if(!clicked) {
-        	current.click(posX, posY);
-        	clicked = true;
-        }
-    }
 	
+	public void setDifficulte(int i){
+		difficulte = i;
+	}
+
 	public void changeMode(GameMode mode) {
 		current = mode;
+	}
+
+	public void click(int posX, int posY) {
+		current.click(posX, posY);
+	}
+
+	public void keyReleased(int k) {
+		current.keyRelease(k);
+	}
+
+	public void keyPressed(int k) {
+		current.keyPress(k);
+	}
+
+
+
+	public void addPoints(int i) {
+		score += i;
+		computeDifficulte();
 	}
 }

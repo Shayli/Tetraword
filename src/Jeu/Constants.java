@@ -19,6 +19,15 @@ import java.util.regex.Pattern;
 
 import javax.swing.ImageIcon;
 
+import Briques.Brique;
+import sun.awt.Mutex;
+
+/**
+ * Classe Constants
+ * Sert à initiliser des variables utilitaires 
+ * @author Monia, Laury & André
+ * @version 1 
+ */
 public class Constants {
 	public static int[][] Commands = null;
 	public static int Padding = 20;
@@ -34,6 +43,9 @@ public class Constants {
 	public static LinkedList<String> dictionary;
 	public static Font pacifico;
 	public static LinkedList<String> shortWords;
+	private static boolean mouse;
+	private static Mutex mutexBrique;
+	private static HashMap<Integer, Brique> briques;
 	
 	public static class Key{
 		static int ROTATE = 0;
@@ -44,23 +56,27 @@ public class Constants {
 	}
 	
 	public static void initialize(){
-		ImageIcon a = new ImageIcon("resources/1.png", ""); 
+		ImageIcon a = new ImageIcon("resources/8.png", ""); 
 		Cross = a.getImage();
 		a = new ImageIcon("resources/2.png", ""); 
 		S = a.getImage();
 		a = new ImageIcon("resources/6.png", ""); 
 		S2 = a.getImage();
-		a = new ImageIcon("resources/3.png", ""); 
+		a = new ImageIcon("resources/10.png", ""); 
 		Bar = a.getImage();
 		a = new ImageIcon("resources/4.png", ""); 
 		L = a.getImage();
 		a = new ImageIcon("resources/7.png", ""); 
 		L2 = a.getImage();
-		a = new ImageIcon("resources/5.png", ""); 
+		a = new ImageIcon("resources/9.png", ""); 
 		Cube = a.getImage();
 		letter = new HashMap<Character, Integer>();
 		dictionary = new LinkedList<String>();
 		shortWords = new LinkedList<String>();
+		mouse = false;
+		mutexBrique = new Mutex();
+		briques = new HashMap<Integer, Brique>();
+		
 		loadDictionary("french");
 		
 		Commands = new int[3][5];
@@ -81,7 +97,7 @@ public class Constants {
 
 	}
 	
-	private static void loadCommands(int i, int vkUp, int vkDown, int vkLeft, int vkRight, int vkEnter) {
+	public static void loadCommands(int i, int vkUp, int vkDown, int vkLeft, int vkRight, int vkEnter) {
 		Commands[i][Key.ROTATE] = vkUp;
 		Commands[i][Key.DOWN] = vkDown;
 		Commands[i][Key.LEFT] = vkLeft;
@@ -91,10 +107,12 @@ public class Constants {
 
 	public static void loadDictionary(String filePath){	
 		dictionary.clear();
+		shortWords.clear();
 		letter.clear();
 		Scanner scanner = null;
 		try {
 			scanner = new Scanner(new File("resources/"+filePath+".lang"));
+			System.out.println("ouverture "+filePath+".lang");
 			for(int i =0; i < 26; ++i){
 				String line = scanner.next();				
 				int j = scanner.nextInt(); 
@@ -102,11 +120,12 @@ public class Constants {
 			}
 			scanner.close();
 			scanner = new Scanner(new File("resources/"+filePath+".dico"), "ISO-8859-1");
+			System.out.println("ouverture "+filePath+".dico");
 			Pattern p = Pattern.compile("[^a-zA-Z]");
 			while (scanner.hasNextLine()) {
 			    String line = scanner.nextLine();
 			    line = line.toLowerCase();
-			    line = line.replace('à','a').replace('é', 'e').replace('ê', 'e').replace('è', 'e').replace('ä', 'a').replace('ï', 'i').replace('ë', 'e').replace('ç', 'c');
+			    line = line.replace('à','a').replace('é', 'e').replace('ê', 'e').replace('è', 'e').replace('ä', 'a').replace('ï', 'i').replace('î',  'i').replace('ë', 'e').replace('ç', 'c');
 			    if(!p.matcher(line).find()) {
 			    	if(line.length() <= Grille.cols)
 			    		shortWords.add(line.toUpperCase());
@@ -148,12 +167,12 @@ public class Constants {
 	public static String findBestWord(String line) {
 		String Word = ""; 
 		boolean b = false ; 
-		Combinations comb = new Combinations(line); //on cr�� toutes les combinaisons de String possibles
+		Combinations comb = new Combinations(line); //on créé toutes les combinaisons de String possibles
 		comb.combine();
 		Collections.sort(comb.stock, new LengthComparator());
         Collections.reverse(comb.stock);
                 
-        ListIterator it = shortWords.listIterator();
+        ListIterator<String> it = shortWords.listIterator();
         
         	//System.out.println(s);
         	for(int i=0; i<comb.stock.size(); i++) {
@@ -190,5 +209,70 @@ public class Constants {
        
 	}
 	
+	public static String getCommand(int p, int k){
+		switch(Constants.Commands[p][k]){
+		case KeyEvent.VK_ENTER:
+			return "Enter";
+		case KeyEvent.VK_UP:
+			return "Up";
+		case KeyEvent.VK_DOWN:
+			return "Down";
+		case KeyEvent.VK_LEFT:
+			return "Left";
+		case KeyEvent.VK_RIGHT:
+			return "Right";
+			
+		default:
+			return ""+(char)Constants.Commands[p][k];
+		}
+	}
+
+	public static boolean takeMouse() {
+		if(mouse)
+			return false;
+		
+		mouse = true;	
+		return true;
+	}
 	
+	public static void releaseMouse() {
+		mouse = false;
+	}
+	
+	public static Brique nextBrique(Grille g, int i) {
+		Brique ret = null;
+		mutexBrique.lock();
+		if(briques.isEmpty() || !briques.containsKey(i)) {
+			ret = nextBrique();
+			briques.put(i, ret);
+		} else {
+			ret = briques.get(i).clone();
+			briques.remove(i);
+		}
+		mutexBrique.unlock();
+		ret.grille = g;
+		return ret;
+	}
+	
+	private static Brique nextBrique() {
+		int i = ((int)(Math.random()*100)) % 7;
+		switch(i) {
+		case 0:
+			return new Briques.L();
+		case 1:
+			return new Briques.L2();
+		case 2:
+			return new Briques.S();
+		case 3:
+			return new Briques.S2();
+		case 4:
+			return new Briques.Cross();
+		case 5:
+			return new Briques.Cube();
+		case 6:
+			return new Briques.Bar();
+		default:
+			return null;
+		}
+	}
 }

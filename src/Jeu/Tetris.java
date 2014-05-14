@@ -4,7 +4,12 @@ import java.awt.Graphics;
 
 import Jeu.Constants.Key;
 import Patterns.Observer;
-
+/**
+ * Classe Tetris
+ * Gère le mode Tetris
+ * @author Monia, Laury & André
+ * @version 1 
+ */
 public class Tetris extends GameMode {
 
 	private boolean fastForward, swapAtEnd;
@@ -20,7 +25,7 @@ public class Tetris extends GameMode {
 			@Override
 			public void notify(String s, Object o) {
 				// TODO Auto-generated method stub
-				if(s == "block" && swapAtEnd) {
+				if(s == "block" && swapAtEnd && Constants.takeMouse()) {
 					System.out.println("block");
 					swapAtEnd = false;
 					grille.events.remove(this);
@@ -69,7 +74,7 @@ public class Tetris extends GameMode {
 			}
 		}
 		else {
-			if(elapsed > 1000) {
+			if(elapsed > 1000-(10-plateau.difficulte)*100) {
 				grille.update();
 				elapsed = 0;
 				

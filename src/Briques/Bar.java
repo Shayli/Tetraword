@@ -1,21 +1,35 @@
 package Briques;
 
 import Jeu.Constants;
-import Jeu.Grille;
 
+/**
+ * Classe Bar
+ * <p>Un type de brique</p>
+ * @author Monia, Laury & André
+ * @version 1 
+ */
 public class Bar extends Brique {
-	private int state;
 	
-	public Bar(Grille g) {
-		super(g, Constants.Bar);
-		state = 0;
-		cases.add(new Case(0,-1, 33));
+	public Bar() {
+		super(Constants.Bar);
+		state = 1;
+		cases.add(new Case(1,0, 33));
 		cases.add(new Case(0,0, 33));
-		cases.add(new Case(0,1, 33));
-		cases.add(new Case(0,2, 33));
+		cases.add(new Case(-1,0, 33));
+		cases.add(new Case(-2,0, 33));
 	}
 	
+	public Bar clone() {
+		Bar b = new Bar();
+		b.x = x;
+		b.y = y;
+		return b;
+	}
+	
+	
 	public void rotate() {
+		if(grille == null)
+			return;
 		//System.out.println(state);
 		switch(state){
 			case 0 : 

@@ -19,7 +19,12 @@ public class font {
 
 	class FontCellRenderer extends DefaultListCellRenderer {
 
-	    public Component getListCellRendererComponent(
+	    /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		public Component getListCellRendererComponent(
 	        JList list,
 	        Object value,
 	        int index,
