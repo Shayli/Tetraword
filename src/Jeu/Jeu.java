@@ -28,8 +28,8 @@ public class Jeu extends JFrame implements KeyListener, MouseListener  {
 	private ArrayList<Plateau> plateaux;
 	private JPanel home;
 	private JPanel content;
-	private Boolean started = false;
-	private boolean clicked;
+	private boolean started = false;
+	private boolean clicked, paused;
 	private Settings settings;
 	private Rules rules;
 	private HighScorePanel score;
@@ -40,6 +40,7 @@ public class Jeu extends JFrame implements KeyListener, MouseListener  {
 	    this.setLocationRelativeTo(null);
 	    plateaux = new ArrayList<Plateau>();
 	    home = new Home(this);
+	    paused = false;
 	    home();
 	    
 	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -134,7 +135,7 @@ public class Jeu extends JFrame implements KeyListener, MouseListener  {
 	public void run() {
 		while(true) {
 			//System.out.println("update");
-			if(started){
+			if(started && !paused){
 				boolean alive = false;
 				for(Plateau p: plateaux) {
 					p.update();
@@ -180,8 +181,12 @@ public class Jeu extends JFrame implements KeyListener, MouseListener  {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int k = e.getKeyCode();
-		for(Plateau p: plateaux)
-			p.keyPressed(k);
+		if(k == KeyEvent.VK_PAUSE)
+			paused = !paused;
+		else {
+			for(Plateau p: plateaux)
+				p.keyPressed(k);
+		}
 	}
 	@Override
 	public void keyReleased(KeyEvent arg0) {
