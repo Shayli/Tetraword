@@ -27,11 +27,15 @@ public class Tetris extends GameMode {
 			@Override
 			public void notify(String s, Object o) {
 				// TODO Auto-generated method stub
-				if(s == "block" && swapAtEnd && Constants.takeMouse()) {
-					swapAtEnd = false;
-					grille.events.remove(this);
-					grille.events.remove(this);
-					plateau.changeMode(new Worddle(plateau));
+				if(s == "block" && swapAtEnd) {
+					if(Constants.takeMouse()) {
+						swapAtEnd = false;
+						grille.events.remove(this);
+						grille.events.remove(this);
+						plateau.changeMode(new Worddle(plateau));
+					}
+					else
+						swapAtEnd = false;
 				}
 			}
 			
