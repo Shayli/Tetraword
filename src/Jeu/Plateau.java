@@ -107,11 +107,13 @@ public class Plateau extends JPanel {
 			@Override
 			public void notify(String s, Object o) {
 				if(s.equals("line")) {
+					Stack<Integer> o2 = (Stack<Integer>)o;
 					if(Constants.takeMouse()) {
-						Stack<Integer> o2 = (Stack<Integer>)o;
 						changeMode(new Anagramme(Plateau.this, o2, (int)Math.ceil(difficulte)));
 						addPoints(50*o2.size()*o2.size());
-						
+					} else {
+						for(Integer i : o2)
+							grille.removeRow(i);
 					}
 				} else if(s.equals("lose")) {
 					alive = false;

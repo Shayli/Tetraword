@@ -25,9 +25,9 @@ public class Anagramme extends GameMode {
 	private String bestWord; 
 	private String base; 
 	private int nbLetters ;
-	private boolean found; 
+	private boolean found, bestWordFound; 
 	private int currentRow; 
-	private int difficulty; //pourcentage de lettres en commun avec ke bestword pour gagner
+	private float difficulty; //pourcentage de lettres en commun avec ke bestword pour gagner
 	private long timeLeft;
 	private Image anagramme;
 	private ArrayList<Point> points;
@@ -36,7 +36,13 @@ public class Anagramme extends GameMode {
 	public Anagramme(Plateau p, Stack<Integer> o, int difficulte) {
 		super(p);
 		rowsLeft = o;
-		this.difficulty= difficulte; 
+		/*if(difficulte <= 0)
+			this.difficulty = 25;
+		else if(difficulte >= 100)
+			this.difficulty = 100;
+		else
+			this.difficulty= difficulte; */
+		this.difficulty = 50;
 		 
 		
 		points = new ArrayList<Point>();
@@ -52,7 +58,9 @@ public class Anagramme extends GameMode {
 	{
 		reset();
 		this.found = false;
+		timeLeft = 1000*20;
 		this.currentRow = rowsLeft.pop();
+		bestWordFound = false;
 		this.base = getStringLine(plateau,currentRow);
 		bestWord = "";
 		Thread t = new Thread(new Runnable() {
@@ -60,6 +68,10 @@ public class Anagramme extends GameMode {
 			public void run() {
 				bestWord = Constants.findBestWord(base);
 				System.out.println(bestWord);
+				bestWordFound = true;
+				/*System.out.println(bestWord.length());
+				System.out.println(difficulty);
+				System.out.println((int)(bestWord.length()*difficulty/100.0f));*/
 			}
 		});
 		t.start();
@@ -77,10 +89,12 @@ public class Anagramme extends GameMode {
 	public void reset() { //recommencer tant qu'on a pas trouvé
 		this.currentWord = ""; 
 		this.nbLetters = 0;
+		
 		points.clear();
 	}
 	
 	public boolean win() {
+		System.out.println(currentWord+" "+bestWord);
 		//return Constants.wordExists(currentWord);
 		if(!Constants.wordExists(currentWord))
 			return false;
@@ -88,7 +102,7 @@ public class Anagramme extends GameMode {
 		if(nbLetters > bestWord.length()) return true; //si on a selectionné plus de lettre que le meilleur anagramme
 		
 		else {	
-			if(currentWord.length() >= this.bestWord.length()*this.difficulty/100) tmp = true; 
+			if(currentWord.length() >= (int)(this.bestWord.length()*this.difficulty/100.0f)) tmp = true; 
 			else tmp = false; 
 		
 		}
@@ -149,7 +163,7 @@ public class Anagramme extends GameMode {
 		}
 		if(this.found) {
 			grille.removeRow(currentRow);
-			plateau.addPoints(currentWord.length()*100 / bestWord.length());
+			plateau.addPoints((int)(this.bestWord.length()*this.difficulty/100.0f));
 			if(rowsLeft.isEmpty())
 			{
 				plateau.changeMode(new Tetris(plateau));
@@ -183,6 +197,9 @@ public class Anagramme extends GameMode {
 		int sec = (int)timeLeft/1000;
 		g.drawString("Time left: "+sec, 355, 90);
 		g.drawString(currentWord.toLowerCase(), 380, 577);
+		if(bestWordFound) {
+			g.drawString("["+((int)(this.bestWord.length()*this.difficulty/100.0f))+"]", 442, 548);
+		}
 		
 		g.drawString("Appuyez sur "+Constants.getCommand(playerId, Key.MODE), 333, 620);
 		g.drawString("pour valider", 333, 645);
